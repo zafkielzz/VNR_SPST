@@ -16,6 +16,17 @@ export function ExperienceProvider({ children }) {
   const [isImmersionMode, setIsImmersionMode] = useState(false);
   const [activeScene, setActiveScene] = useState('hero');
   const [isAudioMuted, setIsAudioMuted] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    return typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handler = (e) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   return (
     <ExperienceContext.Provider
@@ -28,6 +39,7 @@ export function ExperienceProvider({ children }) {
         setActiveScene,
         isAudioMuted,
         setIsAudioMuted,
+        prefersReducedMotion,
       }}
     >
       {children}

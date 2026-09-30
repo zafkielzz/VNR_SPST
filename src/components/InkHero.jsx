@@ -13,7 +13,7 @@ import { useExperience } from '../context/ExperienceContext';
  */
 export default function InkHero() {
   const root = useRef(null);
-  const { setAtmosphereMode } = useExperience();
+  const { setAtmosphereMode, prefersReducedMotion } = useExperience();
 
   useEffect(() => {
     setAtmosphereMode('paperDust');
@@ -112,7 +112,7 @@ export default function InkHero() {
         .to(
           q('.hero-stage'),
           {
-            scale: 5.6,
+            scale: prefersReducedMotion ? 1.05 : 5.6,
             transformOrigin: '50% 50%',
             ease: 'power2.in',
             duration: 0.40,

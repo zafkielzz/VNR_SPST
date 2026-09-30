@@ -33,7 +33,7 @@ const PERISCOPE_TARGETS = [
     distance: "1.250m",
     status: "ĐÃ KHÓA TỌA ĐỘ HỎA LỰC",
     intel: "Phát hiện 3 tầng hỏa điểm ngầm bê tông cốt thép. Cần dùng trọng pháo 105mm bắn ngắm trực tiếp chế áp trước khi mở cửa mở.",
-    photo: "/images/exhibits/exhibit_5_1.jpg",
+    photo: "/images/exhibits/him_lam_beatrice.jpg",
     action: "Nổ súng mở màn Đợt 1 (13/03/1954)"
   },
   {
@@ -44,7 +44,7 @@ const PERISCOPE_TARGETS = [
     distance: "450m",
     status: "CHIẾN HÀO ĐÃ ĐÀO SÁT CHÂN ĐỒI",
     intel: "Cứ điểm kiên cố nhất phân khu trung tâm, hầm cố thủ ngầm sâu trong lòng núi. Công binh ta đang đào đường hầm ngầm 49m để đưa khối bộc phá 960kg vào đáy hầm.",
-    photo: "/images/exhibits/exhibit_6_1.jpg",
+    photo: "/images/exhibits/doi_a1_eliane2.jpg",
     action: "Hiệu lệnh tổng công kích đêm 06/05/1954"
   },
   {
@@ -55,7 +55,7 @@ const PERISCOPE_TARGETS = [
     distance: "600m",
     status: "BAO VÂY 4 PHÍA, CÔ LẬP HOÀN TOÀN",
     intel: "Hầm vòm sắt gợn sóng bọc bao cát dày 3 mét. Quân Pháp kiệt quệ lương thảo, sân bay bị pháo cao xạ khống chế hoàn toàn.",
-    photo: "/images/exhibits/exhibit_6_1.jpg",
+    photo: "/images/exhibits/ham_de_castries.jpg",
     action: "17h30 ngày 07/05/1954: Bắt sống toàn bộ Bộ chỉ huy"
   },
   {
@@ -66,14 +66,14 @@ const PERISCOPE_TARGETS = [
     distance: "3.500m",
     status: "HOÀN TẤT CÔNG SỰ NGỤY TRANG KIÊN CỐ",
     intel: "Toàn bộ các khẩu đội pháo đã được kéo vào hầm khoét sâu trong lòng núi sau quyết định lịch sử 'Đánh chắc, tiến chắc'. Sẵn sàng dập tắt pháo binh địch.",
-    photo: "/images/exhibits/exhibit_5_1.jpg",
+    photo: "/images/exhibits/phao_binh_dien_bien.jpg",
     action: "Chiến thuật pháo binh ngắm bắn trực tiếp"
   }
 ];
 
 export default function DienBienExperience() {
   const root = useRef(null);
-  const { setAtmosphereMode, setIsImmersionMode } = useExperience();
+  const { setAtmosphereMode, setIsImmersionMode, prefersReducedMotion } = useExperience();
 
   // 1. Decision State: Pure suspense, NO pre-selected option, NO spoiler
   const [chosenOption, setChosenOption] = useState(null);
@@ -186,10 +186,19 @@ export default function DienBienExperience() {
   };
 
   const scrollToVictory = () => {
-    if (root.current) {
-      const rect = root.current.getBoundingClientRect();
-      const targetY = window.scrollY + rect.top + (root.current.offsetHeight * 0.74);
-      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    if (!root.current) return;
+
+    const rect = root.current.getBoundingClientRect();
+    const rootTop = window.scrollY + rect.top;
+    const scrollDistance = root.current.offsetHeight - window.innerHeight;
+    const targetY = rootTop + scrollDistance * 0.705;
+
+    if (typeof window !== 'undefined') {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(targetY, { duration: 1.1 });
+      } else {
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
     }
   };
 
@@ -274,7 +283,7 @@ export default function DienBienExperience() {
       // PHASE 1: DECISION AT MƯỜNG PHĂNG (0.00 -> 0.22)
       // =======================================================================
       master.to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.06 }, 0.12)
-        // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
+        // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x (or gentle fade in reduced motion), camera plunges into negative space
         .fromTo(
           decisionHeadline,
           {
@@ -282,7 +291,7 @@ export default function DienBienExperience() {
             opacity: 1,
           },
           {
-            scale: 8.5,
+            scale: prefersReducedMotion ? 1.05 : 8.5,
             opacity: 0,
             ease: 'power2.in',
             duration: 0.08,
@@ -309,12 +318,12 @@ export default function DienBienExperience() {
         .to(
           q('.map-camera-container'),
           {
-            scale: 3.5,
-            x: -80,
-            y: -40,
+            scale: prefersReducedMotion ? 1.1 : 3.5,
+            x: prefersReducedMotion ? 0 : -80,
+            y: prefersReducedMotion ? 0 : -40,
             transformOrigin: '55% 58%',
             ease: 'power2.in',
-            duration: 0.08,
+            duration: 0.06,
           },
           0.44
         )

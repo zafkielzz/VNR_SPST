@@ -14,7 +14,7 @@ import { FileText, Compass, Radio, Flag, Sparkles, Award, ArrowRight, Sun, Layer
 export default function MilestoneChapter({ milestone: m, reverse = false }) {
   const root = useRef(null);
   const sceneType = m.sceneType || 'default';
-  const { setAtmosphereMode } = useExperience();
+  const { setAtmosphereMode, prefersReducedMotion } = useExperience();
 
   useGSAP(
     () => {
@@ -277,8 +277,8 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 {/* Archival Photo */}
                 <div className="relative aspect-[16/10] overflow-hidden my-2 border border-white/10 bg-black">
                   <img
-                    src="/images/exhibits/exhibit_7_1.jpg"
-                    alt="Đoàn quân thần tốc tiến về Sài Gòn"
+                    src="/images/exhibits/exhibit_10_2.jpg"
+                    alt="Tuyến lửa Trường Sơn - Huyết mạch chi viện miền Nam"
                     className="w-full h-full object-cover filter contrast-125 sepia-[0.15]"
                     loading="lazy"
                   />
@@ -311,7 +311,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 {/* Archival Photo */}
                 <div className="relative aspect-[16/10] overflow-hidden my-2 border border-red-500/20 bg-black">
                   <img
-                    src="/images/exhibits/exhibit_7_1.jpg"
+                    src="/images/exhibits/tank390_dinh_doc_lap.jpg"
                     alt="Xe tăng 390 húc đổ cổng Dinh Độc Lập"
                     className="w-full h-full object-cover filter contrast-125"
                     loading="lazy"

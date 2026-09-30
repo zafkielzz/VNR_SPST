@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { gsap, useGSAP } from '../lib/gsap';
+import { useExperience } from '../context/ExperienceContext';
 
 /**
  * CINEMATIC FINALE — HỒI KẾT & CALLBACK NÉT MỰC SON
@@ -13,6 +14,7 @@ import { gsap, useGSAP } from '../lib/gsap';
  */
 export default function CinematicFinale() {
   const root = useRef(null);
+  const { prefersReducedMotion } = useExperience();
 
   useGSAP(
     () => {
@@ -24,8 +26,12 @@ export default function CinematicFinale() {
         gsap.set(timelineLine, { strokeDasharray: strokeLen, strokeDashoffset: strokeLen });
       }
 
-      // Initial zoom on current point ●
-      gsap.set(q('.finale-camera'), { scale: 2.8, x: 180, transformOrigin: '75% 50%' });
+      // Initial zoom on current point ● (bypass extreme zoom in reduced motion mode)
+      gsap.set(q('.finale-camera'), { 
+        scale: prefersReducedMotion ? 1.0 : 2.8, 
+        x: prefersReducedMotion ? 0 : 180, 
+        transformOrigin: '75% 50%' 
+      });
       gsap.set(q('.fn-node-1930, .fn-node-1945, .fn-node-1954, .fn-node-1975, .fn-node-1986'), { opacity: 0, scale: 0.5 });
       gsap.set(q('.finale-quote'), { opacity: 0, y: 30 });
 
