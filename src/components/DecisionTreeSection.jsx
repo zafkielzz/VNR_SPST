@@ -248,8 +248,8 @@ export default function DecisionTreeSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
-            <p className="text-xs text-vn-ivory/60 italic">
-              Nguồn học liệu: Giáo trình Lịch sử Đảng Cộng sản Việt Nam (Ban Tuyên giáo TW, tr. 82 - 84)
+            <p className="text-xs text-vn-ivory/70 italic font-mono">
+              [Trích nguồn học liệu chuẩn]: NXB Chính trị Quốc gia Sự thật (2021), Giáo trình Lịch sử Đảng Cộng sản Việt Nam (Dành cho bậc đại học hệ không chuyên), tr. 81–84.
             </p>
             <a
               href="#sa-ban-chien-dich"

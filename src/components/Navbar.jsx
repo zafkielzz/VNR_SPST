@@ -90,19 +90,18 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
           ))}
         </nav>
 
-        {/* Action Controls: Audio + Auto-Scroll */}
+        {/* Action Controls: Ambient Background Audio Controller */}
         <div className="flex items-center gap-2 sm:gap-3">
-          
-          {/* Audio Synthesizer Controller */}
-          <div className="flex items-center gap-1.5 bg-vn-charcoal/80 border border-vn-gold-antique/30 px-2.5 py-1 rounded-full shadow-inner">
+          <div className="flex items-center gap-2 bg-vn-charcoal/80 border border-vn-gold-antique/30 px-3 py-1.5 rounded-full shadow-inner">
             <button
               onClick={handleToggleAudio}
-              title={isAudioPlaying ? "Tắt âm hưởng cồng chiêng" : "Bật âm hưởng cồng chiêng ngũ cung"}
-              className={`p-1 rounded-full transition-colors ${
-                isAudioPlaying ? 'text-vn-gold hover:text-white' : 'text-vn-ivory/50 hover:text-vn-gold'
+              title={isAudioPlaying ? "Tắt âm thanh nền" : "Bật âm thanh nền hào hùng"}
+              className={`flex items-center gap-1.5 text-xs font-mono transition-colors ${
+                isAudioPlaying ? 'text-vn-gold hover:text-white' : 'text-vn-ivory/60 hover:text-vn-gold'
               }`}
             >
-              {isAudioPlaying ? <Volume2 className="w-4 h-4 animate-pulse" /> : <VolumeX className="w-4 h-4" />}
+              {isAudioPlaying ? <Volume2 className="w-4 h-4 animate-pulse text-vn-gold" /> : <VolumeX className="w-4 h-4 text-vn-ivory/50" />}
+              <span className="hidden sm:inline">{isAudioPlaying ? "Âm thanh: Bật" : "Âm thanh: Tắt"}</span>
             </button>
             {isAudioPlaying && (
               <input
@@ -112,25 +111,11 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
                 step="0.05"
                 value={volume}
                 onChange={handleVolumeChange}
-                className="w-14 sm:w-16 h-1 accent-vn-gold bg-vn-ivory/20 rounded cursor-pointer"
+                className="w-14 sm:w-20 h-1 accent-vn-gold bg-vn-ivory/20 rounded cursor-pointer"
                 title={`Âm lượng: ${Math.round(volume * 100)}%`}
               />
             )}
           </div>
-
-          {/* Auto Scroll Button */}
-          <button
-            onClick={onToggleAutoScroll}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border transition-all ${
-              autoScrollActive
-                ? 'bg-vn-red text-white border-vn-gold shadow-lg shadow-vn-red/40 animate-pulse'
-                : 'bg-vn-charcoal/80 text-vn-ivory/80 border-vn-gold-antique/30 hover:border-vn-gold hover:text-vn-gold'
-            }`}
-            title={autoScrollActive ? "Dừng cuộn tự động" : "Bắt đầu tự cuộn điện ảnh"}
-          >
-            {autoScrollActive ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            <span className="hidden sm:inline">{autoScrollActive ? "Dừng" : "Tự cuộn"}</span>
-          </button>
 
           {/* Mobile menu trigger */}
           <button

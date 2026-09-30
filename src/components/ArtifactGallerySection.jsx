@@ -245,9 +245,9 @@ export default function ArtifactGallerySection() {
             </div>
 
             {/* Modal Footer */}
-            <div className="mt-6 pt-4 border-t border-vn-ivory/10 flex items-center justify-between">
-              <span className="text-xs text-vn-ivory/50 font-mono">
-                Bảo tàng Lịch sử Quân sự Việt Nam
+            <div className="mt-6 pt-4 border-t border-vn-ivory/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <span className="text-xs text-vn-ivory/60 font-mono">
+                [Nguồn giám định]: Bảo tàng Lịch sử Quân sự Việt Nam & NXB Chính trị Quốc gia Sự thật (2021, tr. 81–85)
               </span>
               <button
                 onClick={closeModal}

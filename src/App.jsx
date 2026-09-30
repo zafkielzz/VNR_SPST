@@ -4,13 +4,12 @@ import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from './lib/gsap';
 import Navbar from './components/Navbar';
 import TimelineIndicator from './components/TimelineIndicator';
-import Hero from './components/Hero';
+import InkHero from './components/InkHero';
+import DocumentDesk1930 from './components/DocumentDesk1930';
 import WordCascade from './components/WordCascade';
 import MilestoneChapter from './components/MilestoneChapter';
 import QuoteSection from './components/QuoteSection';
-import DecisionTreeSection from './components/DecisionTreeSection';
-import CampaignMapSection from './components/CampaignMapSection';
-import PeriscopeSection from './components/PeriscopeSection';
+import DienBienExperience from './components/DienBienExperience';
 import HistoricalCinemaSection from './components/HistoricalCinemaSection';
 import ArtifactGallerySection from './components/ArtifactGallerySection';
 import KnowledgeQuiz from './components/KnowledgeQuiz';
@@ -19,7 +18,6 @@ import WarAtmosphereCanvas from './components/WarAtmosphereCanvas';
 import { VNR_MILESTONES_DATA } from './data/vnrMilestonesData';
 
 export default function App() {
-  const [autoScrollActive, setAutoScrollActive] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -81,29 +79,6 @@ export default function App() {
     };
   }, []);
 
-  // 2. Smooth Auto-scroll logic (documentary continuous playback)
-  const toggleAutoScroll = () => {
-    setAutoScrollActive(prev => !prev);
-  };
-
-  useEffect(() => {
-    let animId;
-    if (autoScrollActive) {
-      const scrollStep = () => {
-        window.scrollBy(0, 1.5);
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
-          setAutoScrollActive(false);
-          return;
-        }
-        animId = requestAnimationFrame(scrollStep);
-      };
-      animId = requestAnimationFrame(scrollStep);
-    }
-    return () => {
-      if (animId) cancelAnimationFrame(animId);
-    };
-  }, [autoScrollActive]);
-
   // Find milestones by ID
   const m1930 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1930');
   const m1941 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1941');
@@ -123,21 +98,18 @@ export default function App() {
       <WarAtmosphereCanvas />
 
       {/* Top Navbar */}
-      <Navbar 
-        autoScrollActive={autoScrollActive} 
-        onToggleAutoScroll={toggleAutoScroll} 
-      />
+      <Navbar />
 
       {/* Vertical Timeline Indicator */}
       <TimelineIndicator />
 
       {/* Main Cinematic Scrollytelling Sequence */}
       <main>
-        {/* 00. Hero Entrance (Pinned stage with Dong Son drum & star dive) */}
-        <Hero />
+        {/* 00. Khởi Nguyên Nét Mực: InkHero (Mặt giấy ngà & nét bút lông đỏ Ký Họa Sử Đảng) */}
+        <InkHero />
 
-        {/* 01. Mốc 1: 1930 - Thành lập Đảng & Cương lĩnh đầu tiên */}
-        {m1930 && <MilestoneChapter milestone={m1930} reverse={false} />}
+        {/* 01. Mốc 1930: Bàn tài liệu lịch sử Cửu Long (Document Desk & Dấu ấn Cương lĩnh) */}
+        <DocumentDesk1930 />
 
         {/* 02. Chuyển đoạn 1: Mục tiêu cốt lõi của Đảng */}
         <WordCascade
@@ -215,26 +187,66 @@ export default function App() {
           ]}
         />
 
-        {/* 08. Mốc 5: 1954 - Quyết định lịch sử "Đánh chắc, tiến chắc" */}
-        {m1954QuyetDinh && <MilestoneChapter milestone={m1954QuyetDinh} reverse={false} />}
-
-        {/* 09. TƯƠNG TÁC RA QUYẾT ĐỊNH (DECISION TREE): Sáng 26/01/1954 tại Mường Phăng */}
-        <DecisionTreeSection />
-
-        {/* 10. SA BÀN CHIẾN DỊCH TƯƠNG TÁC: 3 Đợt tiến công Mường Thanh */}
-        <CampaignMapSection />
-
-        {/* 11. TƯƠNG TÁC NHẬP VAI: Kính Tiềm Vọng Chiến Hào 1954 (Periscope Recon View) */}
-        <PeriscopeSection />
-
-        {/* 12. Mốc 6: 1954 - Toàn thắng 07/05/1954 trên nóc hầm De Castries */}
-        {m1954ThangLoi && <MilestoneChapter milestone={m1954ThangLoi} reverse={true} />}
+        {/* 08. ĐẠI CẢNH LIÊN HOÀN ĐIỆN BIÊN PHỦ 1954 (Unified Boss Fight Sequence) */}
+        <DienBienExperience />
 
         {/* 13. Mốc 7: 1975 - Tuyến lửa Trường Sơn & Đại thắng Mùa Xuân 1975 */}
         {m1975 && <MilestoneChapter milestone={m1975} reverse={false} />}
 
         {/* 14. Mốc 8: 1986 - Đại hội VI: Đổi mới tư duy, kiến tạo kỷ nguyên phát triển */}
         {m1986 && <MilestoneChapter milestone={m1986} reverse={true} />}
+
+        {/* ================================================================
+            KẾT THÚC HÀNH TRÌNH CHÍNH (CINEMATIC FINALE & LIGHT TRANSITION)
+            Khoảnh khắc lắng đọng cảm xúc: Quá khứ khép lại, tương lai mở ra
+           ================================================================ */}
+        <section className="relative min-h-[85vh] flex flex-col items-center justify-center text-center px-6 py-24 bg-gradient-to-b from-[#0a0d12] via-[#0f1724] to-vn-black overflow-hidden border-t border-vn-gold/20">
+          <div className="absolute w-[500px] h-[500px] rounded-full bg-radial-gradient from-vn-gold/20 via-vn-red/10 to-transparent blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-vn-charcoal border border-vn-gold/50 text-vn-gold text-xs font-mono font-bold uppercase tracking-widest shadow-xl">
+              ★ KHÁT VỌNG VIỆT NAM HÙNG CƯỜNG
+            </span>
+
+            <h2 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-white tracking-tight leading-tight">
+              Độc Lập · Tự Do · Hòa Bình · Phát Triển
+            </h2>
+
+            {/* The Infinite Timeline Loop: Nét mực đỏ nối trọn vẹn lịch sử */}
+            <div className="py-3 max-w-xl mx-auto flex items-center justify-between text-[11px] font-mono text-vn-gold/80 gap-1.5 sm:gap-3">
+              <span className="shrink-0 font-bold">1930</span>
+              <span className="flex-1 h-[2px] bg-gradient-to-r from-amber-700 to-vn-red" />
+              <span className="shrink-0 font-bold">1945</span>
+              <span className="flex-1 h-[2px] bg-gradient-to-r from-vn-red to-amber-500" />
+              <span className="shrink-0 font-bold text-vn-red">1954</span>
+              <span className="flex-1 h-[2px] bg-gradient-to-r from-vn-red to-amber-500" />
+              <span className="shrink-0 font-bold">1975</span>
+              <span className="flex-1 h-[2px] bg-gradient-to-r from-amber-500 to-blue-400" />
+              <span className="shrink-0 font-bold text-blue-300">1986</span>
+              <span className="flex-1 h-[2px] bg-blue-400" />
+              <span className="w-2.5 h-2.5 rounded-full bg-vn-red shadow-[0_0_15px_#DA251D] animate-pulse shrink-0" title="Hiện tại & Tương lai" />
+            </div>
+
+            <p className="font-heading italic text-base sm:text-xl text-vn-ivory/80 leading-relaxed font-normal max-w-2xl mx-auto">
+              "Từ bùn đen nô lệ rũ bùn đứng dậy sáng lòa. Dưới ngọn cờ quang vinh của Đảng, toàn thể nhân dân ta đã làm nên những mốc son chấn động địa cầu, kiến tạo kỷ nguyên độc lập, tự chủ và thịnh vượng."
+            </p>
+
+            {/* Red Ink Underline flourishing underneath quote */}
+            <div className="w-48 sm:w-72 h-[3px] mx-auto rounded-full bg-gradient-to-r from-transparent via-vn-red to-transparent shadow-[0_0_12px_rgba(218,37,29,0.8)]" />
+
+            <div className="pt-6">
+              <a
+                href="#khong-gian-khao-cuu"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-vn-gold to-amber-500 text-vn-black font-display font-bold text-xs sm:text-sm uppercase tracking-wider shadow-2xl hover:scale-105 transition-transform"
+              >
+                <span>Bước Vào Không Gian Khảo Cứu & Bảo Tàng Số ↓</span>
+              </a>
+              <p className="mt-3 text-xs font-mono text-vn-ivory/50">
+                (Phim tư liệu 35mm · Giám định hiện vật kháng chiến · Khảo thí trắc nghiệm)
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* ================================================================
             KHÔNG GIAN KHẢO CỨU & TRẢI NGHIỆM MỞ RỘNG (EXPLORATION & ARCHIVE HUB)

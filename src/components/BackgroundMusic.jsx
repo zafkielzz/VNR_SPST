@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Music, Volume2, Volume1, VolumeX, Play, Pause, RotateCcw, Star } from 'lucide-react';
 
 const YT_VIDEO_ID = 'NSnkb1IAjbE';
-const DEFAULT_VOLUME = 100;
+const DEFAULT_VOLUME = 30;
 
 export default function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -338,77 +338,6 @@ export default function BackgroundMusic() {
           }}
         />
       )}
-
-      {/* Floating Background Music Controller Widget */}
-      <aside
-        aria-label="Điều khiển nhạc nền triển lãm"
-        style={{ left: `${widgetPosition.x}px`, top: `${widgetPosition.y}px` }}
-        className={`fixed z-50 transition-all duration-300 select-none ${
-          isExpanded ? 'w-80' : 'w-auto'
-        }`}
-      >
-        <div className="relative flex items-center gap-2 p-1.5 sm:p-2 rounded-full bg-vn-charcoal/90 backdrop-blur-xl border border-vn-gold/40 shadow-2xl shadow-black/80 text-vn-ivory hover:border-vn-gold transition-all duration-200">
-          
-          {/* Vinyl / Equalizer Icon button */}
-          {isExpanded ? (
-            <button
-              onClick={togglePlayPause}
-              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-vn-red-deep to-vn-black border border-vn-gold/60 flex items-center justify-center flex-shrink-0 group hover:scale-105 transition-transform overflow-hidden"
-              title={isPlaying ? 'Tạm dừng nhạc nền' : 'Phát nhạc nền: VIETNAM | My Home'}
-            >
-              {isPlaying ? (
-                <div className="flex items-end justify-center gap-[2.5px] h-4 w-4">
-                  <span className="w-[3px] bg-vn-gold rounded-full animate-bounce [animation-delay:0ms] h-full" />
-                  <span className="w-[3px] bg-vn-gold rounded-full animate-bounce [animation-delay:150ms] h-3" />
-                  <span className="w-[3px] bg-vn-gold rounded-full animate-bounce [animation-delay:300ms] h-4" />
-                  <span className="w-[3px] bg-vn-gold rounded-full animate-bounce [animation-delay:100ms] h-2" />
-                </div>
-              ) : <Play className="w-4 h-4 text-vn-gold fill-vn-gold/30 translate-x-[1px]" />}
-              {autoplayBlocked && !isPlaying && <span className="absolute inset-0 rounded-full border-2 border-vn-gold animate-ping opacity-75" />}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onPointerDown={startWidgetDrag}
-              onPointerMove={moveWidget}
-              onPointerUp={stopWidgetDrag}
-              onPointerCancel={stopWidgetDrag}
-              onClick={() => {
-                if (draggedRef.current) {
-                  draggedRef.current = false;
-                  return;
-                }
-                setIsExpanded(true);
-              }}
-              className="flex h-10 w-10 touch-none items-center justify-center rounded-full border border-red-300/80 bg-gradient-to-br from-red-500 to-red-800 text-red-100 shadow-lg shadow-red-950/50 transition-transform hover:scale-110"
-              title="Kéo để di chuyển · Nhấn để mở điều khiển nhạc"
-              aria-label="Mở điều khiển nhạc, có thể kéo để di chuyển"
-            >
-              <Star className="h-5 w-5 fill-red-200 text-red-100 drop-shadow-[0_0_6px_rgba(255,60,60,0.9)]" />
-            </button>
-          )}
-
-          {/* Collapsed Mode: Track label & quick volume info */}
-          {isExpanded ? (
-            <div className="flex-1 flex items-center justify-between gap-3 px-2 pr-2">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[11px] font-bold text-vn-gold truncate">VIETNAM | My Home</span>
-                  <span className="text-[10px] font-mono text-vn-gold font-bold ml-2">{isMuted ? 'Muted' : `${volume}%`}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button type="button" onClick={toggleMute} className="p-0.5 text-vn-gold-antique hover:text-vn-gold" title={isMuted ? 'Bật âm' : 'Tắt tiếng'}>
-                    {isMuted || volume === 0 ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-                  </button>
-                  <input type="range" min="0" max="100" step="1" value={isMuted ? 0 : volume} onChange={(e) => handleVolumeChange(parseInt(e.target.value, 10))} className="w-full h-1.5 accent-vn-gold bg-vn-ivory/20 rounded-full cursor-pointer" />
-                </div>
-              </div>
-              <button type="button" onClick={() => setIsExpanded(false)} className="text-[10px] px-2 py-1 rounded bg-black/40 text-vn-ivory/70 hover:text-white border border-vn-gold/20" title="Thu gọn">✕</button>
-            </div>
-          ) : null}
-
-        </div>
-      </aside>
     </>
   );
 }
