@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useExperience } from '../context/ExperienceContext';
 
 const SECTIONS = [
-  { id: "hero", label: "Mở đầu Điện ảnh", numeral: "0" },
+  { id: "hero", label: "Khởi Nguyên Nét Mực", numeral: "0" },
   { id: "m-1930", label: "Thành lập Đảng 1930", numeral: "I" },
   { id: "m-1941", label: "Mặt trận Việt Minh 1941", numeral: "II" },
-  { id: "m-1945", label: "Cách mạng Tháng Tám 1945", numeral: "III" },
+  { id: "m-1945", label: "Tuyên ngôn Độc lập 1945", numeral: "III" },
   { id: "m-1946", label: "Toàn quốc Kháng chiến 1946", numeral: "IV" },
-  { id: "m-1954-quyet-dinh", label: "Bước ngoặt Điện Biên Phủ", numeral: "V" },
-  { id: "decision-tree", label: "Cân Não: Quyết Định 1954", numeral: "⚖️" },
-  { id: "sa-ban-chien-dich", label: "Sa Bàn Chiến Dịch 3 Đợt", numeral: "🗺️" },
-  { id: "kinh-tiem-vong-chien-hao", label: "Kính Tiềm Vọng Chiến Hào", numeral: "🔭" },
-  { id: "m-1954-thang-loi", label: "Toàn Thắng 07/05/1954", numeral: "VI" },
-  { id: "rap-chieu-phim-tu-lieu", label: "Rạp Phim Tư Liệu 35mm", numeral: "🎬" },
-  { id: "m-1975", label: "Đại thắng Mùa Xuân 1975", numeral: "VII" },
-  { id: "m-1986", label: "Bình minh Đổi mới 1986", numeral: "VIII" },
-  { id: "bao-vat-khang-chien", label: "Bảo Vật & Hiện Vật", numeral: "🏛️" },
-  { id: "trac-nghiem-on-tap", label: "Khảo Thí & Chứng Nhận", numeral: "✍️" },
+  { id: "dien-bien-1954", label: "Điện Biên Phủ 1954", numeral: "V" },
+  { id: "m-1975", label: "Đại thắng Mùa Xuân 1975", numeral: "VI" },
+  { id: "m-1986", label: "Kỷ nguyên Đổi mới 1986", numeral: "VII" },
+  { id: "khong-gian-khao-cuu", label: "Bảo Tàng & Khảo Cứu", numeral: "🏛️" },
 ];
 
+
 export default function TimelineIndicator() {
+  const { isImmersionMode } = useExperience();
   const [activeSection, setActiveSection] = useState("hero");
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -46,7 +43,9 @@ export default function TimelineIndicator() {
   }, []);
 
   return (
-    <aside className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center">
+    <aside className={`fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center transition-all duration-500 ${
+      isImmersionMode ? 'opacity-0 pointer-events-none translate-x-6' : 'opacity-100 translate-x-0'
+    }`}>
       <div className="relative flex flex-col items-center gap-3 py-4 px-2 rounded-full bg-vn-charcoal/70 backdrop-blur-md border border-vn-gold-antique/25 shadow-2xl">
         
         {/* Track */}

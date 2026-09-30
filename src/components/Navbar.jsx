@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Volume2, VolumeX, Play, Pause, Compass } from 'lucide-react';
 import { soundSynth } from '../utils/soundSynth';
+import { useExperience } from '../context/ExperienceContext';
 
 export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
+  const { isImmersionMode } = useExperience();
   const [scrolled, setScrolled] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [volume, setVolume] = useState(0.35);
@@ -51,10 +53,12 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-vn-black/85 backdrop-blur-md border-b border-vn-gold-antique/20 py-2.5 shadow-2xl' 
-        : 'bg-gradient-to-b from-vn-black/90 to-transparent py-4'
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      isImmersionMode 
+        ? 'opacity-0 pointer-events-none -translate-y-6' 
+        : scrolled 
+          ? 'opacity-100 bg-vn-black/85 backdrop-blur-md border-b border-vn-gold-antique/20 py-2.5 shadow-2xl translate-y-0' 
+          : 'opacity-100 bg-gradient-to-b from-vn-black/90 to-transparent py-4 translate-y-0'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         
