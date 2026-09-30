@@ -2,16 +2,20 @@ import React, { useEffect, useRef } from 'react';
 import { useExperience } from '../context/ExperienceContext';
 
 /**
- * ATMOSPHERE DIRECTOR
+ * ATMOSPHERE DIRECTOR (V3 HIGH-PERFORMANCE ENGINE)
  * Điều phối bầu không khí thị giác theo từng thời kỳ lịch sử:
  * - paperDust: Bụi sợi giấy ngà cổ kính cho InkHero
  * - dust: Hạt bụi lưu trữ ấm màu hổ phách cho Bàn tài liệu 1930
  * - mist: Làn sương mờ núi rừng Pác Bó 1941
  * - filmDust: Hạt phim tài liệu 35mm Ba Đình 1945
- * - smoke: Khói lửa chiến khu Toàn quốc kháng chiến 1946
+ * - smoke: Làn khói lan tỏa đêm Toàn quốc kháng chiến 1946
  * - ember: Tàn lửa bùng cháy dữ dội duy nhất ở chiến trường Điện Biên 1954
  * - clean: Không gian trong trẻo, ánh sáng xanh hiện đại cho Đổi mới 1986
- * - none: Tắt hoàn toàn 0% opacity (tiết kiệm 100% CPU/GPU) ở khoảng lặng và bảo tàng
+ * - none: Tắt hoàn toàn 0% opacity VÀ PAUSE RAF LOOP (tiết kiệm 100% CPU/GPU)
+ * 
+ * Tối ưu hóa:
+ * 1. Tự động tạm dừng RAF khi tab chạy ngầm (document.hidden)
+ * 2. Tự động dừng RAF khi mode === 'none' và alpha < 0.005
  */
 export default function AtmosphereDirector() {
   const canvasRef = useRef(null);
@@ -21,7 +25,8 @@ export default function AtmosphereDirector() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    let animationFrameId;
+    let animationFrameId = null;
+    let isLoopRunning = false;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -49,14 +54,44 @@ export default function AtmosphereDirector() {
 
     let currentAlpha = 0;
 
+    const startLoop = () => {
+      if (!isLoopRunning) {
+        isLoopRunning = true;
+        render();
+      }
+    };
+
+    const stopLoop = () => {
+      if (isLoopRunning) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        isLoopRunning = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+
     const render = () => {
+      // If tab is in background, do nothing
+      if (document.hidden) {
+        stopLoop();
+        return;
+      }
+
       const mode = atmosphereMode || 'none';
       const targetAlpha = mode === 'none' ? 0 : 0.85;
-      currentAlpha += (targetAlpha - currentAlpha) * 0.05;
+      currentAlpha += (targetAlpha - currentAlpha) * 0.06;
+
+      // If mode is none and alpha has decayed near 0, halt RAF to save 100% CPU/GPU!
+      if (mode === 'none' && currentAlpha < 0.005) {
+        currentAlpha = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stopLoop();
+        return;
+      }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (currentAlpha > 0.01) {
+      if (currentAlpha > 0.005) {
         ctx.globalAlpha = currentAlpha;
 
         for (let i = 0; i < particles.length; i++) {
@@ -90,7 +125,7 @@ export default function AtmosphereDirector() {
             ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
             ctx.fill();
           } else if (mode === 'paperDust') {
-            // Ancient ivory paper fibers (drifting gently downwards)
+            // Ancient ivory paper fibers
             p.y += p.speedY * 0.4;
             p.x += Math.sin(p.oscillation) * 0.5;
 
@@ -121,8 +156,27 @@ export default function AtmosphereDirector() {
             ctx.beginPath();
             ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
             ctx.fill();
+          } else if (mode === 'smoke') {
+            // 1946 Night Telegram Smoke (soft, larger, drifting slowly)
+            p.y -= p.speedY * 0.35;
+            p.x += Math.sin(p.oscillation) * 0.8;
+
+            if (p.y < -25) {
+              p.y = canvas.height + 25;
+              p.x = Math.random() * canvas.width;
+            }
+
+            const smokeRadius = p.size * 4;
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, smokeRadius);
+            grad.addColorStop(0, `rgba(200, 100, 80, ${p.opacity * 0.18})`);
+            grad.addColorStop(0.6, `rgba(120, 60, 50, ${p.opacity * 0.08})`);
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, smokeRadius, 0, Math.PI * 2);
+            ctx.fill();
           } else {
-            // Soft archival dust (mode: dust, mist, filmDust, smoke)
+            // Soft archival dust (mode: dust, mist, filmDust)
             p.y -= p.speedY * 0.6;
             p.x += Math.sin(p.oscillation) * p.speedX * 0.8;
 
@@ -144,11 +198,23 @@ export default function AtmosphereDirector() {
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    // Tab visibility handling
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    // Initial trigger
+    startLoop();
 
     return () => {
       window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      stopLoop();
     };
   }, [atmosphereMode]);
 

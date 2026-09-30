@@ -19,10 +19,10 @@ import {
   RotateCcw,
   Sparkles,
   ChevronRight,
-  X
+  X,
+  ArrowDown
 } from 'lucide-react';
 import { DECISION_TREE_DATA } from '../data/decisionTreeData';
-import { CAMPAIGN_MAP_DATA } from '../data/campaignMapData';
 
 const PERISCOPE_TARGETS = [
   {
@@ -75,13 +75,15 @@ export default function DienBienExperience() {
   const root = useRef(null);
   const { setAtmosphereMode, setIsImmersionMode } = useExperience();
 
-  // Decision State
-  const [chosenOption, setChosenOption] = useState('danh-chac-tien-chac');
+  // 1. Decision State: Pure suspense, NO pre-selected option, NO spoiler
+  const [chosenOption, setChosenOption] = useState(null);
+  const [showVerdict, setShowVerdict] = useState(false);
   
-  // Periscope interactive state
+  // 2. Periscope interactive state & plateau
   const [currentAngle, setCurrentAngle] = useState(120);
   const [isDragging, setIsDragging] = useState(false);
   const [activeIntelTarget, setActiveIntelTarget] = useState(null);
+  const [hasInteractedPeriscope, setHasInteractedPeriscope] = useState(false);
   const dragStartRef = useRef({ x: 0, angle: 120 });
   const reticleRef = useRef(null);
 
@@ -103,6 +105,7 @@ export default function DienBienExperience() {
   const handlePointerDown = (e) => {
     e.preventDefault();
     setIsDragging(true);
+    setHasInteractedPeriscope(true);
     dragStartRef.current = { x: e.clientX, angle: currentAngle };
     if (reticleRef.current) {
       reticleRef.current.setPointerCapture(e.pointerId);
@@ -128,9 +131,29 @@ export default function DienBienExperience() {
 
   const snapToTarget = (targetAngle) => {
     setCurrentAngle(targetAngle);
+    setHasInteractedPeriscope(true);
     try {
       soundSynth.playGong(0.15);
     } catch (e) {}
+  };
+
+  const handleSelectOption = (optId) => {
+    setChosenOption(optId);
+    try {
+      soundSynth.playGong(0.2);
+    } catch (e) {}
+    // 600ms suspense before revealing verdict
+    setTimeout(() => {
+      setShowVerdict(true);
+    }, 600);
+  };
+
+  const scrollToVictory = () => {
+    if (root.current) {
+      const rect = root.current.getBoundingClientRect();
+      const targetY = window.scrollY + rect.top + (root.current.offsetHeight * 0.74);
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+    }
   };
 
   // Master GSAP Timeline across the 780vh scroll space
@@ -142,15 +165,14 @@ export default function DienBienExperience() {
       const decisionHeadline = q('.decision-headline')[0];
       const layerMap = q('.layer-map')[0];
       const mapTrenchLines = q('.map-trench-draw')[0];
-      const mapTargetA1 = q('.map-target-a1')[0];
       const mapToPeriscopeRing = q('.map-morph-ring')[0];
       const layerPeriscope = q('.layer-periscope')[0];
       const layerVictory = q('.layer-victory')[0];
       const layerSilence = q('.layer-silence')[0];
 
-      // Initial States
+      // Initial States: Headline starts invisible (NO spoiler!)
       gsap.set(layerDecision, { opacity: 1, pointerEvents: 'auto' });
-      gsap.set(decisionHeadline, { scale: 1, opacity: 1 });
+      gsap.set(decisionHeadline, { scale: 0.8, opacity: 0 });
       gsap.set(layerMap, { opacity: 0, pointerEvents: 'none' });
       gsap.set(mapToPeriscopeRing, { scale: 0.1, opacity: 0 });
       gsap.set(layerPeriscope, { opacity: 0, pointerEvents: 'none' });
@@ -170,6 +192,11 @@ export default function DienBienExperience() {
           scrub: 0.85,
           onUpdate: (self) => {
             const p = self.progress;
+
+            // Auto-trigger verdict if user scrolled past decision point without clicking
+            if (p > 0.08 && !showVerdict) {
+              setShowVerdict(true);
+            }
 
             // Contextual Atmosphere & Immersion handling
             if (p < 0.22) {
@@ -198,19 +225,21 @@ export default function DienBienExperience() {
       // =======================================================================
       // PHASE 1: DECISION AT MƯỜNG PHĂNG (0.00 -> 0.22)
       // =======================================================================
-      // At ~0.16 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
-      master.to(
-        decisionHeadline,
-        {
-          scale: 8.5,
-          opacity: 0,
-          ease: 'power2.in',
-          duration: 0.18,
-        },
-        0.14
-      )
-      .to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.1 }, 0.12)
-      .to(layerDecision, { opacity: 0, pointerEvents: 'none', duration: 0.05 }, 0.22);
+      // Reveal headline after briefing
+      master.to(decisionHeadline, { opacity: 1, scale: 1.0, duration: 0.05 }, 0.10)
+        // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
+        .to(
+          decisionHeadline,
+          {
+            scale: 8.5,
+            opacity: 0,
+            ease: 'power2.in',
+            duration: 0.14,
+          },
+          0.14
+        )
+        .to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.08 }, 0.12)
+        .to(layerDecision, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.22);
 
       // =======================================================================
       // PHASE 2: TACTICAL CAMPAIGN MAP SEQUENCE (0.20 -> 0.50)
@@ -252,7 +281,7 @@ export default function DienBienExperience() {
 
       // =======================================================================
       // PHASE 3: FULLSCREEN OPTICAL PERISCOPE (0.48 -> 0.72)
-      // The expanding ring becomes the circular periscope optic lens
+      // Interaction plateau allows user to explore before Victory triggers
       // =======================================================================
       master.to(layerPeriscope, { opacity: 1, pointerEvents: 'auto', duration: 0.06 }, 0.48)
         .fromTo(
@@ -261,7 +290,7 @@ export default function DienBienExperience() {
           { scale: 1.0, opacity: 1, ease: 'power2.out', duration: 0.06 },
           0.50
         )
-        // Periscope active viewing range
+        // Interaction Plateau window
         .to({}, { duration: 0.16 }, 0.52)
         .to(layerPeriscope, { opacity: 0, scale: 1.15, pointerEvents: 'none', duration: 0.05 }, 0.70);
 
@@ -316,66 +345,91 @@ export default function DienBienExperience() {
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
 
         {/* ===================================================================
-            LAYER 1: MƯỜNG PHĂNG BRIEFING & DECISION (0.00 -> 0.22)
+            LAYER 1: MƯỜNG PHĂNG BRIEFING & NEUTRAL DECISION (0.00 -> 0.22)
            =================================================================== */}
         <div className="layer-decision absolute inset-0 z-10 flex flex-col items-center justify-center px-4 sm:px-8 py-10 bg-[#080a0d]">
           <div className="decision-briefing-box max-w-4xl w-full mx-auto text-center space-y-4">
             
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/80 border border-red-500/60 text-red-200 text-xs font-mono font-bold uppercase tracking-widest shadow-xl">
               <GitBranch className="w-3.5 h-3.5 text-vn-red" />
-              <span>Sở Chỉ Huy Mường Phăng · 26/01/1954</span>
+              <span>Sở Chỉ Huy Mường Phăng · Sáng 26/01/1954</span>
             </div>
 
             <h2 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-white tracking-tight leading-tight">
-              Quyết Định Cân Não Của Đại Tướng
+              Thời Khắc Quyết Định Cân Não
             </h2>
 
             <p className="font-heading italic text-base sm:text-lg text-vn-gold max-w-2xl mx-auto">
               "{DECISION_TREE_DATA.briefing.mandateFromUncleHo}"
             </p>
 
-            {/* 2 Options Decision Cards */}
+            <p className="text-xs sm:text-sm text-vn-ivory/70 max-w-xl mx-auto font-light">
+              Mọi công tác đã sẵn sàng theo phương án ban đầu. Đứng trước tình hình đối phương tăng viện công sự kiên cố, bạn sẽ quyết định như thế nào?
+            </p>
+
+            {/* 2 Neutral Options: No giveaway spoiler colors! */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto pt-2 text-left">
+              
+              {/* Option A */}
               <div 
-                onClick={() => setChosenOption('danh-nhanh-thang-nhanh')}
+                onClick={() => handleSelectOption('danh-nhanh-thang-nhanh')}
                 className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                   chosenOption === 'danh-nhanh-thang-nhanh'
-                    ? 'bg-red-950/40 border-red-500 ring-1 ring-red-500'
-                    : 'bg-vn-charcoal/60 border-white/10 opacity-70'
-                }`}
-              >
-                <span className="text-[10px] font-mono text-red-300 font-bold uppercase block mb-1">
-                  Phương án A (Ban đầu):
-                </span>
-                <h4 className="font-display font-bold text-base text-white">Đánh Nhanh, Thắng Nhanh</h4>
-                <p className="text-xs text-vn-ivory/70 mt-1 font-light">
-                  Dự kiến công kích đồng loạt trong 3 ngày 2 đêm khi đối phương chưa kịp củng cố công sự.
-                </p>
-              </div>
-
-              <div 
-                onClick={() => setChosenOption('danh-chac-tien-chac')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
-                  chosenOption === 'danh-chac-tien-chac'
-                    ? 'bg-emerald-950/50 border-vn-gold ring-1 ring-vn-gold shadow-[0_0_25px_rgba(255,205,0,0.3)]'
-                    : 'bg-vn-charcoal/60 border-white/10 opacity-70'
+                    ? 'bg-amber-950/40 border-vn-gold ring-1 ring-vn-gold shadow-[0_0_20px_rgba(255,205,0,0.2)]'
+                    : 'bg-[#12161f] border-white/15 hover:border-vn-gold/50'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-[10px] font-mono text-vn-gold font-bold uppercase">
-                    Phương án B (Lịch sử đã chọn):
+                    DỰ THẢO TÁC CHIẾN A
                   </span>
-                  <CheckCircle className="w-3.5 h-3.5 text-vn-gold" />
+                  {chosenOption === 'danh-nhanh-thang-nhanh' && (
+                    <span className="w-2 h-2 rounded-full bg-vn-gold animate-ping" />
+                  )}
                 </div>
-                <h4 className="font-display font-bold text-base text-white">Đánh Chắc, Tiến Chắc</h4>
-                <p className="text-xs text-vn-ivory/85 mt-1 font-light">
-                  Kéo pháo ra, hoãn nổ súng, đào chiến hào bao vây siết chặt từng cứ điểm theo nguyên tắc chắc thắng.
+                <h4 className="font-display font-bold text-base text-white">Đánh Nhanh, Thắng Nhanh</h4>
+                <p className="text-xs text-vn-ivory/70 mt-1 font-light leading-relaxed">
+                  Tập trung hỏa lực công kích thọc sâu trong 3 ngày 2 đêm khi đối phương chưa kịp củng cố cụm cứ điểm.
                 </p>
               </div>
+
+              {/* Option B */}
+              <div 
+                onClick={() => handleSelectOption('danh-chac-tien-chac')}
+                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                  chosenOption === 'danh-chac-tien-chac'
+                    ? 'bg-amber-950/40 border-vn-gold ring-1 ring-vn-gold shadow-[0_0_20px_rgba(255,205,0,0.2)]'
+                    : 'bg-[#12161f] border-white/15 hover:border-vn-gold/50'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-mono text-vn-gold font-bold uppercase">
+                    DỰ THẢO TÁC CHIẾN B
+                  </span>
+                  {chosenOption === 'danh-chac-tien-chac' && (
+                    <span className="w-2 h-2 rounded-full bg-vn-gold animate-ping" />
+                  )}
+                </div>
+                <h4 className="font-display font-bold text-base text-white">Đánh Chắc, Tiến Chắc</h4>
+                <p className="text-xs text-vn-ivory/70 mt-1 font-light leading-relaxed">
+                  Kéo pháo ra, hoãn nổ súng, chuẩn bị chu đáo, đào chiến hào bao vây siết chặt theo nguyên tắc chắc thắng.
+                </p>
+              </div>
+
             </div>
 
+            {/* Historical Verdict Reveal Banner: Only shown after user click or scroll */}
+            {showVerdict && (
+              <div className="pt-3 animate-in fade-in zoom-in-95 duration-500">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400 text-emerald-200 text-xs font-mono">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Đại tướng quyết định: Lịch sử đã chọn phương châm ĐÁNH CHẮC, TIẾN CHẮC</span>
+                </div>
+              </div>
+            )}
+
             <p className="text-[11px] font-mono text-vn-ivory/50 pt-2">
-              Cuộn tiếp để chứng kiến phương châm lịch sử mở màn chiến dịch ↓
+              {chosenOption ? 'Cuộn tiếp để mở màn tiến công trên sa bàn ↓' : 'Chọn 1 phương án hoặc cuộn tiếp để theo dõi lịch sử ↓'}
             </p>
           </div>
 
@@ -504,8 +558,9 @@ export default function DienBienExperience() {
 
         {/* ===================================================================
             LAYER 3: FULLSCREEN 360° OPTICAL PERISCOPE (0.48 -> 0.72)
+            With Interaction Plateau & Smooth Progression Action
            =================================================================== */}
-        <div className="layer-periscope absolute inset-0 z-30 flex items-center justify-center bg-black select-none">
+        <div className="layer-periscope absolute inset-0 z-30 flex flex-col items-center justify-center bg-black select-none">
           
           {/* Full-Screen Circular Optical Lens Frame */}
           <div 
@@ -514,7 +569,7 @@ export default function DienBienExperience() {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            className="periscope-lens-frame relative w-[92vw] sm:w-[82vh] h-[92vw] sm:h-[82vh] max-w-[720px] max-h-[720px] rounded-full border-[12px] sm:border-[18px] border-[#12161b] bg-black shadow-[0_0_120px_rgba(0,0,0,1)] ring-4 ring-vn-gold/40 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
+            className="periscope-lens-frame relative w-[90vw] sm:w-[78vh] h-[90vw] sm:h-[78vh] max-w-[680px] max-h-[680px] rounded-full border-[12px] sm:border-[18px] border-[#12161b] bg-black shadow-[0_0_120px_rgba(0,0,0,1)] ring-4 ring-vn-gold/40 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
           >
             {/* Drifting Real Archival Landscape Backdrop */}
             <div className="absolute inset-0 rounded-full overflow-hidden">
@@ -528,7 +583,6 @@ export default function DienBienExperience() {
                   transform: `scale(1.25) translateX(${-((currentAngle % 90) - 45) * 2}px)`
                 }}
               />
-              {/* Trench Optic Green-tint Glass & Radial Vignette */}
               <div className="absolute inset-0 bg-emerald-950/20 mix-blend-color pointer-events-none" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.92)_100%)] pointer-events-none" />
             </div>
@@ -538,11 +592,9 @@ export default function DienBienExperience() {
               <circle cx="100" cy="100" r="92" fill="none" stroke={lockedTarget ? "#DA251D" : "#FFCD00"} strokeWidth="0.8" opacity="0.8" />
               <circle cx="100" cy="100" r="82" fill="none" stroke="#FFCD00" strokeWidth="0.4" strokeDasharray="1 3" opacity="0.4" />
               
-              {/* Crosshair lines */}
               <line x1="100" y1="10" x2="100" y2="190" stroke={lockedTarget ? "#DA251D" : "#FFCD00"} strokeWidth="0.8" opacity="0.8" />
               <line x1="10" y1="100" x2="190" y2="100" stroke={lockedTarget ? "#DA251D" : "#FFCD00"} strokeWidth="0.8" opacity="0.8" />
 
-              {/* Ticks */}
               {[-30, -20, -10, 10, 20, 30].map((offset) => (
                 <React.Fragment key={offset}>
                   <line x1={100 + offset} y1="96" x2={100 + offset} y2="104" stroke="#FFCD00" strokeWidth="0.5" opacity="0.8" />
@@ -550,7 +602,6 @@ export default function DienBienExperience() {
                 </React.Fragment>
               ))}
 
-              {/* Center Lock Reticle */}
               {lockedTarget ? (
                 <g>
                   <circle cx="100" cy="100" r="14" fill="none" stroke="#DA251D" strokeWidth="1.2" className="animate-ping" style={{ transformOrigin: '100px 100px', animationDuration: '2s' }} />
@@ -561,17 +612,16 @@ export default function DienBienExperience() {
                 <circle cx="100" cy="100" r="5" fill="none" stroke="#FFCD00" strokeWidth="0.8" strokeDasharray="2 2" />
               )}
 
-              {/* Live Azimuth Angle readout at top */}
               <text x="100" y="24" textAnchor="middle" fill={lockedTarget ? "#DA251D" : "#FFCD00"} fontSize="7" fontFamily="monospace" fontWeight="bold">
                 {currentAngle.toString().padStart(3, '0')}° AZIMUTH
               </text>
             </svg>
 
             {/* Target Annotation Directly in Lens */}
-            {lockedTarget && (
+            {lockedTarget ? (
               <div 
                 onClick={() => setActiveIntelTarget(lockedTarget)}
-                className="absolute bottom-14 sm:bottom-16 z-30 px-4 py-2 rounded-2xl bg-red-950/90 border border-red-500 text-center shadow-2xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform"
+                className="absolute bottom-12 sm:bottom-14 z-30 px-4 py-2 rounded-2xl bg-red-950/90 border border-red-500 text-center shadow-2xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform"
               >
                 <div className="flex items-center gap-1.5 justify-center text-red-300 text-[10px] font-mono font-bold uppercase tracking-wider mb-0.5">
                   <Lock className="w-3 h-3 text-red-400 animate-pulse" />
@@ -584,16 +634,30 @@ export default function DienBienExperience() {
                   Bấm để xem điện báo tình báo →
                 </span>
               </div>
-            )}
-
-            {/* Drag hint overlay */}
-            {!lockedTarget && (
-              <div className="absolute top-10 px-3 py-1 rounded-full bg-black/70 border border-white/10 text-[10px] font-mono text-vn-ivory/70 flex items-center gap-1.5 pointer-events-none z-30">
+            ) : (
+              <div className="absolute top-8 px-3 py-1 rounded-full bg-black/70 border border-white/10 text-[10px] font-mono text-vn-ivory/70 flex items-center gap-1.5 pointer-events-none z-30">
                 <MoveHorizontal className="w-3 h-3 text-vn-gold" />
                 <span>Rê chuột vuốt quét 360° quanh lòng chảo</span>
               </div>
             )}
 
+          </div>
+
+          {/* Interaction Plateau Controls: Guides user smoothly without being lost */}
+          <div className="mt-4 flex flex-col sm:flex-row items-center gap-3 z-40">
+            <button 
+              onClick={scrollToVictory}
+              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-vn-gold to-amber-500 text-vn-black font-display font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(255,205,0,0.35)] hover:scale-105 transition-transform flex items-center gap-2"
+            >
+              <span>Tiếp Tục Hành Trình Tới Chiến Thắng ↓</span>
+              <ArrowDown className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={scrollToVictory}
+              className="text-[11px] font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
+            >
+              Bỏ qua trinh sát →
+            </button>
           </div>
 
           {/* Tactical Intel Modal Drawer inside Periscope */}
@@ -654,11 +718,9 @@ export default function DienBienExperience() {
               alt="Cờ Quyết chiến Quyết thắng tung bay nóc hầm De Castries"
               className="w-full h-full object-cover filter contrast-125 sepia-[0.15]"
             />
-            {/* Cinematic Vignette */}
             <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/40 to-black/90 pointer-events-none" />
           </div>
 
-          {/* Flash Effect on Entry */}
           <div className="victory-flash absolute inset-0 bg-white opacity-0 pointer-events-none z-40" />
 
           {/* Typographic Momentum in Center */}
@@ -689,12 +751,10 @@ export default function DienBienExperience() {
         <div className="layer-silence absolute inset-0 z-40 flex flex-col items-center justify-center bg-black text-center px-6">
           <div className="max-w-xl mx-auto space-y-6">
             
-            {/* Solemn stark date */}
             <span className="font-display font-black text-4xl sm:text-6xl text-white/90 tracking-widest block">
               07 · 05 · 1954
             </span>
 
-            {/* Fades in softly only after deep scroll */}
             <p className="silence-thought font-serif italic text-sm sm:text-base text-white/60 leading-relaxed max-w-md mx-auto">
               "56 ngày đêm khoét núi, ngủ hầm, mưa dầm, cơm vắt, máu trộn bùn non... để làm nên bản anh hùng ca bất diệt của thế kỷ XX."
             </p>

@@ -120,7 +120,7 @@ export default function KineticManifesto({
               scale: 1,
               filter: 'blur(0px)',
               duration: 0.18,
-              ease: 'back.out(1.7)',
+              ease: 'power3.out',
             },
             start
           );
