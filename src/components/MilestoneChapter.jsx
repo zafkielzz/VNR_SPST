@@ -258,34 +258,74 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
               </p>
             </div>
 
-            {/* Plane 2 (70 -> 140vw): Tuyến lửa & Đoàn quân tiến về Sài Gòn */}
+            {/* Plane 2 (70 -> 140vw): Tuyến lửa & Đoàn quân tiến về Sài Gòn - Archival Contact Sheet */}
             <div className="w-[70vw] shrink-0 flex items-center justify-center px-8">
-              <div className="relative w-full max-w-xl aspect-[16/10] rounded-3xl overflow-hidden border-2 border-vn-gold/50 bg-black p-3 shadow-2xl">
-                <img
-                  src="/images/exhibits/exhibit_7_1.jpg"
-                  alt="Đoàn quân thần tốc tiến về Sài Gòn"
-                  className="w-full h-full object-cover rounded-2xl filter contrast-125 sepia-[0.15]"
-                  loading="lazy"
-                />
-                <div className="absolute bottom-4 left-6 right-6 text-center">
-                  <span className="text-xs font-mono text-vn-gold uppercase tracking-wider font-bold">
-                    Tuyến lửa Trường Sơn · Bạt rừng xẻ núi tiến về giải phóng Sài Gòn
-                  </span>
+              <div className="relative w-full max-w-xl rounded-sm border border-white/20 bg-[#07080a] p-3 sm:p-4 shadow-2xl">
+                {/* Film Edge Registration Marks & Annotations */}
+                <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-white/50 pb-2 border-b border-white/10 uppercase select-none">
+                  <span className="flex items-center gap-1.5 font-bold text-vn-gold/80">▶ 04A</span>
+                  <span>KODAK SAFETY FILM · TRI-X PAN</span>
+                  <span>1975-04</span>
+                </div>
+
+                {/* Archival Crop Crosshairs */}
+                <span className="absolute top-1.5 left-2 font-mono text-[9px] text-white/30 select-none">+</span>
+                <span className="absolute top-1.5 right-2 font-mono text-[9px] text-white/30 select-none">+</span>
+                <span className="absolute bottom-1.5 left-2 font-mono text-[9px] text-white/30 select-none">+</span>
+                <span className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/30 select-none">+</span>
+
+                {/* Archival Photo */}
+                <div className="relative aspect-[16/10] overflow-hidden my-2 border border-white/10 bg-black">
+                  <img
+                    src="/images/exhibits/exhibit_7_1.jpg"
+                    alt="Đoàn quân thần tốc tiến về Sài Gòn"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.15]"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Bottom Contact Sheet Legend */}
+                <div className="flex items-center justify-between text-[10px] font-mono text-vn-gold/75 pt-1.5 border-t border-white/10 tracking-wider">
+                  <span className="uppercase">TƯ LIỆU SỐ 75-TS</span>
+                  <span className="uppercase font-semibold">Tuyến Lửa Trường Sơn · Tiến Về Sài Gòn</span>
                 </div>
               </div>
             </div>
 
-            {/* Plane 3 (140 -> 210vw): Xe tăng 390 Dinh Độc Lập (11h30 Ngày 30/04) */}
+            {/* Plane 3 (140 -> 210vw): Xe tăng 390 Dinh Độc Lập - Archival Contact Sheet */}
             <div className="w-[70vw] shrink-0 flex flex-col items-center justify-center text-center px-8 space-y-4">
-              <div className="w-full max-w-xl aspect-[16/10] rounded-3xl overflow-hidden border-2 border-vn-red bg-black p-3 shadow-[0_0_80px_rgba(218,37,29,0.5)]">
-                <img
-                  src="/images/exhibits/exhibit_7_1.jpg"
-                  alt="Xe tăng 390 húc đổ cổng Dinh Độc Lập"
-                  className="w-full h-full object-cover rounded-2xl filter contrast-125"
-                  loading="lazy"
-                />
+              <div className="relative w-full max-w-xl rounded-sm border border-red-500/30 bg-[#07080a] p-3 sm:p-4 shadow-[0_0_50px_rgba(218,37,29,0.3)]">
+                {/* Film Edge Registration Marks & Annotations */}
+                <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-white/50 pb-2 border-b border-white/10 uppercase select-none">
+                  <span className="flex items-center gap-1.5 font-bold text-red-400">▶ 04B</span>
+                  <span>ARCHIVAL NEGATIVE · HISTORIC MOMENT</span>
+                  <span>11:30 AM</span>
+                </div>
+
+                {/* Archival Crop Crosshairs */}
+                <span className="absolute top-1.5 left-2 font-mono text-[9px] text-white/30 select-none">+</span>
+                <span className="absolute top-1.5 right-2 font-mono text-[9px] text-white/30 select-none">+</span>
+                <span className="absolute bottom-1.5 left-2 font-mono text-[9px] text-white/30 select-none">+</span>
+                <span className="absolute bottom-1.5 right-2 font-mono text-[9px] text-white/30 select-none">+</span>
+
+                {/* Archival Photo */}
+                <div className="relative aspect-[16/10] overflow-hidden my-2 border border-red-500/20 bg-black">
+                  <img
+                    src="/images/exhibits/exhibit_7_1.jpg"
+                    alt="Xe tăng 390 húc đổ cổng Dinh Độc Lập"
+                    className="w-full h-full object-cover filter contrast-125"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Bottom Contact Sheet Legend */}
+                <div className="flex items-center justify-between text-[10px] font-mono text-red-400/90 pt-1.5 border-t border-white/10 tracking-wider">
+                  <span className="uppercase">DINH ĐỘC LẬP</span>
+                  <span className="uppercase font-semibold">CHIẾN DỊCH HỒ CHÍ MINH TOÀN THẮNG</span>
+                </div>
               </div>
-              <h4 className="font-mono font-black text-3xl sm:text-5xl text-vn-gold">
+
+              <h4 className="font-mono font-black text-3xl sm:text-5xl text-vn-gold tracking-tight">
                 11H30 · 30 / 04 / 1975
               </h4>
               <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-red-400">
@@ -331,7 +371,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
           <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center text-center space-y-6">
             
             {/* Modern Clean Sans Header */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-950/80 border border-sky-400/60 text-sky-300 text-xs font-mono font-bold uppercase tracking-widest shadow-xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-sky-950/80 border border-sky-400/60 text-sky-300 text-xs font-mono font-bold uppercase tracking-widest shadow-xl">
               <Award className="w-3.5 h-3.5 text-sky-400" />
               <span>ĐẠI HỘI VI · BƯỚC NGOẶT ĐỔI MỚI TOÀN DIỆN (12/1986)</span>
             </div>
@@ -353,8 +393,8 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             {/* The 3 Core Pillars of Đổi Mới in Modern Architectural Blocks */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl pt-2">
               
-              <div className="modern-principle-card will-transform p-5 rounded-2xl bg-sky-950/40 border border-sky-400/30 backdrop-blur-md text-left">
-                <span className="text-[10px] font-mono text-sky-400 font-bold uppercase tracking-wider block mb-1">
+              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/40 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 backdrop-blur-md text-left relative">
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
                   NGUYÊN TẮC 01
                 </span>
                 <h4 className="font-sans font-bold text-lg text-white">Nhìn Thẳng Vào Sự Thật</h4>
@@ -363,8 +403,8 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 </p>
               </div>
 
-              <div className="modern-principle-card will-transform p-5 rounded-2xl bg-sky-950/40 border border-sky-400/30 backdrop-blur-md text-left">
-                <span className="text-[10px] font-mono text-sky-400 font-bold uppercase tracking-wider block mb-1">
+              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/40 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 backdrop-blur-md text-left relative">
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
                   NGUYÊN TẮC 02
                 </span>
                 <h4 className="font-sans font-bold text-lg text-white">Đánh Giá Đúng Sự Thật</h4>
@@ -373,8 +413,8 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 </p>
               </div>
 
-              <div className="modern-principle-card will-transform p-5 rounded-2xl bg-sky-950/40 border border-sky-400/30 backdrop-blur-md text-left">
-                <span className="text-[10px] font-mono text-sky-400 font-bold uppercase tracking-wider block mb-1">
+              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/40 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 backdrop-blur-md text-left relative">
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
                   NGUYÊN TẮC 03
                 </span>
                 <h4 className="font-sans font-bold text-lg text-white">Nói Rõ Sự Thật</h4>

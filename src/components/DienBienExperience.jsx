@@ -193,11 +193,6 @@ export default function DienBienExperience() {
           onUpdate: (self) => {
             const p = self.progress;
 
-            // Auto-trigger verdict if user scrolled past decision point without clicking
-            if (p > 0.08 && !showVerdict) {
-              setShowVerdict(true);
-            }
-
             // Contextual Atmosphere & Immersion handling
             if (p < 0.22) {
               setAtmosphereMode('dust');
@@ -225,21 +220,19 @@ export default function DienBienExperience() {
       // =======================================================================
       // PHASE 1: DECISION AT MƯỜNG PHĂNG (0.00 -> 0.22)
       // =======================================================================
-      // Reveal headline after briefing
-      master.to(decisionHeadline, { opacity: 1, scale: 1.0, duration: 0.05 }, 0.10)
-        // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
-        .to(
-          decisionHeadline,
-          {
-            scale: 8.5,
-            opacity: 0,
-            ease: 'power2.in',
-            duration: 0.14,
-          },
-          0.14
-        )
-        .to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.08 }, 0.12)
-        .to(layerDecision, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.22);
+      // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
+      master.to(
+        decisionHeadline,
+        {
+          scale: 8.5,
+          opacity: 0,
+          ease: 'power2.in',
+          duration: 0.14,
+        },
+        0.14
+      )
+      .to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.08 }, 0.12)
+      .to(layerDecision, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.22);
 
       // =======================================================================
       // PHASE 2: TACTICAL CAMPAIGN MAP SEQUENCE (0.20 -> 0.50)
@@ -418,23 +411,32 @@ export default function DienBienExperience() {
 
             </div>
 
-            {/* Historical Verdict Reveal Banner: Only shown after user click or scroll */}
-            {showVerdict && (
+            {/* Historical Verdict Reveal Banner: Only shown after user click or skip */}
+            {showVerdict ? (
               <div className="pt-3 animate-in fade-in zoom-in-95 duration-500">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400 text-emerald-200 text-xs font-mono">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400 text-emerald-200 text-xs font-mono shadow-xl">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Đại tướng quyết định: Lịch sử đã chọn phương châm ĐÁNH CHẮC, TIẾN CHẮC</span>
                 </div>
               </div>
+            ) : (
+              <div className="pt-2">
+                <button
+                  onClick={() => handleSelectOption('danh-chac-tien-chac')}
+                  className="text-xs font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
+                >
+                  Bỏ qua lựa chọn · tiếp tục theo dòng lịch sử →
+                </button>
+              </div>
             )}
 
-            <p className="text-[11px] font-mono text-vn-ivory/50 pt-2">
-              {chosenOption ? 'Cuộn tiếp để mở màn tiến công trên sa bàn ↓' : 'Chọn 1 phương án hoặc cuộn tiếp để theo dõi lịch sử ↓'}
+            <p className="text-[11px] font-mono text-vn-ivory/50 pt-1">
+              {showVerdict ? 'Cuộn tiếp để mở màn tiến công trên sa bàn ↓' : 'Chọn 1 phương án tác chiến để tiếp tục hành trình ↓'}
             </p>
           </div>
 
           {/* Monumental Scaling Headline: "ĐÁNH CHẮC, TIẾN CHẮC" */}
-          <div className="decision-headline will-transform absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+          <div className={`decision-headline will-transform absolute inset-0 flex items-center justify-center pointer-events-none z-30 transition-opacity duration-700 ${showVerdict ? 'opacity-100' : 'opacity-0'}`}>
             <h1 className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl uppercase tracking-tighter text-vn-gold text-glow-gold text-center px-4">
               ĐÁNH CHẮC<br />TIẾN CHẮC
             </h1>
@@ -635,30 +637,41 @@ export default function DienBienExperience() {
                 </span>
               </div>
             ) : (
-              <div className="absolute top-8 px-3 py-1 rounded-full bg-black/70 border border-white/10 text-[10px] font-mono text-vn-ivory/70 flex items-center gap-1.5 pointer-events-none z-30">
-                <MoveHorizontal className="w-3 h-3 text-vn-gold" />
-                <span>Rê chuột vuốt quét 360° quanh lòng chảo</span>
+              <div className="absolute top-8 px-3.5 py-1 rounded-full bg-black/75 border border-white/15 text-[11px] font-mono text-vn-ivory/80 flex items-center gap-2 pointer-events-none z-30 shadow-lg">
+                <MoveHorizontal className="w-3.5 h-3.5 text-vn-gold" />
+                <span>← KÉO NGANG ĐỂ QUAN SÁT 360° →</span>
               </div>
             )}
 
           </div>
 
-          {/* Interaction Plateau Controls: Guides user smoothly without being lost */}
-          <div className="mt-4 flex flex-col sm:flex-row items-center gap-3 z-40">
-            <button 
-              onClick={scrollToVictory}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-vn-gold to-amber-500 text-vn-black font-display font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(255,205,0,0.35)] hover:scale-105 transition-transform flex items-center gap-2"
-            >
-              <span>Tiếp Tục Hành Trình Tới Chiến Thắng ↓</span>
-              <ArrowDown className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={scrollToVictory}
-              className="text-[11px] font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
-            >
-              Bỏ qua trinh sát →
-            </button>
-          </div>
+          {/* Interaction Plateau Controls: Reward user for interacting */}
+          {hasInteractedPeriscope ? (
+            <div className="mt-4 flex flex-col sm:flex-row items-center gap-3 z-40 animate-in fade-in zoom-in-95 duration-300">
+              <button 
+                onClick={scrollToVictory}
+                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-vn-gold to-amber-500 text-vn-black font-display font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(255,205,0,0.4)] hover:scale-105 transition-transform flex items-center gap-2"
+              >
+                <span>Tiếp Tục Hành Trình Tới Chiến Thắng ↓</span>
+                <ArrowDown className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={scrollToVictory}
+                className="text-[11px] font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
+              >
+                Bỏ qua trinh sát →
+              </button>
+            </div>
+          ) : (
+            <div className="mt-4 flex items-center justify-center z-40">
+              <button
+                onClick={scrollToVictory}
+                className="text-xs font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
+              >
+                Bỏ qua trinh sát →
+              </button>
+            </div>
+          )}
 
           {/* Tactical Intel Modal Drawer inside Periscope */}
           {activeIntelTarget && (
