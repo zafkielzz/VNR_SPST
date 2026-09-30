@@ -66,10 +66,11 @@ Trang web ứng dụng công nghệ cuộn điện ảnh (cinematic scrollytelli
 ## 🚀 Hướng Dẫn Chạy Cục Bộ (Local Development)
 
 ```bash
-# Di chuyển vào thư mục dự án
-cd 2dinfomuseumml131
+# Clone dự án từ repository
+git clone <repository_url>
+cd VNR_SPST
 
-# Cài đặt thư viện (nếu chưa cài)
+# Cài đặt các thư viện phụ thuộc
 npm install
 
 # Khởi chạy máy chủ phát triển

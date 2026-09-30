@@ -34,6 +34,13 @@ function AppContent() {
 
   // Lenis Smooth Scroll synchronised with GSAP ScrollTrigger ticker
   useEffect(() => {
+    // Accessibility: Honor prefers-reduced-motion at JS level
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      window.__lenis = null;
+      return undefined;
+    }
+
     const lenis = new Lenis({
       duration: 1.3,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -41,6 +48,7 @@ function AppContent() {
       wheelMultiplier: 0.95,
       touchMultiplier: 1.4,
     });
+    window.__lenis = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -74,6 +82,7 @@ function AppContent() {
     return () => {
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
+      window.__lenis = null;
       window.removeEventListener('load', refresh);
       window.removeEventListener('resize', onResize);
       clearTimeout(settleTimer);

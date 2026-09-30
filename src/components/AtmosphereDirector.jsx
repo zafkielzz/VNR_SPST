@@ -21,6 +21,12 @@ export default function AtmosphereDirector() {
   const canvasRef = useRef(null);
   const { atmosphereMode } = useExperience();
 
+  // Accessibility: In prefers-reduced-motion mode, completely disable canvas particle simulation
+  const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    return null;
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;

@@ -78,6 +78,31 @@ export default function DienBienExperience() {
   // 1. Decision State: Pure suspense, NO pre-selected option, NO spoiler
   const [chosenOption, setChosenOption] = useState(null);
   const [showVerdict, setShowVerdict] = useState(false);
+  const showVerdictRef = useRef(false);
+  const decisionHeadlineRef = useRef(null);
+
+  useEffect(() => {
+    showVerdictRef.current = showVerdict;
+  }, [showVerdict]);
+
+  // Fix Bug 2: GSAP exclusively manages decision headline entrance
+  useEffect(() => {
+    if (!showVerdict || !decisionHeadlineRef.current) return;
+
+    gsap.fromTo(
+      decisionHeadlineRef.current,
+      {
+        opacity: 0,
+        scale: 0.82,
+      },
+      {
+        opacity: 1,
+        scale: 1.0,
+        duration: 0.75,
+        ease: 'expo.out',
+      }
+    );
+  }, [showVerdict]);
   
   // 2. Periscope interactive state & plateau
   const [currentAngle, setCurrentAngle] = useState(120);
@@ -101,11 +126,10 @@ export default function DienBienExperience() {
     }
   }
 
-  // Pointer drag logic for Periscope
+  // Pointer drag logic for Periscope: Only award interaction on actual drag or target lock
   const handlePointerDown = (e) => {
     e.preventDefault();
     setIsDragging(true);
-    setHasInteractedPeriscope(true);
     dragStartRef.current = { x: e.clientX, angle: currentAngle };
     if (reticleRef.current) {
       reticleRef.current.setPointerCapture(e.pointerId);
@@ -115,6 +139,9 @@ export default function DienBienExperience() {
   const handlePointerMove = (e) => {
     if (!isDragging) return;
     const deltaX = e.clientX - dragStartRef.current.x;
+    if (Math.abs(deltaX) > 12 && !hasInteractedPeriscope) {
+      setHasInteractedPeriscope(true);
+    }
     let newAngle = Math.round(dragStartRef.current.angle + deltaX * 0.4);
     newAngle = ((newAngle % 360) + 360) % 360;
     setCurrentAngle(newAngle);
@@ -145,7 +172,17 @@ export default function DienBienExperience() {
     // 600ms suspense before revealing verdict
     setTimeout(() => {
       setShowVerdict(true);
+      showVerdictRef.current = true;
     }, 600);
+  };
+
+  const handleSkipDecision = () => {
+    setChosenOption('danh-chac-tien-chac');
+    setShowVerdict(true);
+    showVerdictRef.current = true;
+    try {
+      soundSynth.playGong(0.2);
+    } catch (e) {}
   };
 
   const scrollToVictory = () => {
@@ -193,6 +230,22 @@ export default function DienBienExperience() {
           onUpdate: (self) => {
             const p = self.progress;
 
+            // Fix Bug 1: Behavioral Gate at Decision Plateau (p = 0.11)
+            // Hold user on the decision plateau until they choose an option or click Skip
+            if (!showVerdictRef.current && p > 0.11) {
+              if (self.direction > 0) {
+                const gateY = self.start + (self.end - self.start) * 0.11;
+                if (typeof window !== 'undefined') {
+                  if (window.__lenis) {
+                    window.__lenis.scrollTo(gateY, { immediate: true });
+                  } else {
+                    window.scrollTo({ top: gateY });
+                  }
+                }
+                return;
+              }
+            }
+
             // Contextual Atmosphere & Immersion handling
             if (p < 0.22) {
               setAtmosphereMode('dust');
@@ -220,19 +273,24 @@ export default function DienBienExperience() {
       // =======================================================================
       // PHASE 1: DECISION AT MƯỜNG PHĂNG (0.00 -> 0.22)
       // =======================================================================
-      // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
-      master.to(
-        decisionHeadline,
-        {
-          scale: 8.5,
-          opacity: 0,
-          ease: 'power2.in',
-          duration: 0.14,
-        },
-        0.14
-      )
-      .to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.08 }, 0.12)
-      .to(layerDecision, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.22);
+      master.to(q('.decision-briefing-box'), { opacity: 0, y: -40, duration: 0.06 }, 0.12)
+        // At ~0.14 -> 0.22: "ĐÁNH CHẮC, TIẾN CHẮC" scales to 8.5x, camera plunges into negative space
+        .fromTo(
+          decisionHeadline,
+          {
+            scale: 1.0,
+            opacity: 1,
+          },
+          {
+            scale: 8.5,
+            opacity: 0,
+            ease: 'power2.in',
+            duration: 0.08,
+            immediateRender: false,
+          },
+          0.14
+        )
+        .to(layerDecision, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.22);
 
       // =======================================================================
       // PHASE 2: TACTICAL CAMPAIGN MAP SEQUENCE (0.20 -> 0.50)
@@ -422,7 +480,7 @@ export default function DienBienExperience() {
             ) : (
               <div className="pt-2">
                 <button
-                  onClick={() => handleSelectOption('danh-chac-tien-chac')}
+                  onClick={handleSkipDecision}
                   className="text-xs font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
                 >
                   Bỏ qua lựa chọn · tiếp tục theo dòng lịch sử →
@@ -436,7 +494,10 @@ export default function DienBienExperience() {
           </div>
 
           {/* Monumental Scaling Headline: "ĐÁNH CHẮC, TIẾN CHẮC" */}
-          <div className={`decision-headline will-transform absolute inset-0 flex items-center justify-center pointer-events-none z-30 transition-opacity duration-700 ${showVerdict ? 'opacity-100' : 'opacity-0'}`}>
+          <div 
+            ref={decisionHeadlineRef}
+            className="decision-headline will-transform absolute inset-0 flex items-center justify-center pointer-events-none z-30"
+          >
             <h1 className="font-display font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl uppercase tracking-tighter text-vn-gold text-glow-gold text-center px-4">
               ĐÁNH CHẮC<br />TIẾN CHẮC
             </h1>
