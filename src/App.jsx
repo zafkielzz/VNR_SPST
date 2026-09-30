@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from './lib/gsap';
@@ -8,11 +8,15 @@ import Hero from './components/Hero';
 import WordCascade from './components/WordCascade';
 import MilestoneChapter from './components/MilestoneChapter';
 import QuoteSection from './components/QuoteSection';
-import InteractiveVietnamMap from './components/InteractiveVietnamMap';
-import ArchivalGallery from './components/ArchivalGallery';
+import DecisionTreeSection from './components/DecisionTreeSection';
+import CampaignMapSection from './components/CampaignMapSection';
+import PeriscopeSection from './components/PeriscopeSection';
+import HistoricalCinemaSection from './components/HistoricalCinemaSection';
+import ArtifactGallerySection from './components/ArtifactGallerySection';
 import KnowledgeQuiz from './components/KnowledgeQuiz';
 import Footer from './components/Footer';
-import { MILESTONES_DATA } from './data/milestonesData';
+import WarAtmosphereCanvas from './components/WarAtmosphereCanvas';
+import { VNR_MILESTONES_DATA } from './data/vnrMilestonesData';
 
 export default function App() {
   const [autoScrollActive, setAutoScrollActive] = useState(false);
@@ -100,24 +104,23 @@ export default function App() {
     };
   }, [autoScrollActive]);
 
-  // Find milestones
-  const mNation = MILESTONES_DATA.find(m => m.id === 'm-nation');
-  const mLenin = MILESTONES_DATA.find(m => m.id === 'm-lenin');
-  const mUnity = MILESTONES_DATA.find(m => m.id === 'm-unity');
-  const mRelNature = MILESTONES_DATA.find(m => m.id === 'm-religion-nature');
-  const mRelHarmony = MILESTONES_DATA.find(m => m.id === 'm-religion-harmony');
-  const mPhatDiem = MILESTONES_DATA.find(m => m.id === 'm-phatdiem');
-  const mCaoDai = MILESTONES_DATA.find(m => m.id === 'm-caodai');
-  const mSecurity = MILESTONES_DATA.find(m => m.id === 'm-security');
-  const mConstitution = MILESTONES_DATA.find(m => m.id === 'm-constitution');
-  const mFlag = MILESTONES_DATA.find(m => m.id === 'm-flag');
+  // Find milestones by ID
+  const m1930 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1930');
+  const m1941 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1941');
+  const m1945 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1945');
+  const m1946 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1946');
+  const m1954QuyetDinh = VNR_MILESTONES_DATA.find(m => m.id === 'm-1954-quyet-dinh');
+  const m1954ThangLoi = VNR_MILESTONES_DATA.find(m => m.id === 'm-1954-thang-loi');
+  const m1975 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1975');
+  const m1986 = VNR_MILESTONES_DATA.find(m => m.id === 'm-1986');
 
   return (
     <div className="relative min-h-screen bg-vn-black text-vn-ivory selection:bg-vn-red selection:text-vn-gold">
       
-      {/* Atmospheric overlays */}
+      {/* Cinematic Overlays: Film Grain, Vignette & War Embers Glow */}
       <div className="film-grain" />
       <div className="film-vignette" />
+      <WarAtmosphereCanvas />
 
       {/* Top Navbar */}
       <Navbar 
@@ -130,113 +133,116 @@ export default function App() {
 
       {/* Main Cinematic Scrollytelling Sequence */}
       <main>
-        {/* 00. Hero Entrance (Pinned stage) */}
+        {/* 00. Hero Entrance (Pinned stage with Dong Son drum & star dive) */}
         <Hero />
 
-        {/* 01. Mốc 1: Bản thể Dân tộc (Quốc gia vs Tộc người) */}
-        {mNation && <MilestoneChapter milestone={mNation} reverse={false} />}
+        {/* 01. Mốc 1: 1930 - Thành lập Đảng & Cương lĩnh đầu tiên */}
+        {m1930 && <MilestoneChapter milestone={m1930} reverse={false} />}
 
-        {/* 02. Chuyển đoạn 1: Ba nguyên tắc Cương lĩnh Lênin */}
+        {/* 02. Chuyển đoạn 1: Mục tiêu cốt lõi của Đảng */}
         <WordCascade
-          id="cascade-lenin"
-          eyebrow="Cương Lĩnh Dân Tộc Của V.I. Lênin (1913 — 1914)"
+          id="cascade-cuong-linh"
+          eyebrow="Ngọn Cờ Tư Tưởng Cương Lĩnh Đầu Tiên (1930)"
           items={[
             {
-              word: 'BÌNH ĐẲNG',
-              tag: 'NGUYÊN TẮC THỨ NHẤT',
-              quote: 'Các dân tộc hoàn toàn bình đẳng',
-              desc: 'Quyền thiêng liêng, không một dân tộc nào có đặc quyền hay bị kỳ thị, áp bức trong mọi lĩnh vực đời sống xã hội.'
+              word: 'ĐỘC LẬP',
+              tag: 'MỤC TIÊU THIÊNG LIÊNG',
+              quote: 'Đánh đổ đế quốc chủ nghĩa và bọn phong kiến',
+              desc: 'Làm cho nước Nam hoàn toàn độc lập, giành lại chủ quyền toàn vẹn lãnh thổ thiêng liêng của Tổ quốc.'
             },
             {
-              word: 'TỰ QUYẾT',
-              tag: 'NGUYÊN TẮC THỨ HAI',
-              quote: 'Các dân tộc được quyền tự quyết',
-              desc: 'Quyền tự định đoạt chế độ chính trị và con đường phát triển; quyền tự do phân lập hoặc tự nguyện liên hiệp.'
+              word: 'TỰ DO',
+              tag: 'QUYỀN CƠ BẢN CỦA DÂN',
+              quote: 'Dân chúng được tự do tổ chức, nam nữ bình quyền',
+              desc: 'Thực hiện quyền tự do dân chủ, giải phóng giai cấp công nông khỏi ách xiềng xích nô lệ và áp bức bất công.'
             },
             {
-              word: 'LIÊN HIỆP',
-              tag: 'NGUYÊN TẮC THỨ BA',
-              quote: 'Liên hiệp công nhân tất cả các dân tộc',
-              desc: 'Tư tưởng cốt lõi và ngọn cờ tập hợp sức mạnh giai cấp vô sản quốc tế cùng các dân tộc bị áp bức toàn thế giới.'
+              word: 'HẠNH PHÚC',
+              tag: 'LỢI ÍCH NHÂN DÂN',
+              quote: 'Thâu hết ruộng đất chia cho dân cày nghèo',
+              desc: 'Xóa bỏ bóc lột, mở mang công thương nghiệp, nâng cao đời sống ấm no, hạnh phúc cho toàn thể nhân dân.'
             },
             {
-              word: 'CÔNG NHÂN',
-              tag: 'LỰC LƯỢNG TIÊN PHONG',
-              quote: 'Giai cấp công nhân dẫn dắt sự nghiệp giải phóng',
-              desc: 'Bảo đảm phong trào dân tộc kiên định mục tiêu độc lập dân tộc gắn liền với chủ nghĩa xã hội.'
+              word: 'CHỦ NGHĨA XÃ HỘI',
+              tag: 'CON ĐƯỜNG PHÁT TRIỂN',
+              quote: 'Đi tới xã hội cộng sản văn minh',
+              desc: 'Gắn liền độc lập dân tộc với chủ nghĩa xã hội là sợi chỉ đỏ xuyên suốt đường lối cách mạng Việt Nam.'
             }
           ]}
         />
 
-        {/* 03. Mốc 2: Cương lĩnh Dân tộc V.I. Lênin */}
-        {mLenin && <MilestoneChapter milestone={mLenin} reverse={true} />}
+        {/* 03. Mốc 2: 1941 - Pác Bó: Hội nghị TW 8 & Thành lập Mặt trận Việt Minh */}
+        {m1941 && <MilestoneChapter milestone={m1941} reverse={true} />}
 
-        {/* 04. Mốc 3: Khối Đại đoàn kết 54 Dân tộc & Thư Pleiku 1946 */}
-        {mUnity && <MilestoneChapter milestone={mUnity} reverse={false} />}
+        {/* 04. Mốc 3: 1945 - Cách mạng Tháng Tám & Tuyên ngôn Độc lập */}
+        {m1945 && <MilestoneChapter milestone={m1945} reverse={false} />}
 
-        {/* 05. Trích dẫn kiểm chứng: Lênin, Bác Hồ, Hiến pháp */}
+        {/* 05. Mốc 4: 1946 - Lời kêu gọi Toàn quốc Kháng chiến & Chiến khu Việt Bắc */}
+        {m1946 && <MilestoneChapter milestone={m1946} reverse={true} />}
+
+        {/* 06. Trích dẫn kinh điển: Lời hiệu triệu của Chủ tịch Hồ Chí Minh & Đại tướng */}
         <QuoteSection />
 
-        {/* 06. Chuyển đoạn 2: Tôn giáo đồng hành */}
+        {/* 07. Chuyển đoạn 2: Khúc tráng ca Điện Biên Phủ */}
         <WordCascade
-          id="cascade-religion"
-          eyebrow="Phương Châm Tôn Giáo Tại Việt Nam"
+          id="cascade-dien-bien"
+          eyebrow="Bản Hùng Ca Điện Biên Phủ (1954)"
           items={[
             {
-              word: 'TỰ DO TÍN NGƯỠNG',
-              tag: 'QUYỀN CƠ BẢN',
-              quote: 'Tôn trọng & bảo đảm tự do tín ngưỡng',
-              desc: 'Mọi công dân có quyền theo hoặc không theo bất kỳ tôn giáo nào; các tổ chức tôn giáo bình đẳng trước pháp luật.'
+              word: 'KHOÉT NÚI',
+              tag: 'Ý CHÍ GANG THÉP',
+              quote: 'Xẻ núi, bạt đèo mở đường kéo pháo',
+              desc: 'Hàng vạn chiến sĩ và dân công đào hàng trăm kilômét đường xuyên qua rừng thẳm Tây Bắc hiểm trở.'
             },
             {
-              word: 'TỐT ĐỜI ĐẸP ĐẠO',
-              tag: 'PHƯƠNG CHÂM HÀNH ĐẠO',
-              quote: 'Sống tốt đời, đẹp đạo',
-              desc: 'Dung hợp giáo lý tôn giáo chân chính với lòng yêu nước, đạo lý nhân văn và trách nhiệm công dân phụng sự Tổ quốc.'
+              word: 'NGỦ HẦM',
+              tag: 'TRẬN ĐỊA VÂY LẤN',
+              quote: 'Đào chiến hào siết chặt lòng chảo Mường Thanh',
+              desc: 'Biến lòng đất thành pháo đài tấn công, vây hãm từng tấc đất, bóp nghẹt mọi nguồn tiếp tế của đối phương.'
             },
             {
-              word: 'ĐỒNG HÀNH',
-              tag: 'TRUYỀN THỐNG LỊCH SỬ',
-              quote: 'Gắn bó máu thịt cùng non sông đất nước',
-              desc: 'Các tôn giáo luôn chung vai sát cánh cùng nhân dân trong kháng chiến cứu quốc và công cuộc xây dựng chủ nghĩa xã hội.'
+              word: 'MƯA DẦM',
+              tag: 'THỬ THÁCH NGHIỆT NGÃ',
+              quote: '56 ngày đêm máu trộn bùn non',
+              desc: 'Kiên cường bám trụ trận địa dưới mưa bom bão đạn và thời tiết khắc nghiệt để giành từng điểm cao chiến lược.'
             },
             {
-              word: 'CÙNG DÂN TỘC',
-              tag: 'ĐẠI ĐOÀN KẾT TOÀN DÂN',
-              quote: 'Đoàn kết đồng bào có đạo và không có đạo',
-              desc: 'Củng cố khối đại đoàn kết toàn dân tộc dưới sự lãnh đạo của Đảng vì mục tiêu dân giàu, nước mạnh, dân chủ, văn minh.'
+              word: 'LỪNG LẪY',
+              tag: 'THIÊN SỬ VÀNG DÂN TỘC',
+              quote: 'Nên vành hoa đỏ, nên thiên sử vàng',
+              desc: 'Chiến thắng vang dội năm châu, chấn động địa cầu, báo hiệu sự sụp đổ không thể tránh khỏi của chủ nghĩa thực dân cũ.'
             }
           ]}
         />
 
-        {/* 07. Mốc 4: Bản chất & 3 Nguồn gốc Tôn giáo */}
-        {mRelNature && <MilestoneChapter milestone={mRelNature} reverse={true} />}
+        {/* 08. Mốc 5: 1954 - Quyết định lịch sử "Đánh chắc, tiến chắc" */}
+        {m1954QuyetDinh && <MilestoneChapter milestone={m1954QuyetDinh} reverse={false} />}
 
-        {/* 08. Mốc 5: Hòa hợp Tôn giáo (Chùa Một Cột) */}
-        {mRelHarmony && <MilestoneChapter milestone={mRelHarmony} reverse={false} />}
+        {/* 09. TƯƠNG TÁC RA QUYẾT ĐỊNH (DECISION TREE): Sáng 26/01/1954 tại Mường Phăng */}
+        <DecisionTreeSection />
 
-        {/* 09. Mốc 6: Nhà thờ đá Phát Diệm (Giao thoa văn hóa) */}
-        {mPhatDiem && <MilestoneChapter milestone={mPhatDiem} reverse={true} />}
+        {/* 10. SA BÀN CHIẾN DỊCH TƯƠNG TÁC: 3 Đợt tiến công Mường Thanh */}
+        <CampaignMapSection />
 
-        {/* 10. Mốc 7: Đạo Cao Đài & Tôn giáo Phương Nam */}
-        {mCaoDai && <MilestoneChapter milestone={mCaoDai} reverse={false} />}
+        {/* 11. TƯƠNG TÁC NHẬP VAI: Kính Tiềm Vọng Chiến Hào 1954 (Periscope Recon View) */}
+        <PeriscopeSection />
 
-        {/* 11. Mốc 8: Trận tuyến An ninh Tư tưởng (Chống Diễn biến hòa bình) */}
-        {mSecurity && <MilestoneChapter milestone={mSecurity} reverse={true} />}
+        {/* 12. Mốc 6: 1954 - Toàn thắng 07/05/1954 trên nóc hầm De Castries */}
+        {m1954ThangLoi && <MilestoneChapter milestone={m1954ThangLoi} reverse={true} />}
 
-        {/* 12. Bản đồ 2D Tương tác 6 Vùng Sinh thái Nhân văn & Tôn giáo */}
-        <InteractiveVietnamMap />
+        {/* 13. RẠP CHIẾU PHIM TƯ LIỆU 35MM: Video clip tư liệu lịch sử có âm thanh */}
+        <HistoricalCinemaSection />
 
-        {/* 13. Mốc 9: Hiến pháp 2013 & Luật Tín ngưỡng Tôn giáo 2016 */}
-        {mConstitution && <MilestoneChapter milestone={mConstitution} reverse={false} />}
+        {/* 14. Mốc 7: 1975 - Tuyến lửa Trường Sơn & Đại thắng Mùa Xuân 1975 */}
+        {m1975 && <MilestoneChapter milestone={m1975} reverse={false} />}
 
-        {/* 14. Mốc 10: Cột cờ Lũng Cú (Non sông liền một dải) */}
-        {mFlag && <MilestoneChapter milestone={mFlag} reverse={true} />}
+        {/* 15. Mốc 8: 1986 - Đại hội VI: Đổi mới tư duy, kiến tạo kỷ nguyên phát triển */}
+        {m1986 && <MilestoneChapter milestone={m1986} reverse={true} />}
 
-        {/* 15. Kho Lưu trữ Di sản & Hiện vật số */}
-        <ArchivalGallery />
+        {/* 16. PHÒNG GIÁM ĐỊNH HIỆN VẬT & BẢO VẬT KHÁNG CHIẾN (Interactive Artifacts) */}
+        <ArtifactGallerySection />
 
-        {/* 16. Phòng Khảo thí Trắc nghiệm 10 câu MLN131 */}
+        {/* 17. PHÒNG KHẢO THÍ TRẮC NGHIỆM VNR & CẤP GIẤY CHỨNG NHẬN CANVAS */}
         <KnowledgeQuiz />
       </main>
 

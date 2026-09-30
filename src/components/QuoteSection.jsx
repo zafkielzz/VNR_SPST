@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Quote, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
-import { QUOTES_DATA } from '../data/quotesData';
+import { VNR_QUOTES_DATA } from '../data/vnrQuotesData';
 
 export default function QuoteSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevQuote = () => {
-    setCurrentIndex((prev) => (prev === 0 ? QUOTES_DATA.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? VNR_QUOTES_DATA.length - 1 : prev - 1));
   };
 
   const nextQuote = () => {
-    setCurrentIndex((prev) => (prev === QUOTES_DATA.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === VNR_QUOTES_DATA.length - 1 ? 0 : prev + 1));
   };
 
-  const current = QUOTES_DATA[currentIndex];
+  const current = VNR_QUOTES_DATA[currentIndex];
 
   return (
     <section className="relative py-24 sm:py-32 px-4 sm:px-6 bg-vn-black overflow-hidden">
@@ -28,17 +28,12 @@ export default function QuoteSection() {
         {/* Section title */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vn-charcoal border border-vn-gold/30 text-vn-gold text-xs uppercase tracking-widest mb-6">
           <CheckCircle2 className="w-3.5 h-3.5 text-vn-gold" />
-          <span>Luận Điểm Kinh Điển & Văn Kiện Đã Được Kiểm Chứng</span>
+          <span>Văn Kiện Lịch Sử & Lời Hiệu Triệu Kinh Điển</span>
         </div>
 
         {/* Quote Card */}
         <div className="p-8 sm:p-12 rounded-2xl bg-gradient-to-b from-vn-charcoal/90 to-vn-black border border-vn-gold-antique/30 shadow-2xl relative">
           
-          {/* Category Tag */}
-          <span className="text-[11px] font-semibold text-vn-red uppercase tracking-wider px-3 py-1 bg-vn-red/10 rounded-full border border-vn-red/30 inline-block mb-6">
-            {current.category}
-          </span>
-
           {/* Quote Body */}
           <blockquote className="font-heading italic text-xl sm:text-2xl md:text-3xl text-vn-ivory leading-relaxed mb-8">
             "{current.quote}"
@@ -49,11 +44,11 @@ export default function QuoteSection() {
             <cite className="font-display font-bold text-lg sm:text-xl text-vn-gold not-italic">
               {current.author}
             </cite>
-            <p className="text-xs sm:text-sm text-vn-ivory/80 mt-1">
-              {current.context}
+            <p className="text-xs sm:text-sm text-vn-ivory/80 mt-1 font-medium">
+              {current.title} · {current.context}
             </p>
             <p className="text-[11px] text-vn-ivory/50 mt-1 font-mono">
-              Nguồn: {current.source}
+              Nguồn trích: {current.source}
             </p>
           </div>
 
@@ -61,7 +56,7 @@ export default function QuoteSection() {
           <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-vn-gold-antique/15">
             <button
               onClick={prevQuote}
-              className="p-2 rounded-full bg-vn-black/60 border border-vn-gold-antique/30 text-vn-gold hover:bg-vn-red hover:text-white transition-all"
+              className="p-2 rounded-full bg-vn-black/60 border border-vn-gold-antique/30 text-vn-gold hover:bg-vn-red hover:text-white transition-all cursor-pointer"
               title="Trích dẫn trước"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -69,11 +64,11 @@ export default function QuoteSection() {
 
             {/* Dots */}
             <div className="flex items-center gap-1.5">
-              {QUOTES_DATA.map((_, idx) => (
+              {VNR_QUOTES_DATA.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
+                  className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
                     idx === currentIndex 
                       ? 'w-7 bg-vn-gold shadow-md shadow-vn-gold/50' 
                       : 'bg-vn-ivory/20 hover:bg-vn-gold/50'
@@ -85,7 +80,7 @@ export default function QuoteSection() {
 
             <button
               onClick={nextQuote}
-              className="p-2 rounded-full bg-vn-black/60 border border-vn-gold-antique/30 text-vn-gold hover:bg-vn-red hover:text-white transition-all"
+              className="p-2 rounded-full bg-vn-black/60 border border-vn-gold-antique/30 text-vn-gold hover:bg-vn-red hover:text-white transition-all cursor-pointer"
               title="Trích dẫn tiếp"
             >
               <ChevronRight className="w-5 h-5" />

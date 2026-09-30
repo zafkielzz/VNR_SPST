@@ -1,80 +1,85 @@
-# TRIỂN LÃM SỐ 2D — CHƯƠNG 6: VẤN ĐỀ DÂN TỘC VÀ TÔN GIÁO TRONG THỜI KỲ QUÁ ĐỘ LÊN CHỦ NGHĨA XÃ HỘI
+# 🚩 KÝ HỌA SỬ ĐẢNG — BẢN HÙNG CA ĐIỆN BIÊN PHỦ & NHỮNG MỐC SON LỊCH SỬ
 
-> **Học phần:** Chủ nghĩa Xã hội Khoa học (MLN131) — Đại học FPT
-> **Không gian trải nghiệm:** Cuộn Điện Ảnh Tương Tác 2D (Cinematic Scrollytelling Experience)
-> **Nguồn học liệu chính thống:** Giáo trình Chủ nghĩa Xã hội Khoa học (Chương 6, trang 195 - 238), NXB Chính trị quốc gia Sự thật.
-
----
-
-## 🏛️ Giới thiệu Đề tài
-
-Dự án trực quan hóa toàn bộ nội dung lý luận và thực tiễn của **Chương 6: Vấn đề Dân tộc và Tôn giáo trong Thời kỳ Quá độ lên Chủ nghĩa Xã hội** thành một hành trình triển lãm số 2D hiện đại, kế thừa phong cách thiết kế cuộn điện ảnh (cinematic scrollytelling) từ triển lãm Hồ Chí Minh.
-
-### Điểm khác biệt so với Không gian Bảo tàng 3D (Thư mục chị em `3d_mln131`):
-1. **Trải nghiệm Scrollytelling 2D:** Người xem cuộn mượt mà qua các dòng chảy lịch sử và lý luận mà không đòi hỏi card đồ họa 3D mạnh.
-2. **Khảo thí & Trắc nghiệm tương tác:** Tích hợp 10 câu hỏi trắc nghiệm chuẩn ngân hàng đề thi MLN131 có giải thích học thuật và cấp chứng nhận hoàn thành.
-3. **Bản đồ 2D Tương tác 6 Vùng:** Phân tích sâu sắc vị trí địa lý, an ninh quốc phòng, các tộc người cư trú và đặc điểm tôn giáo tại Tây Bắc, Đông Bắc, Đồng bằng sông Hồng, Miền Trung, Tây Nguyên và Nam Bộ.
-4. **Âm hưởng Ngũ cung Tổng hợp (Web Audio API):** Tự sinh âm hưởng trầm ấm của cồng chiêng, chuông đồng ngũ cung truyền thống 100% offline không lo lỗi mạng.
+> **Học phần:** Lịch sử Đảng Cộng sản Việt Nam (VNR)
+> **Hình thức sản phẩm:** Triển Lãm Số & Web Storytelling Tương Tác 2D (Cinematic Scrollytelling Experience)
+> **Nguồn học liệu chính thống:** Giáo trình Lịch sử Đảng Cộng sản Việt Nam (Ban Tuyên giáo Trung ương & Bộ Giáo dục và Đào tạo).
 
 ---
 
-## 📚 Cấu trúc Nội dung (Bám sát Giáo trình CNXHKH)
+## 🏛️ Giới thiệu Sản phẩm Sáng tạo
 
-1. **Hồi I — Bản Thể & Đặc Trưng Dân Tộc:**
-   - Dân tộc theo nghĩa rộng (Nation - Quốc gia Dân tộc) với 5 đặc trưng cơ bản.
-   - Dân tộc theo nghĩa hẹp (Ethnie - Dân tộc Tộc người) với 3 tiêu chí; ý thức tự giác tộc người là quan trọng nhất.
-   - Tiến trình: Thị tộc → Bộ lạc → Bộ tộc → Dân tộc.
+Dự án trực quan hóa toàn bộ tiến trình lịch sử vẻ vang của Đảng Cộng sản Việt Nam qua 3 chương giáo trình, với trọng tâm chuyên sâu vào **Bản Hùng Ca Điện Biên Phủ (1954) & Bước ngoặt "Đánh chắc, tiến chắc"** — một trong những quyết định quân sự cân não và thiên tài nhất của Đảng và Chủ tịch Hồ Chí Minh.
 
-2. **Hồi II — Lý Luận Kinh Điển của V.I. Lênin:**
-   - Hai xu hướng khách quan của sự phát triển quan hệ dân tộc.
-   - Cương lĩnh Dân tộc của chủ nghĩa Mác - Lênin: *Bình đẳng — Quyền tự quyết — Liên hiệp công nhân tất cả các dân tộc*.
-
-3. **Hồi III — 6 Đặc Điểm Dân Tộc Việt Nam & Sức Mạnh Đại Đoàn Kết:**
-   - Chênh lệch quy mô dân số; Cư trú xen kẽ; Địa bàn chiến lược xung yếu; Trình độ phát triển không đồng đều; Truyền thống đoàn kết keo sơn; Bản sắc phong phú thống nhất trong đa dạng.
-   - Thư của Chủ tịch Hồ Chí Minh gửi Đại hội các DTTS miền Nam tại Pleiku (1946).
-
-4. **Hồi IV — Lý Luận về Tín Ngưỡng & Tôn Giáo:**
-   - Bản chất duy vật biện chứng của tôn giáo.
-   - 3 nguồn gốc: Tự nhiên - kinh tế - xã hội, Nhận thức, Tâm lý.
-   - 3 tính chất: Tính lịch sử, Tính quần chúng, Tính chính trị.
-   - Phân biệt ranh giới giữa Tôn giáo/Tín ngưỡng chân chính với Mê tín dị đoan và Tà đạo.
-
-5. **Hồi V — Đặc Điểm Tôn Giáo & Mối Quan Hệ Đan Xen Dân Tộc - Tôn Giáo:**
-   - Đa tôn giáo, chung sống hòa bình, chưa từng có chiến tranh tôn giáo.
-   - Tôn giáo luôn đồng hành cùng dân tộc ("Tốt đời, đẹp đạo").
-   - Cảnh giác trước âm mưu "Diễn biến hòa bình", lợi dụng dân tộc - tôn giáo chia rẽ khối đại đoàn kết (vấn đề Tây Bắc, Tây Nguyên, Tây Nam Bộ).
-
-6. **Hồi VI — Quan Điểm & Đường Lối Toàn Diện của Đảng, Nhà Nước:**
-   - 5 trụ cột chính sách dân tộc: Chính trị, Kinh tế, Văn hóa, Xã hội, Quốc phòng - An ninh.
-   - 5 nguyên tắc giải quyết vấn đề tôn giáo; Hiến pháp 2013 và Luật Tín ngưỡng, tôn giáo 2016.
-
-7. **Phòng Trưng Bày Tư Liệu Di Sản Số:**
-   - Trống đồng Đông Sơn, Cồng chiêng Tây Nguyên, Hát Then - Đàn Tính, Xòe Thái, Chùa Một Cột, Nhà thờ Phát Diệm, Tòa thánh Tây Ninh, Chùa Vàng Khmer.
-
-8. **Phòng Khảo Thí Trắc Nghiệm MLN131:**
-   - 10 câu hỏi trắc nghiệm tương tác chấm điểm trực tiếp, giải thích chi tiết và cấp chứng nhận hoàn thành.
+Trang web ứng dụng công nghệ cuộn điện ảnh (cinematic scrollytelling), âm thanh tư liệu tổng hợp (Web Audio API), sa bàn chiến thuật SVG tương tác, và cơ chế nhập vai ra quyết định lịch sử (Choose Your Adventure / Decision Tree).
 
 ---
 
-## 🚀 Công nghệ & Triển khai (Vercel Multi-Branch)
+## ✨ 5 Tính Năng & Cơ Chế Tương Tác Nổi Bật
 
-- **Frontend:** React 18 + Vite 5 + Tailwind CSS + Lucide React + Canvas Confetti.
-- **Synthesizer:** Web Audio API Pentatonic Synth.
-- **Triển khai Vercel song song:**
-  - Nhánh `main`: Host phiên bản Bảo tàng 3D (Three.js).
-  - Nhánh `2d`: Host phiên bản Triển lãm Cuộn Điện ảnh 2D (qua `vercel.json` và root `package.json`).
+### 1. 📜 Trục Thời Gian Toàn Cảnh 3 Chương (Macro Timeline)
+- **1930:** Thành lập Đảng Cộng sản Việt Nam & Cương lĩnh chính trị đầu tiên.
+- **1941:** Bác Hồ về nước tại Pác Bó, Hội nghị TW 8 hoàn chỉnh chuyển hướng chỉ đạo chiến lược, thành lập Mặt trận Việt Minh.
+- **1945:** Cách mạng Tháng Tám toàn thắng & Tuyên ngôn Độc lập (02/09/1945).
+- **1946:** Lời kêu gọi Toàn quốc kháng chiến & Căn cứ địa Việt Bắc.
+- **1954:** Bước ngoặt chiến dịch Điện Biên Phủ & Thiên sử vàng chấn động địa cầu.
+- **1975:** Tuyến lửa Trường Sơn huyền thoại & Đại thắng Mùa Xuân 30/04/1975.
+- **1986:** Đại hội VI: Đột phá tư duy, khởi xướng công cuộc Đổi mới toàn diện đất nước.
 
-### Chạy cục bộ:
+### 2. ⚖️ Tái Hiện Góc Nhìn Lịch Sử (Decision Tree — Choose Your Adventure)
+- Tái hiện cuộc họp cân não của Đảng ủy Mặt trận sáng **26/01/1954** tại Mường Phăng (Đại tướng Võ Nguyên Giáp).
+- Người học đối diện với các báo cáo tình báo quân sự thực tế và lời dặn của Bác Hồ: *"Chắc thắng mới đánh, không chắc thắng không đánh"*.
+- Lựa chọn giữa:
+  - **Phương án 1 (Kế hoạch cũ):** Giữ nguyên "Đánh nhanh, thắng nhanh" (3 ngày 2 đêm). Mô phỏng rủi ro What-if khi địch đã kiên cố công sự.
+  - **Phương án 2 (Quyết định lịch sử):** Chuyển sang "Đánh chắc, tiến chắc", hoãn nổ súng, kéo pháo ra chuẩn bị trận địa vững chắc.
+- Khám phá bài học sâu sắc về bản lĩnh người chỉ huy và tư tưởng quân sự nhân văn của Đảng.
+
+### 3. 🗺️ Sa Bàn Chiến Dịch Tương Tác (Interactive Strategic Battle Map)
+- Tái hiện 3 đợt tiến công lịch sử trên sa bàn lòng chảo Mường Thanh (SVG động):
+  - **Đợt 1 (13/03 — 17/03/1954):** Tiêu diệt Him Lam, Độc Lập, bức hàng Bản Kéo, mở toang cánh cửa phía Bắc.
+  - **Đợt 2 (30/03 — 30/04/1954):** Huyết chiến đồi A1, C1, đào hàng trăm kilômét chiến hào vây lấn bóp nghẹt sân bay.
+  - **Đợt 3 (01/05 — 07/05/1954):** Khối bộc phá 960kg nổ tung trên đồi A1, tổng công kích, 17h30 bắt sống tướng De Castries.
+- Tương tác click từng cứ điểm để xem tọa độ, mã định danh và thông tin chiến sự.
+
+### 4. 🏛️ Phòng Giám Định Hiện Vật & Bảo Vật Kháng Chiến (Interactive Artifacts)
+- Khám phá 6 bảo vật lịch sử: Chiếc xe đạp thồ (Ma Văn Thắng tải 352kg), Khẩu pháo cao xạ 37mm (anh hùng Tô Vĩnh Diện), Bức thư Bác Hồ gửi mặt trận, Bản thảo mật lệnh sáng 26/01/1954, Hầm chỉ huy De Castries, Máy thu thanh và bản tin chiến thắng.
+- Mỗi hiện vật có: Ảnh tư liệu thật, quy cách kỹ thuật, trích dẫn văn kiện chính thức, và **Voiceover Audio Thuyết minh** tích hợp (Web Speech API).
+
+### 5. ✍️ Khảo Thí Trắc Nghiệm Chuẩn Đề Thi & Cấp Giấy Chứng Nhận Canvas PNG
+- 10 câu hỏi trắc nghiệm chuẩn ngân hàng câu hỏi môn Lịch sử Đảng.
+- Lời giải thích học thuật chuẩn từng trang giáo trình sau mỗi câu trả lời.
+- Cấp **Giấy Chứng Nhận Chiến Sĩ Lịch Sử Đảng** được vẽ trực tiếp bằng HTML5 Canvas:
+  - Điền Tên và MSSV sinh viên.
+  - Xếp loại điểm số và danh hiệu.
+  - Nút **Tải Giấy Chứng Nhận (PNG)** sắc nét để nộp kèm bài tập lớn hoặc chia sẻ.
+
+---
+
+## 💻 Công Nghệ Sử Dụng
+
+- **Frontend Core:** React 18 + Vite 5 + Tailwind CSS.
+- **Cinematic Animation:** GSAP 3.12 (ScrollTrigger) + Lenis Smooth Scroll.
+- **Soundscape:** Web Audio API Generative Synthesizer + Web Speech API Audio Tour.
+- **Graphics & Certificate:** SVG Battle Map + HTML5 Canvas Certificate Generator + Canvas Confetti.
+
+---
+
+## 🚀 Hướng Dẫn Chạy Cục Bộ (Local Development)
+
 ```bash
-# Tại thư mục 2d_mln131
-npm install
-npm run dev
+# Di chuyển vào thư mục dự án
+cd 2dinfomuseumml131
 
-# Hoặc từ thư mục gốc nhánh 2d
+# Cài đặt thư viện (nếu chưa cài)
+npm install
+
+# Khởi chạy máy chủ phát triển
 npm run dev
 ```
 
-### Build Production:
+Mở trình duyệt tại địa chỉ: `http://localhost:5173`
+
+### Build đóng gói Production:
 ```bash
 npm run build
 ```
+Thư mục xuất bản: `dist/`

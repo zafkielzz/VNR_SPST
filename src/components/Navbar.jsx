@@ -42,16 +42,13 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
   };
 
   const navItems = [
-    { label: "Bản thể", href: "#m-nation" },
-    { label: "Cương lĩnh", href: "#m-lenin" },
-    { label: "54 Dân tộc", href: "#m-unity" },
-    { label: "Tôn giáo", href: "#m-religion-nature" },
-    { label: "Hòa hợp", href: "#m-religion-harmony" },
-    { label: "Bản đồ", href: "#ban-do-tuong-tac" },
-    { label: "An ninh", href: "#m-security" },
-    { label: "Pháp chế", href: "#m-constitution" },
-    { label: "Tư liệu", href: "#thu-vien-tu-lieu" },
-    { label: "Trắc nghiệm", href: "#trac-nghiem-on-tap" },
+    { label: "Mốc Son Sử Đảng", href: "#m-1930" },
+    { label: "Quyết Định 1954", href: "#decision-tree" },
+    { label: "Sa Bàn Chiến Dịch", href: "#sa-ban-chien-dich" },
+    { label: "Kính Tiềm Vọng", href: "#kinh-tiem-vong-chien-hao" },
+    { label: "Phim Tư Liệu 35mm", href: "#rap-chieu-phim-tu-lieu" },
+    { label: "Bảo Vật", href: "#bao-vat-khang-chien" },
+    { label: "Khảo Thí VNR", href: "#trac-nghiem-on-tap" },
   ];
 
   return (
@@ -66,18 +63,17 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
         <a href="#" className="flex items-center gap-3 group">
           <div className="w-9 h-9 rounded-full bg-vn-red-deep border border-vn-gold flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
             <svg viewBox="0 0 32 32" className="w-5 h-5 fill-vn-gold">
-              <circle cx="16" cy="16" r="14" fill="none" stroke="#FFCD00" strokeWidth="1" strokeDasharray="1 2"/>
-              <polygon points="16,2 17,11 25,7 19,13 28,16 19,19 25,25 17,21 16,30 15,21 7,25 13,19 4,16 13,13 7,7 15,11"/>
+              <polygon points="16,2 19,11 28,11 21,17 24,26 16,21 8,26 11,17 4,11 13,11"/>
             </svg>
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-display font-bold text-base sm:text-lg tracking-wide text-vn-gold">
-                MLN131
+                VNR · LỊCH SỬ ĐẢNG
               </span>
             </div>
             <p className="text-[11px] text-vn-ivory/70 hidden sm:block">
-              Chương 6: Vấn đề Dân tộc & Tôn giáo
+              Bản hùng ca Điện Biên Phủ 1954
             </p>
           </div>
         </a>

@@ -84,19 +84,19 @@ export default function Hero() {
         {/* Title Block anchored at bottom */}
         <div className="hero-title will-transform pointer-events-none absolute inset-x-0 bottom-[14vh] z-30 flex flex-col items-center text-center px-4">
           <div className="inline-block px-3.5 py-1 rounded-full bg-vn-red-deep/40 border border-vn-gold/40 text-[11px] uppercase tracking-cinematic text-vn-gold mb-3 shadow-lg">
-            Học phần MLN131 · Giáo trình CNXHKH
+            Học phần Lịch sử Đảng Cộng sản Việt Nam (VNR)
           </div>
 
           <h1 className="font-display font-black text-4xl sm:text-6xl md:text-8xl tracking-tight leading-none text-white text-glow-gold">
-            DÂN TỘC & TÔN GIÁO
+            KÝ HỌA SỬ ĐẢNG
           </h1>
 
           <p className="mt-3 font-heading italic text-lg sm:text-2xl tracking-wide text-vn-gold">
-            Trong Thời Kỳ Quá Độ Lên Chủ Nghĩa Xã Hội
+            Những Mốc Son Lịch Sử & Đỉnh Cao Điện Biên Phủ 1954
           </p>
 
           <p className="mt-2 max-w-xl text-xs sm:text-sm uppercase tracking-[0.25em] text-vn-ivory/70 font-light">
-            Chương 6 · Triển lãm Cuộn Điện Ảnh Tương Tác 2D
+            Triển lãm Cuộn Điện Ảnh Tương Tác 2D · Giáo trình Ban Tuyên Giáo TW
           </p>
         </div>
 

@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 const SECTIONS = [
   { id: "hero", label: "Mở đầu Điện ảnh", numeral: "0" },
-  { id: "m-nation", label: "Bản thể Dân tộc", numeral: "I" },
-  { id: "m-lenin", label: "Cương lĩnh Lênin", numeral: "II" },
-  { id: "m-unity", label: "Đại đoàn kết 54 Dân tộc", numeral: "III" },
-  { id: "m-religion-nature", label: "Bản chất Tôn giáo", numeral: "IV" },
-  { id: "m-religion-harmony", label: "Tôn giáo Đồng hành", numeral: "V" },
-  { id: "ban-do-tuong-tac", label: "Bản đồ 6 Vùng Miền", numeral: "🗺️" },
-  { id: "m-security", label: "An ninh Tư tưởng", numeral: "VI" },
-  { id: "m-constitution", label: "Pháp chế XHCN", numeral: "VII" },
-  { id: "thu-vien-tu-lieu", label: "Tư liệu Di sản", numeral: "🏛️" },
-  { id: "trac-nghiem-on-tap", label: "Trắc nghiệm MLN131", numeral: "✍️" },
+  { id: "m-1930", label: "Thành lập Đảng 1930", numeral: "I" },
+  { id: "m-1941", label: "Mặt trận Việt Minh 1941", numeral: "II" },
+  { id: "m-1945", label: "Cách mạng Tháng Tám 1945", numeral: "III" },
+  { id: "m-1946", label: "Toàn quốc Kháng chiến 1946", numeral: "IV" },
+  { id: "m-1954-quyet-dinh", label: "Bước ngoặt Điện Biên Phủ", numeral: "V" },
+  { id: "decision-tree", label: "Cân Não: Quyết Định 1954", numeral: "⚖️" },
+  { id: "sa-ban-chien-dich", label: "Sa Bàn Chiến Dịch 3 Đợt", numeral: "🗺️" },
+  { id: "kinh-tiem-vong-chien-hao", label: "Kính Tiềm Vọng Chiến Hào", numeral: "🔭" },
+  { id: "m-1954-thang-loi", label: "Toàn Thắng 07/05/1954", numeral: "VI" },
+  { id: "rap-chieu-phim-tu-lieu", label: "Rạp Phim Tư Liệu 35mm", numeral: "🎬" },
+  { id: "m-1975", label: "Đại thắng Mùa Xuân 1975", numeral: "VII" },
+  { id: "m-1986", label: "Bình minh Đổi mới 1986", numeral: "VIII" },
+  { id: "bao-vat-khang-chien", label: "Bảo Vật & Hiện Vật", numeral: "🏛️" },
+  { id: "trac-nghiem-on-tap", label: "Khảo Thí & Chứng Nhận", numeral: "✍️" },
 ];
 
 export default function TimelineIndicator() {

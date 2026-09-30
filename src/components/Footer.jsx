@@ -18,16 +18,16 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <span className="font-display font-bold text-xl text-vn-gold">
-              MLN131 · TRIỂN LÃM SỐ 2D
+              VNR · KÝ HỌA SỬ ĐẢNG
             </span>
           </div>
           <p className="text-xs sm:text-sm text-vn-ivory/70 leading-relaxed mb-4">
-            Đề tài: <strong className="text-white">Chương 6: Vấn đề Dân tộc và Tôn giáo trong Thời kỳ Quá độ lên Chủ nghĩa Xã hội</strong>.
-            Dự án nghiên cứu & ứng dụng công nghệ trực quan hóa bài giảng học phần Lý luận Chính trị — Giáo trình Chủ nghĩa Xã hội Khoa học.
+            Đề tài: <strong className="text-white">Bản Hùng Ca Điện Biên Phủ 1954 & Những Mốc Son Lịch Sử Đảng</strong>.
+            Sản phẩm sáng tạo ứng dụng công nghệ kể chuyện số (Web Storytelling) trực quan hóa bài giảng học phần Lý luận Chính trị — Lịch sử Đảng Cộng sản Việt Nam.
           </p>
           <div className="text-[11px] text-vn-ivory/50 flex items-center gap-1.5 font-mono">
             <BookOpen className="w-3.5 h-3.5 text-vn-gold" />
-            <span>Đại học FPT · Học kỳ 9</span>
+            <span>Sản Phẩm Sáng Tạo Học Phần Lịch Sử Đảng (VNR)</span>
           </div>
         </div>
 
@@ -37,10 +37,10 @@ export default function Footer() {
             Nguồn Tư Liệu Chính Thống
           </h4>
           <p className="text-xs sm:text-sm text-vn-ivory/70 leading-relaxed mb-2.5">
-            📖 <strong>Giáo trình Chủ nghĩa Xã hội Khoa học</strong> (Dành cho bậc đại học hệ không chuyên lý luận chính trị), Bộ Giáo dục và Đào tạo, NXB Chính trị quốc gia Sự thật.
+            📖 <strong>Giáo trình Lịch sử Đảng Cộng sản Việt Nam</strong> (Dành cho bậc đại học hệ không chuyên lý luận chính trị), Ban Tuyên giáo Trung ương & Bộ Giáo dục và Đào tạo.
           </p>
           <p className="text-xs sm:text-sm text-vn-ivory/70 leading-relaxed">
-            📜 <strong>Hiến pháp nước CHXHCN Việt Nam (2013)</strong>, Luật Tín ngưỡng, tôn giáo (2016) và Văn kiện Đại hội đại biểu toàn quốc lần thứ XIII của Đảng.
+            📜 <strong>Văn kiện Đảng Toàn tập</strong>, Hồi ức <em>"Điện Biên Phủ — Điểm hẹn lịch sử"</em> (Đại tướng Võ Nguyên Giáp) và tư liệu Bảo tàng Lịch sử Quân sự Việt Nam.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="max-w-6xl mx-auto pt-8 border-t border-vn-ivory/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-vn-ivory/50">
         <div>
-          © 2026 Nhóm Nghiên Cứu MLN131. Tự hào Bản sắc Dân tộc & Khối Đại Đoàn Kết Toàn Dân.
+          © 2026 Dự Án Sáng Tạo Lịch Sử Đảng. Tự hào truyền thống vẻ vang của Đảng Cộng sản Việt Nam quang vinh.
         </div>
 
         <button
