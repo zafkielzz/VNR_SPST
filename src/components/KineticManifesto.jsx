@@ -52,7 +52,7 @@ export default function KineticManifesto({
             trigger: root.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.8,
+            scrub: 0.45,
           },
         });
 
@@ -106,7 +106,7 @@ export default function KineticManifesto({
             trigger: root.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.8,
+            scrub: 0.45,
           },
         });
 

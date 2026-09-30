@@ -45,7 +45,7 @@ export default function WordCascade({
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.8,
+          scrub: 0.45,
         },
       });
 
@@ -167,7 +167,7 @@ export default function WordCascade({
 
               {/* Detailed Textbook Context */}
               {item.desc && (
-                <div className="mt-4 max-w-xl p-3.5 sm:p-4 rounded-xl bg-vn-charcoal/70 border border-vn-gold/20 backdrop-blur-md">
+                <div className="mt-4 max-w-xl p-3.5 sm:p-4 rounded-xl bg-[#121214]/90 border border-vn-gold/20 shadow-lg">
                   <p className="font-sans text-xs sm:text-sm md:text-base text-vn-ivory/85 leading-relaxed">
                     {item.desc}
                   </p>

@@ -57,7 +57,7 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
       isImmersionMode 
         ? 'opacity-0 pointer-events-none -translate-y-6' 
         : scrolled 
-          ? 'opacity-100 bg-vn-black/85 backdrop-blur-md border-b border-vn-gold-antique/20 py-2.5 shadow-2xl translate-y-0' 
+          ? 'opacity-100 bg-vn-black/95 border-b border-vn-gold-antique/20 py-2.5 shadow-2xl translate-y-0' 
           : 'opacity-100 bg-gradient-to-b from-vn-black/90 to-transparent py-4 translate-y-0'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
@@ -133,7 +133,7 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-vn-charcoal/95 border-b border-vn-gold/30 px-4 py-3 mt-2 space-y-2 backdrop-blur-xl">
+        <div className="xl:hidden bg-vn-charcoal/95 border-b border-vn-gold/30 px-4 py-3 mt-2 space-y-2 shadow-2xl">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
             {navItems.map((item) => (
               <a

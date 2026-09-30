@@ -58,6 +58,53 @@ export default function AtmosphereDirector() {
       });
     }
 
+    // Pre-rendered offscreen sprites to eliminate runtime createRadialGradient per frame
+    const createOffscreenSprite = (size, drawFn) => {
+      const offCanvas = document.createElement('canvas');
+      offCanvas.width = size;
+      offCanvas.height = size;
+      const offCtx = offCanvas.getContext('2d');
+      drawFn(offCtx, size);
+      return offCanvas;
+    };
+
+    const emberSprite = createOffscreenSprite(32, (c, s) => {
+      const half = s / 2;
+      const g = c.createRadialGradient(half, half, 0, half, half, half);
+      g.addColorStop(0, 'rgba(255, 235, 180, 1.0)');
+      g.addColorStop(0.35, 'rgba(255, 120, 0, 0.85)');
+      g.addColorStop(0.7, 'rgba(218, 37, 29, 0.4)');
+      g.addColorStop(1, 'rgba(218, 37, 29, 0)');
+      c.fillStyle = g;
+      c.beginPath();
+      c.arc(half, half, half, 0, Math.PI * 2);
+      c.fill();
+    });
+
+    const cleanSprite = createOffscreenSprite(32, (c, s) => {
+      const half = s / 2;
+      const g = c.createRadialGradient(half, half, 0, half, half, half);
+      g.addColorStop(0, 'rgba(224, 242, 254, 1.0)');
+      g.addColorStop(0.4, 'rgba(56, 189, 248, 0.75)');
+      g.addColorStop(1, 'rgba(14, 165, 233, 0)');
+      c.fillStyle = g;
+      c.beginPath();
+      c.arc(half, half, half, 0, Math.PI * 2);
+      c.fill();
+    });
+
+    const smokeSprite = createOffscreenSprite(64, (c, s) => {
+      const half = s / 2;
+      const g = c.createRadialGradient(half, half, 0, half, half, half);
+      g.addColorStop(0, 'rgba(200, 100, 80, 0.25)');
+      g.addColorStop(0.55, 'rgba(120, 60, 50, 0.10)');
+      g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      c.fillStyle = g;
+      c.beginPath();
+      c.arc(half, half, half, 0, Math.PI * 2);
+      c.fill();
+    });
+
     let currentAlpha = 0;
 
     const startLoop = () => {
@@ -98,8 +145,6 @@ export default function AtmosphereDirector() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       if (currentAlpha > 0.005) {
-        ctx.globalAlpha = currentAlpha;
-
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i];
           p.oscillation += p.oscillationSpeed;
@@ -116,20 +161,8 @@ export default function AtmosphereDirector() {
             }
 
             const rad = p.size * 2.5;
-            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
-            grad.addColorStop(0, `rgba(255, 120, 0, ${p.opacity})`);
-            grad.addColorStop(0.5, `rgba(218, 37, 29, ${p.opacity * 0.5})`);
-            grad.addColorStop(1, 'rgba(218, 37, 29, 0)');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Bright core
-            ctx.fillStyle = `rgba(255, 235, 180, ${p.opacity * 0.9})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.globalAlpha = currentAlpha * p.opacity;
+            ctx.drawImage(emberSprite, p.x - rad, p.y - rad, rad * 2, rad * 2);
           } else if (mode === 'paperDust') {
             // Ancient ivory paper fibers
             p.y += p.speedY * 0.4;
@@ -140,7 +173,8 @@ export default function AtmosphereDirector() {
               p.x = Math.random() * canvas.width;
             }
 
-            ctx.fillStyle = `rgba(180, 160, 130, ${p.opacity * 0.35})`;
+            ctx.globalAlpha = currentAlpha * p.opacity * 0.35;
+            ctx.fillStyle = '#b4a082';
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size * 0.8, 0, Math.PI * 2);
             ctx.fill();
@@ -155,13 +189,8 @@ export default function AtmosphereDirector() {
             }
 
             const rad = p.size * 2;
-            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
-            grad.addColorStop(0, `rgba(56, 189, 248, ${p.opacity * 0.8})`);
-            grad.addColorStop(1, 'rgba(14, 165, 233, 0)');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.globalAlpha = currentAlpha * p.opacity * 0.8;
+            ctx.drawImage(cleanSprite, p.x - rad, p.y - rad, rad * 2, rad * 2);
           } else if (mode === 'smoke') {
             // 1946 Night Telegram Smoke (soft, larger, drifting slowly)
             p.y -= p.speedY * 0.35;
@@ -173,14 +202,8 @@ export default function AtmosphereDirector() {
             }
 
             const smokeRadius = p.size * 4;
-            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, smokeRadius);
-            grad.addColorStop(0, `rgba(200, 100, 80, ${p.opacity * 0.18})`);
-            grad.addColorStop(0.6, `rgba(120, 60, 50, ${p.opacity * 0.08})`);
-            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, smokeRadius, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.globalAlpha = currentAlpha * p.opacity;
+            ctx.drawImage(smokeSprite, p.x - smokeRadius, p.y - smokeRadius, smokeRadius * 2, smokeRadius * 2);
           } else {
             // Soft archival dust (mode: dust, mist, filmDust)
             p.y -= p.speedY * 0.6;
@@ -191,7 +214,8 @@ export default function AtmosphereDirector() {
               p.x = Math.random() * canvas.width;
             }
 
-            ctx.fillStyle = `rgba(230, 200, 150, ${p.opacity * 0.25})`;
+            ctx.globalAlpha = currentAlpha * p.opacity * 0.25;
+            ctx.fillStyle = '#e6c896';
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fill();

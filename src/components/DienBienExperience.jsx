@@ -104,51 +104,73 @@ export default function DienBienExperience() {
     );
   }, [showVerdict]);
   
-  // 2. Periscope interactive state & plateau
-  const [currentAngle, setCurrentAngle] = useState(120);
+  // 2. Periscope interactive state & plateau (Ref-driven to eliminate drag lag)
+  const currentAngleRef = useRef(120);
+  const isDraggingRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [lockedTarget, setLockedTarget] = useState(null);
+  const lockedTargetRef = useRef(null);
   const [activeIntelTarget, setActiveIntelTarget] = useState(null);
   const [hasInteractedPeriscope, setHasInteractedPeriscope] = useState(false);
   const dragStartRef = useRef({ x: 0, angle: 120 });
   const reticleRef = useRef(null);
+  const periscopeImgRef = useRef(null);
+  const angleLabelRef = useRef(null);
 
-  // Periscope target detection
-  let lockedTarget = null;
-  let minDiff = 999;
-  for (const t of PERISCOPE_TARGETS) {
-    let diff = Math.abs(currentAngle - t.angle);
-    if (diff > 180) diff = 360 - diff;
-    if (diff < minDiff) {
-      minDiff = diff;
-      if (diff <= 22) {
-        lockedTarget = t;
-      }
-    }
-  }
-
-  // Pointer drag logic for Periscope: Only award interaction on actual drag or target lock
+  // Pointer drag logic for Periscope: DOM transforms directly, React only updates on target lock
   const handlePointerDown = (e) => {
     e.preventDefault();
+    isDraggingRef.current = true;
     setIsDragging(true);
-    dragStartRef.current = { x: e.clientX, angle: currentAngle };
+    dragStartRef.current = { x: e.clientX, angle: currentAngleRef.current };
     if (reticleRef.current) {
       reticleRef.current.setPointerCapture(e.pointerId);
     }
   };
 
   const handlePointerMove = (e) => {
-    if (!isDragging) return;
+    if (!isDraggingRef.current) return;
     const deltaX = e.clientX - dragStartRef.current.x;
     if (Math.abs(deltaX) > 12 && !hasInteractedPeriscope) {
       setHasInteractedPeriscope(true);
     }
     let newAngle = Math.round(dragStartRef.current.angle + deltaX * 0.4);
     newAngle = ((newAngle % 360) + 360) % 360;
-    setCurrentAngle(newAngle);
+    currentAngleRef.current = newAngle;
+
+    // Direct DOM updates bypass React re-renders of the 850-line component during mouse drag!
+    if (periscopeImgRef.current) {
+      const shiftX = -((newAngle % 90) - 45) * 2;
+      periscopeImgRef.current.style.transform = `scale(1.25) translateX(${shiftX}px)`;
+    }
+
+    if (angleLabelRef.current) {
+      angleLabelRef.current.textContent = `${newAngle.toString().padStart(3, '0')}° AZIMUTH`;
+    }
+
+    // Only update React state when a target lock transitions in or out
+    let nextLocked = null;
+    let minDiff = 999;
+    for (const t of PERISCOPE_TARGETS) {
+      let diff = Math.abs(newAngle - t.angle);
+      if (diff > 180) diff = 360 - diff;
+      if (diff < minDiff) {
+        minDiff = diff;
+        if (diff <= 22) {
+          nextLocked = t;
+        }
+      }
+    }
+
+    if ((nextLocked?.id || null) !== (lockedTargetRef.current?.id || null)) {
+      lockedTargetRef.current = nextLocked;
+      setLockedTarget(nextLocked);
+    }
   };
 
   const handlePointerUp = (e) => {
-    if (isDragging) {
+    if (isDraggingRef.current) {
+      isDraggingRef.current = false;
       setIsDragging(false);
       try {
         if (reticleRef.current) reticleRef.current.releasePointerCapture(e.pointerId);
@@ -157,7 +179,29 @@ export default function DienBienExperience() {
   };
 
   const snapToTarget = (targetAngle) => {
-    setCurrentAngle(targetAngle);
+    currentAngleRef.current = targetAngle;
+    dragStartRef.current.angle = targetAngle;
+    if (periscopeImgRef.current) {
+      const shiftX = -((targetAngle % 90) - 45) * 2;
+      periscopeImgRef.current.style.transform = `scale(1.25) translateX(${shiftX}px)`;
+    }
+    if (angleLabelRef.current) {
+      angleLabelRef.current.textContent = `${targetAngle.toString().padStart(3, '0')}° AZIMUTH`;
+    }
+    let nextLocked = null;
+    let minDiff = 999;
+    for (const t of PERISCOPE_TARGETS) {
+      let diff = Math.abs(targetAngle - t.angle);
+      if (diff > 180) diff = 360 - diff;
+      if (diff < minDiff) {
+        minDiff = diff;
+        if (diff <= 22) {
+          nextLocked = t;
+        }
+      }
+    }
+    lockedTargetRef.current = nextLocked;
+    setLockedTarget(nextLocked);
     setHasInteractedPeriscope(true);
     try {
       soundSynth.playGong(0.15);
@@ -235,7 +279,7 @@ export default function DienBienExperience() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.85,
+          scrub: 0.5,
           onUpdate: (self) => {
             const p = self.progress;
 
@@ -646,13 +690,14 @@ export default function DienBienExperience() {
             {/* Drifting Real Archival Landscape Backdrop */}
             <div className="absolute inset-0 rounded-full overflow-hidden">
               <img
+                ref={periscopeImgRef}
                 src={lockedTarget ? lockedTarget.photo : "/images/exhibits/exhibit_5_1.jpg"}
                 alt="Quan sát chiến hào"
                 className={`w-full h-full object-cover filter transition-all duration-300 scale-125 ${
                   lockedTarget ? 'contrast-125 sepia-[0.3]' : 'contrast-90 blur-[1.5px] sepia-[0.5] opacity-60'
                 }`}
                 style={{
-                  transform: `scale(1.25) translateX(${-((currentAngle % 90) - 45) * 2}px)`
+                  transform: `scale(1.25) translateX(${-((currentAngleRef.current % 90) - 45) * 2}px)`
                 }}
               />
               <div className="absolute inset-0 bg-emerald-950/20 mix-blend-color pointer-events-none" />
@@ -684,8 +729,11 @@ export default function DienBienExperience() {
                 <circle cx="100" cy="100" r="5" fill="none" stroke="#FFCD00" strokeWidth="0.8" strokeDasharray="2 2" />
               )}
 
-              <text x="100" y="24" textAnchor="middle" fill={lockedTarget ? "#DA251D" : "#FFCD00"} fontSize="7" fontFamily="monospace" fontWeight="bold">
-                {currentAngle.toString().padStart(3, '0')}° AZIMUTH
+              <text 
+                ref={angleLabelRef}
+                x="100" y="24" textAnchor="middle" fill={lockedTarget ? "#DA251D" : "#FFCD00"} fontSize="7" fontFamily="monospace" fontWeight="bold"
+              >
+                {currentAngleRef.current.toString().padStart(3, '0')}° AZIMUTH
               </text>
             </svg>
 
@@ -693,7 +741,7 @@ export default function DienBienExperience() {
             {lockedTarget ? (
               <div 
                 onClick={() => setActiveIntelTarget(lockedTarget)}
-                className="absolute bottom-12 sm:bottom-14 z-30 px-4 py-2 rounded-2xl bg-red-950/90 border border-red-500 text-center shadow-2xl backdrop-blur-md cursor-pointer hover:scale-105 transition-transform"
+                className="absolute bottom-12 sm:bottom-14 z-30 px-4 py-2 rounded-2xl bg-red-950/95 border border-red-500 text-center shadow-2xl cursor-pointer hover:scale-105 transition-transform"
               >
                 <div className="flex items-center gap-1.5 justify-center text-red-300 text-[10px] font-mono font-bold uppercase tracking-wider mb-0.5">
                   <Lock className="w-3 h-3 text-red-400 animate-pulse" />
@@ -745,7 +793,7 @@ export default function DienBienExperience() {
 
           {/* Tactical Intel Modal Drawer inside Periscope */}
           {activeIntelTarget && (
-            <div className="absolute inset-0 z-50 bg-black/85 backdrop-blur-lg flex items-center justify-center p-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-in fade-in zoom-in-95 duration-200">
               <div className="w-full max-w-lg p-6 sm:p-8 rounded-3xl bg-vn-charcoal border-2 border-vn-gold shadow-2xl relative space-y-4">
                 <button
                   onClick={() => setActiveIntelTarget(null)}

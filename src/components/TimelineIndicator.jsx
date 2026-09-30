@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useExperience } from '../context/ExperienceContext';
 
 const SECTIONS = [
@@ -17,43 +17,67 @@ const SECTIONS = [
 export default function TimelineIndicator() {
   const { isImmersionMode } = useExperience();
   const [activeSection, setActiveSection] = useState("hero");
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const activeSectionRef = useRef("hero");
+  const progressBarRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId = null;
+
+    const updatePosition = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        setScrollProgress((window.scrollY / totalHeight) * 100);
+      const progress = totalHeight > 0 ? Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100)) : 0;
+      
+      if (progressBarRef.current) {
+        progressBarRef.current.style.height = `${progress}%`;
       }
 
       // Check which section is in view
       const scrollPos = window.scrollY + window.innerHeight * 0.4;
+      let newActive = SECTIONS[0].id;
       for (let i = SECTIONS.length - 1; i >= 0; i--) {
         const el = document.getElementById(SECTIONS[i].id);
         if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(SECTIONS[i].id);
+          newActive = SECTIONS[i].id;
           break;
         }
+      }
+
+      if (newActive !== activeSectionRef.current) {
+        activeSectionRef.current = newActive;
+        setActiveSection(newActive);
+      }
+      rafId = null;
+    };
+
+    const handleScroll = () => {
+      if (!rafId) {
+        rafId = requestAnimationFrame(updatePosition);
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    updatePosition();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
     <aside className={`fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center transition-all duration-500 ${
       isImmersionMode ? 'opacity-0 pointer-events-none translate-x-6' : 'opacity-100 translate-x-0'
     }`}>
-      <div className="relative flex flex-col items-center gap-3 py-4 px-2 rounded-full bg-vn-charcoal/70 backdrop-blur-md border border-vn-gold-antique/25 shadow-2xl">
+      <div className="relative flex flex-col items-center gap-3 py-4 px-2 rounded-full bg-[#121214]/95 border border-vn-gold-antique/25 shadow-2xl">
         
         {/* Track */}
-        <div className="absolute top-4 bottom-4 w-[2px] bg-vn-gold-antique/20 -z-10 rounded-full" />
-        <div 
-          className="absolute top-4 w-[2px] bg-gradient-to-b from-vn-gold via-vn-red to-vn-gold -z-10 rounded-full transition-all duration-150"
-          style={{ height: `${Math.min(100, Math.max(0, scrollProgress * 0.9))}%` }}
-        />
+        <div className="absolute top-4 bottom-4 w-[2px] -z-10 rounded-full overflow-hidden bg-vn-gold-antique/20">
+          <div 
+            ref={progressBarRef}
+            className="w-full bg-gradient-to-b from-vn-gold via-vn-red to-vn-gold rounded-full"
+            style={{ height: '0%' }}
+          />
+        </div>
 
         {SECTIONS.map((sec) => {
           const isActive = activeSection === sec.id;

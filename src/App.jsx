@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from './lib/gsap';
-import { ExperienceProvider } from './context/ExperienceContext';
+import { ExperienceProvider, useExperience } from './context/ExperienceContext';
 import Navbar from './components/Navbar';
 import TimelineIndicator from './components/TimelineIndicator';
 import AtmosphereDirector from './components/AtmosphereDirector';
@@ -21,6 +21,17 @@ import { VNR_MILESTONES_DATA } from './data/vnrMilestonesData';
 
 function AppContent() {
   const location = useLocation();
+  const { atmosphereMode, setAtmosphereMode } = useExperience();
+
+  useEffect(() => {
+    const trigger = ScrollTrigger.create({
+      trigger: '#khong-gian-khao-cuu',
+      start: 'top 70%',
+      onEnter: () => setAtmosphereMode('none'),
+      onLeaveBack: () => setAtmosphereMode('paperDust'),
+    });
+    return () => trigger.kill();
+  }, [setAtmosphereMode]);
 
   useEffect(() => {
     if (!location.hash) return undefined;
@@ -42,11 +53,11 @@ function AppContent() {
     }
 
     const lenis = new Lenis({
-      duration: 1.3,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 0.95,
-      touchMultiplier: 1.4,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
     });
     window.__lenis = lenis;
 
@@ -100,7 +111,11 @@ function AppContent() {
     <div className="relative min-h-screen bg-vn-black text-vn-ivory selection:bg-vn-red selection:text-vn-gold">
       
       {/* Cinematic Overlays: Film Grain, Vignette & Dynamic Atmosphere Director */}
-      <div className="film-grain" />
+      <div 
+        className={`film-grain transition-opacity duration-700 ${
+          atmosphereMode === 'clean' || atmosphereMode === 'none' ? 'opacity-0' : 'opacity-[0.025]'
+        }`} 
+      />
       <div className="film-vignette" />
       <AtmosphereDirector />
 

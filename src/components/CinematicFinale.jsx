@@ -14,7 +14,7 @@ import { useExperience } from '../context/ExperienceContext';
  */
 export default function CinematicFinale() {
   const root = useRef(null);
-  const { prefersReducedMotion } = useExperience();
+  const { prefersReducedMotion, setAtmosphereMode } = useExperience();
 
   useGSAP(
     () => {
@@ -40,7 +40,9 @@ export default function CinematicFinale() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.85,
+          scrub: 0.5,
+          onEnter: () => setAtmosphereMode('paperDust'),
+          onEnterBack: () => setAtmosphereMode('paperDust'),
         },
       });
 

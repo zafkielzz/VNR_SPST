@@ -45,7 +45,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             trigger: root.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.85,
+            scrub: 0.5,
           },
         });
 
@@ -82,7 +82,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             trigger: root.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 1,
+            scrub: 0.5,
           },
         });
 
@@ -110,7 +110,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             trigger: root.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.85,
+            scrub: 0.45,
           },
         });
 
@@ -148,7 +148,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
               trigger: root.current,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 1,
+              scrub: 0.5,
             },
           }
         );
@@ -180,8 +180,8 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/45 to-black/90 pointer-events-none" />
           </div>
 
-          {/* Golden Star Radiance from Center */}
-          <div className="absolute w-[600px] sm:w-[900px] h-[600px] sm:h-[900px] rounded-full bg-radial-gradient from-vn-gold/25 via-vn-red/15 to-transparent blur-3xl pointer-events-none" />
+          {/* Golden Star Radiance from Center (Pre-feathered gradient without GPU blur-3xl) */}
+          <div className="absolute w-[600px] sm:w-[900px] h-[600px] sm:h-[900px] rounded-full bg-[radial-gradient(circle,rgba(255,205,0,0.18)_0%,rgba(218,37,29,0.08)_40%,transparent_70%)] pointer-events-none" />
 
           {/* Pure Cinematic Typography Layer */}
           <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 max-w-5xl space-y-6">
@@ -226,20 +226,20 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
           
-          {/* Continuous Red Ink Line Running Horizontally Across Entire 280vw */}
-          <svg viewBox="0 0 2800 60" className="absolute top-1/2 -translate-y-1/2 left-0 w-[280vw] h-12 pointer-events-none z-10 overflow-visible">
-            <path
-              d="M 50,30 L 2750,30"
-              fill="none"
-              stroke="#DA251D"
-              strokeWidth="4"
-              strokeLinecap="round"
-              className="triumph-horizontal-line drop-shadow-[0_0_15px_#DA251D]"
-            />
-          </svg>
-
           {/* The Multi-Plane Track (280vw) */}
           <div className="triumph-track-280vw will-transform relative flex items-center w-[280vw] h-full px-12 sm:px-24">
+            
+            {/* Continuous Red Ink Line Running Horizontally Across Entire 280vw (Translates synchronously with archival planes) */}
+            <svg viewBox="0 0 2800 60" className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-12 pointer-events-none z-10 overflow-visible">
+              <path
+                d="M 50,30 L 2750,30"
+                fill="none"
+                stroke="#DA251D"
+                strokeWidth="4"
+                strokeLinecap="round"
+                className="triumph-horizontal-line drop-shadow-[0_0_15px_#DA251D]"
+              />
+            </svg>
             
             {/* Plane 1 (0 -> 70vw): Cung đường Trường Sơn & Lời hiệu triệu 1975 */}
             <div className="w-[70vw] shrink-0 flex flex-col items-start justify-center pr-12 space-y-4">
@@ -393,7 +393,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             {/* The 3 Core Pillars of Đổi Mới in Modern Architectural Blocks */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl pt-2">
               
-              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/40 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 backdrop-blur-md text-left relative">
+              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/75 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 text-left relative shadow-lg">
                 <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
                   NGUYÊN TẮC 01
                 </span>
@@ -403,7 +403,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 </p>
               </div>
 
-              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/40 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 backdrop-blur-md text-left relative">
+              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/75 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 text-left relative shadow-lg">
                 <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
                   NGUYÊN TẮC 02
                 </span>
@@ -413,7 +413,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 </p>
               </div>
 
-              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/40 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 backdrop-blur-md text-left relative">
+              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/75 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 text-left relative shadow-lg">
                 <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
                   NGUYÊN TẮC 03
                 </span>
@@ -477,7 +477,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
                 {m.keyText}
               </p>
 
-              <div className="mt-5 p-5 rounded-2xl bg-emerald-950/30 border border-emerald-700/30 backdrop-blur-md">
+              <div className="mt-5 p-5 rounded-2xl bg-emerald-950/75 border border-emerald-700/30 shadow-lg">
                 <p className="font-sans text-sm sm:text-base italic leading-relaxed text-emerald-100/90 font-light">
                   "{m.caption}"
                 </p>

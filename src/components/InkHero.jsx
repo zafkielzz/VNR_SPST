@@ -38,7 +38,7 @@ export default function InkHero() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.9,
+          scrub: 0.5,
           onUpdate: (self) => {
             if (self.progress > 0.6) {
               setAtmosphereMode('dust');

@@ -38,7 +38,7 @@ export default function DocumentDesk1930() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.9,
+          scrub: 0.5,
           onUpdate: (self) => {
             if (self.progress > 0.52 && self.progress < 0.60 && !self._stampPlayed) {
               soundSynth.playStampThud();
@@ -108,7 +108,7 @@ export default function DocumentDesk1930() {
 
         {/* Ambient Dossier Header Badge */}
         <div className="absolute top-5 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1b140f]/90 border border-amber-800/40 text-amber-200 text-xs font-mono uppercase tracking-widest shadow-2xl backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1b140f]/95 border border-amber-800/40 text-amber-200 text-xs font-mono uppercase tracking-widest shadow-2xl">
             <FileText className="w-3.5 h-3.5 text-vn-gold" />
             <span>Hồ Sơ Mật Số 01 · Bàn Làm Việc Bí Mật Cửu Long (03/02/1930)</span>
           </div>
@@ -215,7 +215,7 @@ export default function DocumentDesk1930() {
               PROP 5: PHYSICAL RED WAX STAMP (IMPACTS DOWN ON SCROLL)
              ========================================================================= */}
           <div className="desk-stamp will-transform absolute bottom-12 sm:bottom-14 right-10 sm:right-28 pointer-events-none z-30">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-dashed border-[#DA251D] bg-[#750e0a]/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-2 shadow-[0_0_50px_rgba(218,37,29,0.85)] text-vn-red">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-dashed border-[#DA251D] bg-[#750e0a] flex flex-col items-center justify-center text-center p-2 shadow-[0_0_50px_rgba(218,37,29,0.85)] text-vn-red">
               <Stamp className="w-6 h-6 mb-1 text-vn-gold" />
               <span className="text-[10px] font-black uppercase font-mono tracking-widest text-white leading-tight">
                 ĐẢNG CỘNG SẢN<br />VIỆT NAM

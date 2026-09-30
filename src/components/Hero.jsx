@@ -12,7 +12,7 @@ export default function Hero() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 1, // Smooth scrub matching reference repo
+          scrub: 0.5,
         },
       });
 
