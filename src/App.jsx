@@ -230,20 +230,38 @@ export default function App() {
         {/* 12. Mốc 6: 1954 - Toàn thắng 07/05/1954 trên nóc hầm De Castries */}
         {m1954ThangLoi && <MilestoneChapter milestone={m1954ThangLoi} reverse={true} />}
 
-        {/* 13. RẠP CHIẾU PHIM TƯ LIỆU 35MM: Video clip tư liệu lịch sử có âm thanh */}
-        <HistoricalCinemaSection />
-
-        {/* 14. Mốc 7: 1975 - Tuyến lửa Trường Sơn & Đại thắng Mùa Xuân 1975 */}
+        {/* 13. Mốc 7: 1975 - Tuyến lửa Trường Sơn & Đại thắng Mùa Xuân 1975 */}
         {m1975 && <MilestoneChapter milestone={m1975} reverse={false} />}
 
-        {/* 15. Mốc 8: 1986 - Đại hội VI: Đổi mới tư duy, kiến tạo kỷ nguyên phát triển */}
+        {/* 14. Mốc 8: 1986 - Đại hội VI: Đổi mới tư duy, kiến tạo kỷ nguyên phát triển */}
         {m1986 && <MilestoneChapter milestone={m1986} reverse={true} />}
 
-        {/* 16. PHÒNG GIÁM ĐỊNH HIỆN VẬT & BẢO VẬT KHÁNG CHIẾN (Interactive Artifacts) */}
-        <ArtifactGallerySection />
+        {/* ================================================================
+            KHÔNG GIAN KHẢO CỨU & TRẢI NGHIỆM MỞ RỘNG (EXPLORATION & ARCHIVE HUB)
+            Tách biệt khỏi mạch kể chính để giữ trọn vẹn cảm xúc điện ảnh
+           ================================================================ */}
+        <section id="khong-gian-khao-cuu" className="relative pt-20 border-t border-vn-gold/20 bg-gradient-to-b from-vn-black via-[#0d0f14] to-vn-black">
+          <div className="max-w-4xl mx-auto text-center px-4 mb-8">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-vn-charcoal border border-vn-gold/40 text-vn-gold text-xs font-mono font-bold uppercase tracking-widest mb-3">
+              KHÔNG GIAN BẢO TÀNG SỐ & KHẢO THÍ HỌC LIỆU
+            </span>
+            <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight">
+              Khám Phá Chuyên Sâu Tư Liệu & Hiện Vật
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-vn-ivory/70 max-w-2xl mx-auto font-light">
+              Nơi lưu trữ các thước phim 35mm quý hiếm, giám định hiện vật lịch sử và khảo sát kiến thức môn học Lịch sử Đảng Cộng sản Việt Nam.
+            </p>
+          </div>
 
-        {/* 17. PHÒNG KHẢO THÍ TRẮC NGHIỆM VNR & CẤP GIẤY CHỨNG NHẬN CANVAS */}
-        <KnowledgeQuiz />
+          {/* 15. RẠP CHIẾU PHIM TƯ LIỆU 35MM: Video clip tư liệu lịch sử có âm thanh */}
+          <HistoricalCinemaSection />
+
+          {/* 16. PHÒNG GIÁM ĐỊNH HIỆN VẬT & BẢO VẬT KHÁNG CHIẾN (Interactive Artifacts) */}
+          <ArtifactGallerySection />
+
+          {/* 17. PHÒNG KHẢO THÍ TRẮC NGHIỆM VNR & CẤP GIẤY CHỨNG NHẬN CANVAS */}
+          <KnowledgeQuiz />
+        </section>
       </main>
 
       {/* Footer */}

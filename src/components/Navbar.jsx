@@ -42,10 +42,9 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
   };
 
   const navItems = [
-    { label: "Mốc Son Sử Đảng", href: "#m-1930" },
-    { label: "Quyết Định 1954", href: "#decision-tree" },
-    { label: "Sa Bàn Chiến Dịch", href: "#sa-ban-chien-dich" },
-    { label: "Kính Tiềm Vọng", href: "#kinh-tiem-vong-chien-hao" },
+    { label: "1930 — 1946", href: "#m-1930" },
+    { label: "Điện Biên Phủ 1954", href: "#cascade-dien-bien" },
+    { label: "1975 — 1986", href: "#m-1975" },
     { label: "Phim Tư Liệu 35mm", href: "#rap-chieu-phim-tu-lieu" },
     { label: "Bảo Vật", href: "#bao-vat-khang-chien" },
     { label: "Khảo Thí VNR", href: "#trac-nghiem-on-tap" },

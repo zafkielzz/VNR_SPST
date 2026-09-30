@@ -126,7 +126,7 @@ export default function WordCascade({
       id={id}
       ref={root}
       className={`relative ${className}`}
-      style={{ height: `${total * 110 + 40}vh`, background }}
+      style={{ height: `${total * 65 + 35}vh`, background }}
     >
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-between overflow-hidden px-6 py-12 sm:py-16">
         

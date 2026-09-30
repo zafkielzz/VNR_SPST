@@ -108,6 +108,28 @@ export default function CampaignMapSection() {
                   <feGaussianBlur stdDeviation="1.5" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
+                <marker
+                  id="arrow"
+                  viewBox="0 0 10 10"
+                  refX="6"
+                  refY="5"
+                  markerWidth="4"
+                  markerHeight="4"
+                  orient="auto-start-reverse"
+                >
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#DA251D" />
+                </marker>
+                <marker
+                  id="arrow-gold"
+                  viewBox="0 0 10 10"
+                  refX="6"
+                  refY="5"
+                  markerWidth="4"
+                  markerHeight="4"
+                  orient="auto-start-reverse"
+                >
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#FFCD00" />
+                </marker>
               </defs>
 
               {/* Valley floor */}
@@ -137,17 +159,17 @@ export default function CampaignMapSection() {
                   {/* Arrow toward Him Lam */}
                   <path d="M 85,15 Q 78,20 72,24" markerEnd="url(#arrow)" />
                   {/* Arrow toward Doc Lap */}
-                  <path d="M 20,8 Q 30,12 36,17" />
+                  <path d="M 20,8 Q 30,12 36,17" markerEnd="url(#arrow)" />
                   {/* Arrow toward Ban Keo */}
-                  <path d="M 15,35 Q 22,34 26,33" />
+                  <path d="M 15,35 Q 22,34 26,33" markerEnd="url(#arrow)" />
                 </g>
               )}
 
               {activePhaseIndex === 1 && (
                 <g stroke="#DA251D" strokeWidth="1.2" fill="none" opacity="0.85">
                   {/* Pincer movements around central hills */}
-                  <path d="M 85,45 Q 75,48 67,49" />
-                  <path d="M 85,60 Q 73,58 64,56" />
+                  <path d="M 85,45 Q 75,48 67,49" markerEnd="url(#arrow)" />
+                  <path d="M 85,60 Q 73,58 64,56" markerEnd="url(#arrow)" />
                   {/* Trench system constriction */}
                   <circle cx="50" cy="54" r="18" stroke="#f6ad55" strokeWidth="0.8" strokeDasharray="2 2" fill="none" opacity="0.6" />
                 </g>
@@ -156,10 +178,10 @@ export default function CampaignMapSection() {
               {activePhaseIndex === 2 && (
                 <g stroke="#FFCD00" strokeWidth="1.5" fill="none" opacity="0.9">
                   {/* Total concentric assault towards HQ */}
-                  <path d="M 30,55 L 46,57" />
-                  <path d="M 70,55 L 54,57" />
-                  <path d="M 50,42 L 50,54" />
-                  <path d="M 50,75 L 50,62" />
+                  <path d="M 30,55 L 46,57" markerEnd="url(#arrow-gold)" />
+                  <path d="M 70,55 L 54,57" markerEnd="url(#arrow-gold)" />
+                  <path d="M 50,42 L 50,54" markerEnd="url(#arrow-gold)" />
+                  <path d="M 50,75 L 50,62" markerEnd="url(#arrow-gold)" />
                   <circle cx="50" cy="58" r="8" stroke="#DA251D" strokeWidth="1" fill="#DA251D" fillOpacity="0.2" />
                 </g>
               )}

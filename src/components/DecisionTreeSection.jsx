@@ -136,7 +136,7 @@ export default function DecisionTreeSection() {
         </h3>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {DECISION_TREE_DATA.options.map((opt) => {
+          {DECISION_TREE_DATA.options.map((opt, idx) => {
             const isSelected = selectedOptionId === opt.id;
             return (
               <div
@@ -144,38 +144,22 @@ export default function DecisionTreeSection() {
                 onClick={() => setSelectedOptionId(opt.id)}
                 className={`relative p-6 sm:p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                   isSelected
-                    ? opt.isHistoricalCorrect
-                      ? 'bg-emerald-950/40 border-emerald-500 shadow-[0_0_40px_rgba(16,185,129,0.3)]'
-                      : 'bg-red-950/40 border-red-500 shadow-[0_0_40px_rgba(239,68,68,0.3)]'
-                    : 'bg-vn-charcoal/70 border-vn-gold/25 hover:border-vn-gold hover:bg-vn-charcoal/90'
+                    ? 'bg-vn-charcoal border-vn-gold shadow-[0_0_35px_rgba(255,205,0,0.25)] ring-1 ring-vn-gold/50'
+                    : 'bg-vn-charcoal/70 border-vn-gold/25 hover:border-vn-gold/70 hover:bg-vn-charcoal/90'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                      opt.isHistoricalCorrect 
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' 
-                        : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                    }`}>
-                      {opt.id === 'opt-fast' ? 'Kế hoạch cũ (25/01)' : 'Phương án mới (26/01)'}
+                    <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-vn-black/60 border border-vn-gold/40 text-vn-gold">
+                      {idx === 0 ? 'DỰ THẢO CHIẾN ĐẤU A' : 'DỰ THẢO CHIẾN ĐẤU B'}
                     </span>
                     {isSelected && (
-                      <span className="text-xs font-mono font-bold text-vn-gold">
-                        ✓ ĐÃ CHỌN
+                      <span className="text-xs font-mono font-bold text-vn-gold flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-vn-gold animate-ping" />
+                        ĐÃ RA MỆNH LỆNH
                       </span>
                     )}
                   </div>
-
-                  {/* Red Ink Military Stamp */}
-                  {isSelected && (
-                    <div className={`absolute top-10 right-6 -rotate-12 pointer-events-none border-4 px-3.5 py-1.5 rounded-xl font-display font-black text-sm sm:text-base uppercase tracking-widest shadow-2xl animate-in zoom-in-75 duration-300 ${
-                      opt.isHistoricalCorrect
-                        ? 'border-emerald-500 text-emerald-400 bg-emerald-950/80 shadow-emerald-500/30'
-                        : 'border-red-500 text-red-400 bg-red-950/80 shadow-red-500/30'
-                    }`}>
-                      {opt.isHistoricalCorrect ? '★ CHUẨN Y CHIẾN LƯỢC' : '⚠ MẠO HIỂM NGUY HIỂM'}
-                    </div>
-                  )}
 
                   <h4 className="font-display font-bold text-xl sm:text-2xl text-white mb-3">
                     {opt.title}
@@ -186,20 +170,20 @@ export default function DecisionTreeSection() {
                   </p>
 
                   <div className="space-y-2.5 text-xs">
-                    <div className="p-3 rounded-xl bg-vn-black/40 border border-emerald-500/20">
-                      <strong className="text-emerald-400 block mb-1">Mặt thuận lợi:</strong>
+                    <div className="p-3 rounded-xl bg-vn-black/50 border border-vn-gold/15">
+                      <strong className="text-vn-gold block mb-1">Mặt thuận lợi dự kiến:</strong>
                       <span className="text-vn-ivory/80">{opt.pros}</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-vn-black/40 border border-red-500/20">
-                      <strong className="text-red-400 block mb-1">Mặt nguy cơ:</strong>
-                      <span className="text-vn-ivory/80">{opt.cons}</span>
+                    <div className="p-3 rounded-xl bg-vn-black/50 border border-white/10">
+                      <strong className="text-vn-ivory/90 block mb-1">Mặt nguy cơ cân nhắc:</strong>
+                      <span className="text-vn-ivory/70">{opt.cons}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-vn-ivory/10 flex items-center justify-between text-xs font-semibold">
-                  <span className={isSelected ? 'text-white' : 'text-vn-gold'}>
-                    {isSelected ? 'Bấm để xem phân tích bên dưới' : 'Bấm để chọn phương án này →'}
+                  <span className={isSelected ? 'text-vn-gold font-bold' : 'text-vn-ivory/60 hover:text-white'}>
+                    {isSelected ? '✓ Mệnh lệnh đã chọn — Xem đối chiếu lịch sử bên dưới ↓' : 'Bấm để lựa chọn phương án này →'}
                   </span>
                 </div>
               </div>

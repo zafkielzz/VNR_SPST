@@ -18,7 +18,7 @@ export default function ArtifactGallerySection() {
   const [selectedArtifact, setSelectedArtifact] = useState(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const categories = ["Tất cả", "Hậu Cần Toàn Dân", "Vũ Khí & Chiến Đấu", "Văn Kiện & Chỉ Đạo", "Âm Vang Lịch Sử"];
+  const categories = ["Tất cả", ...Array.from(new Set(ARTIFACTS_DATA.map(item => item.category)))];
 
   const filteredArtifacts = activeCategory === "Tất cả"
     ? ARTIFACTS_DATA

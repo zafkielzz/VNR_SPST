@@ -44,7 +44,7 @@ export default function Hero() {
   );
 
   return (
-    <section id="hero" ref={root} className="relative h-[320vh]">
+    <section id="hero" ref={root} className="relative h-[200vh]">
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         
         {/* Dynamic Background */}

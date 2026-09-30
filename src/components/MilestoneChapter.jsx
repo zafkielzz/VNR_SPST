@@ -52,7 +52,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
     <section 
       id={m.id} 
       ref={root} 
-      className="relative h-[180vh]" 
+      className="relative h-[140vh]" 
       style={{ background: m.background || '#090A0C' }}
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
