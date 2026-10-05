@@ -143,22 +143,19 @@ function AppContent() {
         {/* 05. Mốc 1946: Lời kêu gọi Toàn quốc Kháng chiến (Chiến khu Việt Bắc) */}
         {m1946 && <MilestoneChapter milestone={m1946} reverse={true} />}
 
-        {/* 06. Trích dẫn kinh điển: Lời hiệu triệu của Chủ tịch Hồ Chí Minh & Đại tướng */}
-        <QuoteSection />
-
-        {/* 07. Kinetic Manifesto 2: Khúc tráng ca Điện Biên (Khoét Núi - Ngủ Hầm - Mưa Dầm - Lừng Lẫy) */}
+        {/* 06. Kinetic Manifesto 2: Khúc tráng ca Điện Biên (Khoét Núi - Ngủ Hầm - Mưa Dầm - Lừng Lẫy) */}
         <KineticManifesto id="cascade-dien-bien" mode="dien-bien" />
 
-        {/* 08. ĐẠI CẢNH LIÊN HOÀN ĐIỆN BIÊN PHỦ 1954 (Pinned Master Stage 5 Phases) */}
+        {/* 07. ĐẠI CẢNH LIÊN HOÀN ĐIỆN BIÊN PHỦ 1954 (Pinned Master Stage 5 Phases) */}
         <DienBienExperience />
 
-        {/* 09. Mốc 1975: Đại thắng Mùa Xuân 1975 (Bespoke Horizontal Travel Triumph) */}
+        {/* 08. Mốc 1975: Đại thắng Mùa Xuân 1975 (Bespoke Horizontal Travel Triumph) */}
         {m1975 && <MilestoneChapter milestone={m1975} reverse={false} />}
 
-        {/* 10. Mốc 1986: Khởi xướng Đổi mới (Bespoke Modern Sapphire Transition) */}
+        {/* 09. Mốc 1986: Khởi xướng Đổi mới (Bespoke Modern Sapphire Transition) */}
         {m1986 && <MilestoneChapter milestone={m1986} reverse={true} />}
 
-        {/* 11. Hồi Kết Điện Ảnh: Animated Timeline Callback (Một Nét Mực Xuyên Suốt Lịch Sử) */}
+        {/* 10. Hồi Kết Điện Ảnh: Animated Timeline Callback (Một Nét Mực Xuyên Suốt Lịch Sử) */}
         <CinematicFinale />
 
         {/* ================================================================
@@ -183,6 +180,9 @@ function AppContent() {
 
           {/* PHÒNG GIÁM ĐỊNH HIỆN VẬT & BẢO VẬT KHÁNG CHIẾN (Interactive Artifacts) */}
           <ArtifactGallerySection />
+
+          {/* PHÒNG TRÍCH DẪN VĂN KIỆN LỊCH SỬ & LỜI HIỆU TRIỆU KINH ĐIỂN */}
+          <QuoteSection />
 
           {/* PHÒNG KHẢO THÍ TRẮC NGHIỆM VNR & CẤP GIẤY CHỨNG NHẬN CANVAS */}
           <KnowledgeQuiz />

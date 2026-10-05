@@ -934,55 +934,50 @@ export default function DienBienExperience() {
 
           </div>
 
-          {/* Tactical Outpost Quick Snap Selector Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-3 z-40 max-w-xl px-2">
-            {PERISCOPE_TARGETS.map((t) => {
-              const isTargetActive = lockedTarget?.id === t.id;
-              return (
-                <button
-                  key={t.id}
-                  onClick={() => snapToTarget(t.angle)}
-                  className={`px-3 py-1.5 rounded-full text-[11px] font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-                    isTargetActive
-                      ? 'bg-vn-red text-white border border-red-400 shadow-[0_0_15px_rgba(218,37,29,0.7)] scale-105'
-                      : 'bg-[#161a22] text-vn-ivory/70 border border-white/15 hover:border-vn-gold/60 hover:text-vn-gold'
-                  }`}
-                  title={`Xoay kính ngắm tới ${t.name}`}
-                >
-                  <Target className="w-3 h-3 text-vn-gold" />
-                  <span>{t.azimuth.split(' ')[0]} {t.name.split(' (')[0]}</span>
-                </button>
-              );
-            })}
+          {/* Tactical Reconnaissance Status & Outpost Quick Selector */}
+          <div className="flex flex-col items-center gap-2 mt-3 z-40 max-w-xl px-2 text-center">
+            <span className="text-[11px] font-mono text-vn-gold/80 flex items-center gap-1.5">
+              <Compass className="w-3.5 h-3.5 text-vn-gold" />
+              <span>TRINH SÁT TÁC CHIẾN · KÉO HOẶC CHỌN TỌA ĐỘ ĐỂ KHÓA MỤC TIÊU</span>
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {PERISCOPE_TARGETS.map((t) => {
+                const isTargetActive = lockedTarget?.id === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => snapToTarget(t.angle)}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                      isTargetActive
+                        ? 'bg-vn-red text-white border border-red-400 shadow-[0_0_15px_rgba(218,37,29,0.7)] scale-105'
+                        : 'bg-[#161a22] text-vn-ivory/70 border border-white/15 hover:border-vn-gold/60 hover:text-vn-gold'
+                    }`}
+                    title={`Xoay kính ngắm tới ${t.name}`}
+                  >
+                    <Target className="w-3 h-3 text-vn-gold" />
+                    <span>{t.azimuth.split(' ')[0]} {t.name.split(' (')[0]}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Interaction Plateau Controls: Reward user for interacting */}
-          {hasInteractedPeriscope ? (
-            <div className="mt-4 flex flex-col sm:flex-row items-center gap-3 z-40 animate-in fade-in zoom-in-95 duration-300">
-              <button 
-                onClick={scrollToVictory}
-                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-vn-gold to-amber-500 text-vn-black font-display font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(255,205,0,0.4)] hover:scale-105 transition-transform flex items-center gap-2"
-              >
-                <span>Tiếp Tục Hành Trình Tới Chiến Thắng ↓</span>
-                <ArrowDown className="w-3.5 h-3.5" />
-              </button>
-              <button
-                onClick={scrollToVictory}
-                className="text-[11px] font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
-              >
-                Bỏ qua trinh sát →
-              </button>
-            </div>
-          ) : (
-            <div className="mt-4 flex items-center justify-center z-40">
-              <button
-                onClick={scrollToVictory}
-                className="text-xs font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
-              >
-                Bỏ qua trinh sát →
-              </button>
-            </div>
-          )}
+          {/* Interaction Plateau Controls: Guided transition straight into Climax */}
+          <div className="mt-3 flex flex-col sm:flex-row items-center gap-3 z-40 animate-in fade-in zoom-in-95 duration-300">
+            <button 
+              onClick={scrollToVictory}
+              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-vn-gold via-amber-400 to-amber-500 text-vn-black font-display font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(255,205,0,0.45)] hover:scale-105 transition-transform flex items-center gap-2 cursor-pointer"
+            >
+              <span>Phát Lệnh Tổng Công Kích (17:30 · 07/05/1954) ↓</span>
+              <ArrowDown className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={scrollToVictory}
+              className="text-[11px] font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors cursor-pointer"
+            >
+              Bỏ qua trinh sát →
+            </button>
+          </div>
 
           {/* Tactical Intel Modal Drawer inside Periscope */}
           {activeIntelTarget && (
