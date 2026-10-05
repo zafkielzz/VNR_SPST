@@ -41,10 +41,10 @@ export default function KineticManifesto({
         }
 
         // Initial setup
-        gsap.set(wordDocLap, { scale: 1, opacity: 1, transformOrigin: '50% 50%' });
-        gsap.set(wordTu, { x: '-100vw', opacity: 0 });
-        gsap.set(wordDo, { x: '100vw', opacity: 0 });
-        gsap.set(wordHanhPhuc, { opacity: 0, scale: 0.8, filter: 'blur(25px)' });
+        gsap.set(wordDocLap, { opacity: 0, y: -20, scale: 0.95 });
+        gsap.set(wordTu, { x: '-60vw', opacity: 0 });
+        gsap.set(wordDo, { x: '60vw', opacity: 0 });
+        gsap.set(wordHanhPhuc, { opacity: 0, scale: 0.8, filter: 'blur(15px)' });
         gsap.set(unifiedLine, { opacity: 0, y: 30 });
 
         const tl = gsap.timeline({
@@ -52,29 +52,30 @@ export default function KineticManifesto({
             trigger: root.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.45,
+            scrub: 0.35,
           },
         });
 
-        // 0.0 -> 0.30: ĐỘC LẬP scales massively to 8.0, camera zooms through the negative space
+        // 0.0 -> 0.25: ĐỘC LẬP is imprinted clearly from the 1930 thesis
         tl.to(
           wordDocLap,
           {
-            scale: 8.5,
-            opacity: 0,
-            ease: 'power2.in',
-            duration: 0.32,
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            ease: 'power2.out',
+            duration: 0.22,
           },
           0
         )
 
-        // 0.28 -> 0.50: TỰ and DO slam in from screen edges
-        .to(wordTu, { x: '-16vw', opacity: 1, ease: 'power3.out', duration: 0.2 }, 0.28)
-        .to(wordDo, { x: '16vw', opacity: 1, ease: 'power3.out', duration: 0.2 }, 0.28)
+        // 0.20 -> 0.45: TỰ and DO glide in smoothly
+        .to(wordTu, { x: '-18vw', opacity: 1, ease: 'power2.out', duration: 0.2 }, 0.20)
+        .to(wordDo, { x: '18vw', opacity: 1, ease: 'power2.out', duration: 0.2 }, 0.20)
 
-        // 0.48 -> 0.68: They separate, and HẠNH PHÚC de-blurs in the middle
-        .to(wordTu, { x: '-28vw', ease: 'power2.inOut', duration: 0.2 }, 0.48)
-        .to(wordDo, { x: '28vw', ease: 'power2.inOut', duration: 0.2 }, 0.48)
+        // 0.35 -> 0.55: HẠNH PHÚC de-blurs in center
+        .to(wordTu, { x: '-26vw', ease: 'power2.inOut', duration: 0.18 }, 0.35)
+        .to(wordDo, { x: '26vw', ease: 'power2.inOut', duration: 0.18 }, 0.35)
         .to(
           wordHanhPhuc,
           {
@@ -82,18 +83,18 @@ export default function KineticManifesto({
             scale: 1,
             filter: 'blur(0px)',
             ease: 'power2.out',
-            duration: 0.22,
+            duration: 0.2,
           },
-          0.50
+          0.38
         )
 
-        // 0.70 -> 0.85: Separate words dissolve as the unified manifesto line materializes
-        .to([wordTu, wordDo, wordHanhPhuc], { opacity: 0, scale: 0.9, duration: 0.12 }, 0.70)
-        .to(unifiedLine, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.16 }, 0.72)
+        // 0.55 -> 0.75: Words converge seamlessly into the monumental unified motto
+        .to([wordDocLap, wordTu, wordDo, wordHanhPhuc], { opacity: 0, scale: 0.95, duration: 0.15 }, 0.55)
+        .to(unifiedLine, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.18 }, 0.60)
 
-        // 0.82 -> 1.0: Red underline sweeps across underneath
-        .to(underline, { strokeDashoffset: 0, ease: 'none', duration: 0.22 }, 0.78)
-        .fromTo(q('.km-footnote'), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.15 }, 0.85);
+        // 0.70 -> 1.0: Living red calligraphic line sweeps across underneath into 1941
+        .to(underline, { strokeDashoffset: 0, ease: 'none', duration: 0.25 }, 0.68)
+        .fromTo(q('.km-footnote'), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.15 }, 0.75);
 
         tl.to({}, { duration: 1.0 }, 0);
       } else {
@@ -154,7 +155,7 @@ export default function KineticManifesto({
 
   if (mode === 'cuong-linh') {
     return (
-      <section id={id} ref={root} className="relative h-[220vh] bg-[#090706] text-white">
+      <section id={id} ref={root} className="relative h-[140vh] bg-[#090706] text-white">
         <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden px-4">
           
           {/* Subtle Radial Glow */}

@@ -54,6 +54,7 @@ export default function WarAtmosphereCanvas() {
     let targetGlobalAlpha = 0;
 
     const warSectionIds = [
+      'dien-bien-1954',
       'cascade-dien-bien',
       'm-1954-quyet-dinh',
       'decision-tree',

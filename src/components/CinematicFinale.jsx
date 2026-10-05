@@ -76,7 +76,7 @@ export default function CinematicFinale() {
   );
 
   return (
-    <section ref={root} className="relative h-[220vh] bg-gradient-to-b from-[#0a0d12] via-[#0f1724] to-vn-black overflow-hidden border-t border-vn-gold/20">
+    <section ref={root} className="relative h-[160vh] bg-gradient-to-b from-[#0a0d12] via-[#0f1724] to-vn-black overflow-hidden border-t border-vn-gold/20">
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-4 text-center">
         
         {/* Golden Radial Glow */}
@@ -145,7 +145,7 @@ export default function CinematicFinale() {
 
               {/* Present / Future Node ● */}
               <div className="flex flex-col items-center">
-                <span className="w-4 h-4 rounded-full bg-vn-red shadow-[0_0_20px_#DA251D] animate-ping" />
+                <span className="w-3.5 h-3.5 rounded-full bg-vn-red border-2 border-vn-gold shadow-[0_0_12px_#DA251D]" />
                 <span className="mt-2 text-vn-gold font-black">NAY</span>
               </div>
 

@@ -135,7 +135,7 @@ export default function InkHero() {
   );
 
   return (
-    <section id="hero" ref={root} className="relative h-[230vh]">
+    <section id="hero" ref={root} className="relative h-[170vh]">
       <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-[#EFE8DC]">
         
         {/* Authentic Antique Parchment Paper Texture Backdrop */}
@@ -202,8 +202,8 @@ export default function InkHero() {
 
           {/* Eyebrow Label: Act I Marker */}
           <div className="hero-meta relative z-20 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#241711] text-amber-100 text-xs font-mono font-bold uppercase tracking-[0.3em] mb-4 shadow-lg">
-            <span className="w-2 h-2 rounded-full bg-[#DA251D] animate-ping" />
-            <span>HỒI I · KHỞI NGUYÊN NÉT MỰC ĐỘC LẬP</span>
+            <span className="w-2 h-2 rounded-full bg-[#DA251D]" />
+            <span>KHỞI NGUYÊN NÉT MỰC ĐỘC LẬP</span>
           </div>
 
           {/* Title Line 1: KÝ HỌA (Archival Sumi Black Ink) */}

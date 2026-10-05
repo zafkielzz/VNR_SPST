@@ -117,45 +117,45 @@ export default function DocumentDesk1930() {
   );
 
   return (
-    <section id="m-1930" ref={root} className="relative h-[200vh] bg-[#090706]">
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden px-4">
+    <section id="m-1930" ref={root} className="relative h-[160vh] bg-[#090706]">
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
         
         {/* Top-down kerosene spotlight warm glow */}
         <div 
-          className="absolute inset-0 pointer-events-none opacity-70"
+          className="absolute inset-0 pointer-events-none opacity-80"
           style={{
-            background: 'radial-gradient(ellipse at 50% 45%, #241912 0%, #0c0907 60%, #040303 100%)'
+            background: 'radial-gradient(ellipse at 50% 45%, #2a1c13 0%, #0d0907 65%, #030202 100%)'
           }}
         />
 
         {/* Ambient Dossier Header Badge */}
         <div className="absolute top-5 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1b140f]/95 border border-amber-800/40 text-amber-200 text-xs font-mono uppercase tracking-widest shadow-2xl">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1b140f]/95 border border-amber-800/40 text-amber-200 text-xs font-mono uppercase tracking-[0.25em] shadow-2xl">
             <FileText className="w-3.5 h-3.5 text-vn-gold" />
-            <span>Hồ Sơ Mật Số 01 · Bàn Làm Việc Bí Mật Cửu Long (03/02/1930)</span>
+            <span>HỒ SƠ MẬT SỐ 01 · BÀN HỘI NGHỊ CỬU LONG (03/02/1930)</span>
           </div>
         </div>
 
-        {/* The Desk Camera Stage (Scales and pans dynamically) */}
-        <div className="desk-camera will-transform relative z-10 w-full max-w-5xl h-[80vh] sm:h-[84vh] rounded-3xl bg-[#140e0a] border-2 border-amber-950/70 shadow-[0_35px_100px_rgba(0,0,0,0.95)] overflow-hidden">
+        {/* The Desk Camera Stage — FULL BLEED WORLD SPACE (No rounded card, no border) */}
+        <div className="desk-camera will-transform relative z-10 w-full h-full bg-[#140e0a] overflow-hidden">
           
           {/* Desk Wood Texture & Vignette */}
           <div 
-            className="absolute inset-0 pointer-events-none opacity-40 mix-blend-overlay"
+            className="absolute inset-0 pointer-events-none opacity-50 mix-blend-overlay"
             style={{
-              backgroundImage: `repeating-linear-gradient(90deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 2px, transparent 2px, transparent 12px),
-                                radial-gradient(circle at 50% 50%, rgba(255, 205, 0, 0.1) 0%, transparent 65%)`
+              backgroundImage: `repeating-linear-gradient(90deg, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 2px, transparent 2px, transparent 14px),
+                                radial-gradient(circle at 50% 50%, rgba(255, 205, 0, 0.12) 0%, transparent 68%)`
             }}
           />
 
           {/* =========================================================================
               PROP 1: TOP-LEFT DOSSIER LABEL & YEAR HEADING (SPATIAL POSITION)
              ========================================================================= */}
-          <div className="absolute top-6 left-6 sm:top-10 sm:left-10 z-20 pointer-events-none">
+          <div className="absolute top-8 left-8 sm:top-14 sm:left-14 z-20 pointer-events-none">
             <span className="text-xs font-mono uppercase tracking-[0.4em] text-vn-gold/80 block">
               MỐC SON THÀNH LẬP ĐẢNG
             </span>
-            <h2 className="font-display font-black text-6xl sm:text-8xl text-white tracking-tighter leading-none text-glow-gold drop-shadow-xl mt-1">
+            <h2 className="font-display font-black text-6xl sm:text-8xl md:text-9xl text-white tracking-tighter leading-none text-glow-gold drop-shadow-xl mt-1">
               1930
             </h2>
             <p className="font-display font-bold text-sm sm:text-lg text-amber-200/90 uppercase tracking-wide mt-1">
@@ -166,7 +166,7 @@ export default function DocumentDesk1930() {
           {/* =========================================================================
               PROP 2: TOP-RIGHT PINNED ARCHIVAL PHOTOGRAPH (SPATIAL POSITION)
              ========================================================================= */}
-          <div className="desk-photo-pin will-transform absolute top-6 right-6 sm:top-8 sm:right-10 w-44 sm:w-60 z-20 rotate-[4deg] rounded-lg bg-[#FAF5EB] p-2 sm:p-2.5 shadow-[0_20px_45px_rgba(0,0,0,0.85)] border border-amber-900/30">
+          <div className="desk-photo-pin will-transform absolute top-8 right-8 sm:top-12 sm:right-16 w-44 sm:w-60 z-20 rotate-[4deg] rounded-lg bg-[#FAF5EB] p-2 sm:p-2.5 shadow-[0_20px_45px_rgba(0,0,0,0.85)] border border-amber-900/30">
             {/* Antique photo corners */}
             <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-amber-950 pointer-events-none" />
             <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-amber-950 pointer-events-none" />
@@ -221,7 +221,7 @@ export default function DocumentDesk1930() {
           {/* =========================================================================
               PROP 4: BOTTOM-LEFT ANTIQUE PEN & DOSSIER TAB
              ========================================================================= */}
-          <div className="absolute bottom-5 left-6 sm:bottom-8 sm:left-10 z-20 hidden sm:flex items-center gap-3 pointer-events-none opacity-80">
+          <div className="absolute bottom-6 left-8 sm:bottom-12 sm:left-14 z-20 hidden sm:flex items-center gap-3 pointer-events-none opacity-80">
             {/* Antique dipping pen SVG */}
             <svg viewBox="0 0 160 30" className="w-36 h-8 rotate-[-12deg]">
               <polygon points="10,15 140,12 140,18" fill="#5A3D28" />
@@ -234,15 +234,16 @@ export default function DocumentDesk1930() {
           </div>
 
           {/* =========================================================================
-              PROP 5A: STAMP IMPRINT (RED WAX / INK SEAL PRESSED FIRMLY ONTO MANUSCRIPT)
+              PROP 5A: AUTHENTIC VINTAGE INK SEAL IMPRINT (Uneven ink, double border, star)
              ========================================================================= */}
-          <div className="desk-stamp-imprint will-transform absolute bottom-12 sm:bottom-14 right-10 sm:right-28 pointer-events-none z-30">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-dashed border-[#DA251D] bg-[#800f0b]/90 flex flex-col items-center justify-center text-center p-2 shadow-[0_0_35px_rgba(218,37,29,0.7)] text-vn-red">
-              <Stamp className="w-6 h-6 mb-1 text-vn-gold" />
+          <div className="desk-stamp-imprint will-transform absolute bottom-12 sm:bottom-14 right-10 sm:right-28 pointer-events-none z-30 rotate-[-6deg]">
+            <div className="w-30 h-30 sm:w-34 sm:h-34 rounded-full border-4 border-double border-[#DA251D]/90 bg-[#8b1310]/85 backdrop-blur-[1px] flex flex-col items-center justify-center text-center p-2.5 shadow-[0_0_30px_rgba(218,37,29,0.7)] text-[#FAF5ED]">
+              <span className="text-xs text-amber-300 font-bold mb-0.5">★</span>
               <span className="text-[10px] font-black uppercase font-mono tracking-widest text-white leading-tight">
                 ĐẢNG CỘNG SẢN<br />VIỆT NAM
               </span>
-              <span className="text-[9px] font-mono font-bold text-vn-gold mt-0.5">
+              <div className="w-10 h-[1px] bg-amber-200/40 my-1" />
+              <span className="text-[9px] font-mono font-bold text-amber-200 tracking-wider">
                 03 · 02 · 1930
               </span>
             </div>

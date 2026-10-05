@@ -377,74 +377,78 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
       <section 
         id={m.id} 
         ref={root} 
-        className="relative h-[190vh] bg-gradient-to-b from-[#0A192F] via-[#0E2442] to-[#081524] text-white" 
+        className="relative h-[150vh] bg-gradient-to-b from-[#071324] via-[#0B1E38] to-[#050C17] text-white" 
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center px-4 sm:px-8">
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center px-6">
           
-          {/* Modern Architectural Grid & Dawn Sky Ambient Light (NO war grain, NO vignette) */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#0284c7_0%,transparent_70%)] opacity-30 pointer-events-none" />
-          <div className="absolute inset-0 pointer-events-none opacity-15 bg-[linear-gradient(to_right,#38bdf8_1px,transparent_1px),linear-gradient(to_bottom,#38bdf8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]" />
+          {/* Modern Architectural Grid (Laser-sharp, clean) */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#0284c7_0%,transparent_70%)] opacity-25 pointer-events-none" />
+          <div className="absolute inset-0 pointer-events-none opacity-15 bg-[linear-gradient(to_right,#38bdf8_1px,transparent_1px),linear-gradient(to_bottom,#38bdf8_1px,transparent_1px)] bg-[size:4rem_4rem]" />
 
-          <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center text-center space-y-6">
+          <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center text-center space-y-6">
             
             {/* Modern Clean Sans Header */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-sky-950/80 border border-sky-400/60 text-sky-300 text-xs font-mono font-bold uppercase tracking-widest shadow-xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-sm bg-sky-950/80 border border-sky-400/40 text-sky-300 text-xs font-mono font-bold uppercase tracking-[0.25em]">
               <Award className="w-3.5 h-3.5 text-sky-400" />
-              <span>ĐẠI HỘI VI · BƯỚC NGOẶT ĐỔI MỚI TOÀN DIỆN (12/1986)</span>
+              <span>ĐẠI HỘI VI · BƯỚC NGOẶT ĐỔI MỚI (12/1986)</span>
             </div>
 
-            <h2 className="font-sans font-black text-6xl sm:text-8xl md:text-9xl text-white tracking-tight leading-none">
+            <h2 className="font-sans font-black text-7xl sm:text-9xl md:text-[130px] text-white tracking-tighter leading-none">
               1986
             </h2>
 
             {/* Red Vector Transformation: Wavy Wartime Line Straightens into Precision Vector */}
-            <div className="relative w-full max-w-2xl h-8 flex items-center justify-center">
-              {/* Turbulent wavy stroke from war era */}
+            <div className="relative w-full max-w-xl h-6 flex items-center justify-center my-2">
               <svg viewBox="0 0 600 30" className="wave-vector will-transform absolute inset-0 w-full h-full pointer-events-none overflow-visible">
-                <path d="M 0,15 Q 150,0 300,28 T 600,15" fill="none" stroke="#DA251D" strokeWidth="3" />
+                <path d="M 0,15 Q 150,0 300,28 T 600,15" fill="none" stroke="#DA251D" strokeWidth="2.5" />
               </svg>
-              {/* Modern Laser-Straight Vector Line */}
-              <div className="straight-vector will-transform w-full h-[3px] bg-gradient-to-r from-vn-red via-sky-400 to-cyan-300 shadow-[0_0_15px_#38bdf8]" />
+              <div className="straight-vector will-transform w-full h-[2px] bg-gradient-to-r from-vn-red via-sky-400 to-cyan-300 shadow-[0_0_12px_#38bdf8]" />
             </div>
 
-            {/* The 3 Core Pillars of Đổi Mới in Modern Architectural Blocks */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl pt-2">
+            {/* Pure Architectural Typography Sequence (NO cards, NO containers) */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full pt-4">
               
-              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/75 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 text-left relative shadow-lg">
-                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
-                  NGUYÊN TẮC 01
+              <div className="modern-principle-card will-transform text-center md:text-left space-y-1">
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-[0.3em] block">
+                  01 · QUYẾT TÂM
                 </span>
-                <h4 className="font-sans font-bold text-lg text-white">Nhìn Thẳng Vào Sự Thật</h4>
-                <p className="text-xs text-sky-100/75 mt-2 leading-relaxed">
-                  Dũng cảm thừa nhận sai lầm chủ quan, xóa bỏ cơ chế tập trung quan liêu bao cấp kìm hãm phát triển.
+                <h4 className="font-sans font-black text-xl sm:text-2xl text-white tracking-tight">
+                  Nhìn Thẳng Vào Sự Thật
+                </h4>
+                <p className="text-xs text-sky-200/60 font-light">
+                  Thừa nhận sai lầm, xóa bỏ bao cấp
                 </p>
               </div>
 
-              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/75 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 text-left relative shadow-lg">
-                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
-                  NGUYÊN TẮC 02
+              <div className="hidden md:block w-[1px] h-14 bg-sky-500/20" />
+
+              <div className="modern-principle-card will-transform text-center md:text-left space-y-1">
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-[0.3em] block">
+                  02 · THỰC TIỄN
                 </span>
-                <h4 className="font-sans font-bold text-lg text-white">Đánh Giá Đúng Sự Thật</h4>
-                <p className="text-xs text-sky-100/75 mt-2 leading-relaxed">
-                  Nhận diện đúng quy luật khách quan, tôn trọng kinh tế nhiều thành phần định hướng xã hội chủ nghĩa.
+                <h4 className="font-sans font-black text-xl sm:text-2xl text-white tracking-tight">
+                  Đánh Giá Đúng Sự Thật
+                </h4>
+                <p className="text-xs text-sky-200/60 font-light">
+                  Tôn trọng quy luật kinh tế khách quan
                 </p>
               </div>
 
-              <div className="modern-principle-card will-transform p-5 rounded-sm bg-sky-950/75 border-l-2 border-l-cyan-400 border-t border-r border-b border-sky-400/25 text-left relative shadow-lg">
-                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">
-                  NGUYÊN TẮC 03
+              <div className="hidden md:block w-[1px] h-14 bg-sky-500/20" />
+
+              <div className="modern-principle-card will-transform text-center md:text-left space-y-1">
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-[0.3em] block">
+                  03 · HỘI NHẬP
                 </span>
-                <h4 className="font-sans font-bold text-lg text-white">Nói Rõ Sự Thật</h4>
-                <p className="text-xs text-sky-100/75 mt-2 leading-relaxed">
-                  Công khai đường lối đổi mới toàn diện, kiến tạo động lực phát triển mới và mở rộng hội nhập quốc tế.
+                <h4 className="font-sans font-black text-xl sm:text-2xl text-white tracking-tight">
+                  Nói Rõ Sự Thật
+                </h4>
+                <p className="text-xs text-sky-200/60 font-light">
+                  Đổi mới toàn diện và vươn mình ra thế giới
                 </p>
               </div>
 
             </div>
-
-            <p className="font-sans text-xs sm:text-sm text-sky-200/80 max-w-xl mx-auto font-light pt-2">
-              Khởi đầu kỷ nguyên hội nhập kinh tế, công nghiệp hóa và hiện đại hóa đất nước.
-            </p>
 
           </div>
         </div>
@@ -461,7 +465,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
       <section 
         id={m.id} 
         ref={root} 
-        className="relative h-[150vh] bg-[#07130a] text-white overflow-hidden"
+        className="relative h-[115vh] bg-[#07130a] text-white overflow-hidden"
       >
         <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
           
@@ -522,7 +526,7 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
     <section 
       id={m.id} 
       ref={root} 
-      className="relative h-[160vh] bg-black text-white overflow-hidden" 
+      className="relative h-[120vh] bg-black text-white overflow-hidden" 
     >
       <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-[#070505]">
         
@@ -537,10 +541,10 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
           <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/80 to-black" />
         </div>
 
-        {/* Radio Broadcast Wave Pulse Effect */}
+        {/* Radio Broadcast Wave Pulse Effect (Clean, no ambient ping) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] rounded-full border border-red-600/30 animate-ping opacity-25" />
-          <div className="w-[200px] sm:w-[350px] h-[200px] sm:h-[350px] rounded-full border border-red-500/20 animate-pulse opacity-40" />
+          <div className="w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] rounded-full border border-red-600/20 opacity-30" />
+          <div className="w-[180px] sm:w-[280px] h-[180px] sm:h-[280px] rounded-full border border-red-500/30 opacity-40" />
         </div>
 
         {/* Deep Blackout Layer that engulfs the screen toward the end */}

@@ -125,8 +125,8 @@ export default function DienBienExperience() {
       } else {
         periscopeTrackRef.current.style.transition = 'none';
       }
-      // 5 panels total (each 100% lens width = 20% of track). Travel across 4 spans = 80% total track width.
-      const percent = (angle / 360) * 80;
+      // 400% track width. Travel across 3 spans (300% / 400%) = 75% total track width.
+      const percent = (angle / 360) * 75;
       periscopeTrackRef.current.style.transform = `translate3d(-${percent}%, 0, 0)`;
     }
 
@@ -525,7 +525,7 @@ export default function DienBienExperience() {
                     DỰ THẢO TÁC CHIẾN A
                   </span>
                   {chosenOption === 'danh-nhanh-thang-nhanh' && (
-                    <span className="w-2 h-2 rounded-full bg-vn-gold animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-vn-gold shadow-[0_0_8px_#FFCD00]" />
                   )}
                 </div>
                 <h4 className="font-display font-bold text-base text-white">Đánh Nhanh, Thắng Nhanh</h4>
@@ -548,7 +548,7 @@ export default function DienBienExperience() {
                     DỰ THẢO TÁC CHIẾN B
                   </span>
                   {chosenOption === 'danh-chac-tien-chac' && (
-                    <span className="w-2 h-2 rounded-full bg-vn-gold animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-vn-gold shadow-[0_0_8px_#FFCD00]" />
                   )}
                 </div>
                 <h4 className="font-display font-bold text-base text-white">Đánh Chắc, Tiến Chắc</h4>
@@ -559,57 +559,100 @@ export default function DienBienExperience() {
 
             </div>
 
-            {/* Branch 1: Option A What-If Simulation */}
+            {/* Branch 1: Option A Visual Tactical Hazard Consequence */}
             {chosenOption === 'danh-nhanh-thang-nhanh' && !showVerdict && (
-              <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-red-950/80 border-2 border-red-500/70 text-left space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-2xl">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full bg-red-900 border border-red-400 text-red-100 text-[10px] font-mono font-bold uppercase tracking-wider">
-                    {DECISION_TREE_DATA.options[0].consequence.headline}
+              <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-[#1a0808] border-2 border-red-500/80 text-center space-y-3 animate-in fade-in zoom-in-95 duration-300 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-red-500/30 pb-2">
+                  <span className="px-3 py-0.5 rounded-full bg-red-950 border border-red-500 text-red-300 text-[10px] font-mono font-bold uppercase tracking-widest">
+                    MÔ PHỎNG CHIẾN THUẬT: PHƯƠNG ÁN 1 (ĐÁNH NHANH)
                   </span>
-                  <span className="text-[10px] font-mono text-red-300/70">Mô phỏng giả định</span>
+                  <span className="text-[10px] font-mono text-red-400 font-bold">RỦI RO CHIẾN LƯỢC</span>
                 </div>
-                <p className="text-xs sm:text-sm text-red-100/90 leading-relaxed font-sans">
-                  {DECISION_TREE_DATA.options[0].consequence.assessment}
+
+                {/* Tactical Miniature Map: Attack arrows charge into deadly crossfire */}
+                <div className="relative w-full h-36 sm:h-40 rounded-xl bg-[#090b0e] border border-red-500/40 overflow-hidden flex items-center justify-center">
+                  <svg viewBox="0 0 500 160" className="w-full h-full">
+                    {/* Basin background */}
+                    <rect width="500" height="160" fill="#080c10" />
+                    {/* French Stronghold Cluster at Center */}
+                    <circle cx="250" cy="80" r="32" fill="#2d1515" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 2" />
+                    <text x="250" y="84" textAnchor="middle" fill="#ef4444" fontSize="11" fontFamily="monospace" fontWeight="bold">
+                      CỤM CỨ ĐIỂM ĐỊCH (49 VỊ TRÍ)
+                    </text>
+                    {/* Crossfire Hazard Zone */}
+                    <circle cx="250" cy="80" r="54" fill="none" stroke="#ef4444" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
+
+                    {/* Mũi tiến công thọc sâu lao thẳng vào hỏa lực */}
+                    <g stroke="#ef4444" strokeWidth="3" markerEnd="url(#redArrow)">
+                      <line x1="80" y1="40" x2="215" y2="72" />
+                      <line x1="80" y1="120" x2="215" y2="88" />
+                      <line x1="420" y1="80" x2="285" y2="80" />
+                    </g>
+                    {/* Warning icons */}
+                    <text x="140" y="32" fill="#fca5a5" fontSize="9" fontFamily="monospace">Pháo ta lộ thiên sườn núi</text>
+                    <text x="140" y="145" fill="#fca5a5" fontSize="9" fontFamily="monospace">Bộ đội chưa quen công sự kiên cố</text>
+                    <text x="310" y="55" fill="#fca5a5" fontSize="9" fontFamily="monospace">Không quân địch áp đảo</text>
+                  </svg>
+                </div>
+
+                <p className="text-xs sm:text-sm text-red-200 font-sans leading-relaxed max-w-xl mx-auto">
+                  <strong className="text-white font-mono uppercase text-xs block mb-0.5">Hậu quả quân sự:</strong>
+                  Bộ đội sẽ đột phá ban ngày trên cánh đồng Mường Thanh trống trải trước 49 cứ điểm bê tông liên hoàn. Pháo ta phơi mình trên sườn núi dễ bị phản pháo tiêu diệt.
                 </p>
-                <div className="p-3 rounded-xl bg-black/60 border border-red-400/30 text-[11px] sm:text-xs text-vn-ivory/90 font-serif">
-                  <strong className="text-vn-gold not-italic font-mono uppercase text-[10px] block mb-1">
-                    Bài học Lịch sử Đảng & Nghệ thuật Quân sự:
-                  </strong>
-                  "{DECISION_TREE_DATA.options[0].consequence.historicalLesson}"
-                </div>
-                <div className="pt-1 flex items-center justify-end">
+
+                <div className="pt-1 flex items-center justify-center">
                   <button
                     onClick={handleProceedToVerdict}
-                    className="px-5 py-2 rounded-full bg-vn-gold text-vn-black font-display font-bold text-xs uppercase tracking-wider hover:bg-white transition-all cursor-pointer shadow-lg flex items-center gap-1.5"
+                    className="px-6 py-2.5 rounded-full bg-vn-gold text-vn-black font-display font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all cursor-pointer shadow-xl flex items-center gap-2"
                   >
-                    <span>Xem Quyết Định Lịch Sử Thực Tế Của Đại Tướng →</span>
+                    <span>Xem Quyết Định Của Đại Tướng: Kéo Pháo Ra →</span>
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Branch 2: Option B Historical Alignment */}
+            {/* Branch 2: Option B Visual Tactical Siege Consequence */}
             {chosenOption === 'danh-chac-tien-chac' && !showVerdict && (
-              <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400/70 text-left space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-2xl">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-900 border border-emerald-400 text-emerald-100 text-[10px] font-mono font-bold uppercase tracking-wider">
-                    {DECISION_TREE_DATA.options[1].consequence.headline}
+              <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-[#081810] border-2 border-emerald-400/80 text-center space-y-3 animate-in fade-in zoom-in-95 duration-300 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-emerald-500/30 pb-2">
+                  <span className="px-3 py-0.5 rounded-full bg-emerald-950 border border-emerald-400 text-emerald-300 text-[10px] font-mono font-bold uppercase tracking-widest">
+                    MÔ PHỎNG CHIẾN THUẬT: PHƯƠNG ÁN 2 (ĐÁNH CHẮC TIẾN CHẮC)
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-300/70">Quyết định chuẩn xác</span>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold">QUYẾT ĐỊNH LỊCH SỬ</span>
                 </div>
-                <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-sans">
-                  {DECISION_TREE_DATA.options[1].consequence.assessment}
+
+                {/* Tactical Miniature Map: Artillery pulled back to caves, trenches encircle */}
+                <div className="relative w-full h-36 sm:h-40 rounded-xl bg-[#080d12] border border-emerald-500/40 overflow-hidden flex items-center justify-center">
+                  <svg viewBox="0 0 500 160" className="w-full h-full">
+                    {/* Basin background */}
+                    <rect width="500" height="160" fill="#080c10" />
+                    {/* French Stronghold Cluster Isolated */}
+                    <circle cx="250" cy="80" r="26" fill="#1e1814" stroke="#d97706" strokeWidth="1.5" />
+                    <text x="250" y="84" textAnchor="middle" fill="#d97706" fontSize="10" fontFamily="monospace">
+                      ĐỊCH BỊ CÔ LẬP
+                    </text>
+
+                    {/* Concentric Encircling Siege Trenches */}
+                    <circle cx="250" cy="80" r="48" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeDasharray="6 3" />
+                    <circle cx="250" cy="80" r="66" fill="none" stroke="#22c55e" strokeWidth="2" strokeDasharray="8 4" opacity="0.7" />
+
+                    {/* Artillery pulling back into mountain tunnels */}
+                    <path d="M 180,50 L 100,25" fill="none" stroke="#eab308" strokeWidth="2.5" strokeDasharray="4 2" />
+                    <path d="M 320,50 L 400,25" fill="none" stroke="#eab308" strokeWidth="2.5" strokeDasharray="4 2" />
+                    <text x="95" y="45" fill="#fef08a" fontSize="9" fontFamily="monospace">Kéo pháo vào hầm núi</text>
+                    <text x="310" y="45" fill="#fef08a" fontSize="9" fontFamily="monospace">Đào chiến hào siết chặt</text>
+                  </svg>
+                </div>
+
+                <p className="text-xs sm:text-sm text-emerald-100 font-sans leading-relaxed max-w-xl mx-auto">
+                  <strong className="text-white font-mono uppercase text-xs block mb-0.5">Bản lĩnh người chỉ huy:</strong>
+                  Kiên quyết hoãn nổ súng, lui quân về tập kết an toàn, kéo pháo vào hầm kiên cố và xây dựng trận địa vây lấn từng bước — Chắc thắng mới đánh!
                 </p>
-                <div className="p-3 rounded-xl bg-black/60 border border-emerald-400/30 text-[11px] sm:text-xs text-vn-ivory/90 font-serif">
-                  <strong className="text-vn-gold not-italic font-mono uppercase text-[10px] block mb-1">
-                    Ý nghĩa bước ngoặt chiến lược:
-                  </strong>
-                  "{DECISION_TREE_DATA.options[1].consequence.historicalLesson}"
-                </div>
-                <div className="pt-1 flex items-center justify-end">
+
+                <div className="pt-1 flex items-center justify-center">
                   <button
                     onClick={handleProceedToVerdict}
-                    className="px-5 py-2 rounded-full bg-emerald-400 text-black font-display font-bold text-xs uppercase tracking-wider hover:bg-emerald-300 transition-all cursor-pointer shadow-lg flex items-center gap-1.5"
+                    className="px-6 py-2.5 rounded-full bg-emerald-400 text-black font-display font-extrabold text-xs uppercase tracking-wider hover:bg-emerald-300 transition-all cursor-pointer shadow-xl flex items-center gap-2"
                   >
                     <span>Tiếp Tục Hành Trình Tác Chiến →</span>
                   </button>
@@ -711,34 +754,51 @@ export default function DienBienExperience() {
           {/* Scalable Map Camera Container */}
           <div className="map-camera-container will-transform relative w-full max-w-5xl aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center p-4">
             
-            <svg viewBox="0 0 1000 600" className="w-full h-full rounded-2xl bg-[#090e13] border border-vn-gold/20 shadow-2xl">
+            <svg viewBox="0 0 1000 600" className="w-full h-full rounded-2xl bg-[#080d12] border border-vn-gold/30 shadow-2xl">
               <defs>
                 <radialGradient id="valleyNight" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#121a16" stopOpacity="0.9" />
-                  <stop offset="65%" stopColor="#080c10" stopOpacity="0.95" />
-                  <stop offset="100%" stopColor="#040608" stopOpacity="1" />
+                  <stop offset="0%" stopColor="#141f19" stopOpacity="0.9" />
+                  <stop offset="65%" stopColor="#080d12" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#030507" stopOpacity="1" />
                 </radialGradient>
               </defs>
 
               <rect width="1000" height="600" fill="url(#valleyNight)" />
 
-              {/* Mountains */}
-              <path d="M 0,0 Q 250,150 120,380 T 0,600 L 0,0 Z" fill="#152019" opacity="0.6" />
-              <path d="M 1000,0 Q 750,220 860,420 T 1000,600 L 1000,0 Z" fill="#152019" opacity="0.6" />
+              {/* Topographic Contour Elevation Rings */}
+              <path d="M 40,60 Q 200,120 160,260 T 60,450" fill="none" stroke="#1f382a" strokeWidth="1" strokeDasharray="4 4" />
+              <path d="M 80,30 Q 240,90 200,240 T 100,480" fill="none" stroke="#1f382a" strokeWidth="1.2" />
+              <path d="M 960,60 Q 780,180 840,340 T 920,540" fill="none" stroke="#1f382a" strokeWidth="1" strokeDasharray="4 4" />
+              <path d="M 920,30 Q 740,150 800,320 T 880,500" fill="none" stroke="#1f382a" strokeWidth="1.2" />
+              <path d="M 280,70 Q 420,110 580,100 T 720,70" fill="none" stroke="#1f382a" strokeWidth="1" strokeDasharray="3 3" />
+
+              {/* Mountain Silhouettes */}
+              <path d="M 0,0 Q 250,150 120,380 T 0,600 L 0,0 Z" fill="#132018" opacity="0.75" />
+              <path d="M 1000,0 Q 750,220 860,420 T 1000,600 L 1000,0 Z" fill="#132018" opacity="0.75" />
+
+              {/* French Defense Sub-sectors (Outlines) */}
+              <rect x="670" y="110" width="100" height="70" rx="8" fill="#1e1010" stroke="#ef4444" strokeWidth="1" strokeDasharray="3 2" opacity="0.6" />
+              <text x="720" y="105" textAnchor="middle" fill="#fca5a5" fontSize="10" fontFamily="monospace">BÉATRICE</text>
+
+              <rect x="330" y="55" width="100" height="60" rx="8" fill="#1e1010" stroke="#ef4444" strokeWidth="1" strokeDasharray="3 2" opacity="0.6" />
+              <text x="380" y="50" textAnchor="middle" fill="#fca5a5" fontSize="10" fontFamily="monospace">GABRIELLE</text>
+
+              <rect x="420" y="310" width="160" height="110" rx="10" fill="#20130d" stroke="#f59e0b" strokeWidth="1" strokeDasharray="3 2" opacity="0.5" />
+              <text x="500" y="305" textAnchor="middle" fill="#fde68a" fontSize="10" fontFamily="monospace">PHÂN KHU TRUNG TÂM</text>
 
               {/* Nam Rom River */}
               <path
                 d="M 500,0 Q 460,180 520,300 T 480,480 T 470,600"
                 fill="none"
                 stroke="#1f364d"
-                strokeWidth="16"
+                strokeWidth="14"
                 strokeLinecap="round"
-                opacity="0.8"
+                opacity="0.85"
               />
 
               {/* Mường Thanh Airfield Runway */}
               <line x1="480" y1="220" x2="480" y2="400" stroke="#4a5568" strokeWidth="12" strokeDasharray="16 8" />
-              <text x="410" y="210" fill="#718096" fontSize="14" fontFamily="monospace">SÂN BAY MƯỜNG THANH</text>
+              <text x="410" y="210" fill="#94a3b8" fontSize="13" fontFamily="monospace">SÂN BAY MƯỜNG THANH</text>
 
               {/* Living Trench Network SVG (Draws on scroll) */}
               <path
@@ -750,11 +810,11 @@ export default function DienBienExperience() {
                 className="map-trench-draw drop-shadow-[0_0_8px_#DA251D]"
               />
 
-              {/* Outpost A1 Point */}
+              {/* Outpost A1 Point (Clean tactical crosshair, NO animate-ping) */}
               <g className="map-target-a1">
-                <circle cx="560" cy="350" r="12" fill="none" stroke="#FFCD00" strokeWidth="2" className="animate-ping" style={{ transformOrigin: '560px 350px' }} />
+                <circle cx="560" cy="350" r="14" fill="none" stroke="#FFCD00" strokeWidth="1.2" opacity="0.6" />
                 <circle cx="560" cy="350" r="8" fill="#DA251D" stroke="#FFCD00" strokeWidth="2" />
-                <text x="560" y="330" textAnchor="middle" fill="#FFCD00" fontSize="16" fontWeight="bold" fontFamily="sans-serif">
+                <text x="560" y="330" textAnchor="middle" fill="#FFCD00" fontSize="15" fontWeight="bold" fontFamily="sans-serif">
                   ĐỒI A1
                 </text>
               </g>
@@ -762,7 +822,7 @@ export default function DienBienExperience() {
               {/* Outpost Him Lam */}
               <g>
                 <circle cx="720" cy="150" r="7" fill="#e53e3e" stroke="#2d3748" strokeWidth="2" />
-                <text x="720" y="135" textAnchor="middle" fill="#cbd5e0" fontSize="13" fontFamily="sans-serif">
+                <text x="720" y="135" textAnchor="middle" fill="#cbd5e0" fontSize="12" fontFamily="sans-serif">
                   Him Lam
                 </text>
               </g>
@@ -770,7 +830,7 @@ export default function DienBienExperience() {
               {/* Outpost De Castries HQ */}
               <g>
                 <circle cx="500" cy="360" r="9" fill="#dd6b20" stroke="#FFCD00" strokeWidth="1.5" />
-                <text x="500" y="390" textAnchor="middle" fill="#fbd38d" fontSize="13" fontFamily="sans-serif">
+                <text x="500" y="388" textAnchor="middle" fill="#fbd38d" fontSize="12" fontFamily="sans-serif">
                   Hầm De Castries
                 </text>
               </g>
@@ -784,7 +844,7 @@ export default function DienBienExperience() {
 
         {/* ===================================================================
             LAYER 3: FULLSCREEN 360° OPTICAL PERISCOPE (0.48 -> 0.72)
-            With Interaction Plateau & Smooth Progression Action
+            Unified Battlefield Landscape with Reconnaissance Intel Dossiers
            =================================================================== */}
         <div className="layer-periscope absolute inset-0 z-30 flex flex-col items-center justify-center bg-black select-none">
           
@@ -797,76 +857,73 @@ export default function DienBienExperience() {
             onPointerCancel={handlePointerUp}
             className="periscope-lens-frame relative w-[88vw] sm:w-[74vh] h-[88vw] sm:h-[74vh] max-w-[640px] max-h-[640px] rounded-full border-[12px] sm:border-[18px] border-[#12161b] bg-black shadow-[0_0_120px_rgba(0,0,0,1)] ring-4 ring-vn-gold/40 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none"
           >
-            {/* Continuous 360° Horizontal Panorama Track (5 Panels seamless continuous scroll, NO modulo jump) */}
+            {/* Unified 360° Battlefield Terrain Landscape (Single continuous world track) */}
             <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
               <div 
                 ref={periscopeTrackRef}
-                className="h-full flex will-change-transform"
-                style={{ width: '500%' }}
+                className="h-full flex will-change-transform relative"
+                style={{ width: '400%' }}
               >
-                {/* Panel 0: Him Lam (045° Đông Bắc) */}
-                <div className="relative w-1/5 h-full flex-shrink-0">
+                {/* Continuous Wide Battlefield Landscape Image */}
+                <div className="w-1/2 h-full relative shrink-0">
                   <img
-                    src="/images/exhibits/him_lam_beatrice.jpg"
-                    alt="Trung tâm đề kháng Him Lam"
-                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
+                    src="/images/exhibits/exhibit_5_1.jpg"
+                    alt="Toàn cảnh chiến trường Điện Biên Phủ"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.35] brightness-[0.55]"
                     draggable={false}
                   />
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
-                    045° HIM LAM
-                  </div>
+                  {/* Subtle terrain atmospheric haze */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60" />
+                </div>
+                <div className="w-1/2 h-full relative shrink-0">
+                  <img
+                    src="/images/exhibits/exhibit_5_1.jpg"
+                    alt="Toàn cảnh chiến trường Điện Biên Phủ"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.35] brightness-[0.55] scale-x-[-1]"
+                    draggable={false}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60" />
                 </div>
 
-                {/* Panel 1: Đồi A1 (120° Đông Nam) */}
-                <div className="relative w-1/5 h-full flex-shrink-0">
-                  <img
-                    src="/images/exhibits/doi_a1_eliane2.jpg"
-                    alt="Cứ điểm Đồi A1"
-                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
-                    draggable={false}
-                  />
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                {/* Spatial Outpost Beacons Positioned Along The Landscape at exact azimuths */}
+                {/* 045° Him Lam: 12.5% + (45/360)*75% = 21.875% */}
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none" style={{ left: '21.875%' }}>
+                  <div className="w-4 h-4 rounded-full border border-red-500 bg-red-950 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-black/90 border border-red-500/70 text-[9px] font-mono font-bold text-red-300 mt-1 whitespace-nowrap">
+                    045° HIM LAM
+                  </span>
+                </div>
+
+                {/* 120° Đồi A1: 12.5% + (120/360)*75% = 37.5% */}
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none" style={{ left: '37.5%' }}>
+                  <div className="w-4 h-4 rounded-full border border-amber-400 bg-amber-950 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-black/90 border border-amber-400/70 text-[9px] font-mono font-bold text-amber-300 mt-1 whitespace-nowrap">
                     120° ĐỒI A1
-                  </div>
+                  </span>
                 </div>
 
-                {/* Panel 2: Sở Chỉ Huy De Castries (180° Chính Nam) */}
-                <div className="relative w-1/5 h-full flex-shrink-0">
-                  <img
-                    src="/images/exhibits/ham_de_castries.jpg"
-                    alt="Sở Chỉ Huy De Castries"
-                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
-                    draggable={false}
-                  />
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
-                    180° DE CASTRIES
+                {/* 180° De Castries: 12.5% + (180/360)*75% = 50% */}
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none" style={{ left: '50%' }}>
+                  <div className="w-4 h-4 rounded-full border border-red-500 bg-red-950 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                   </div>
+                  <span className="px-2 py-0.5 rounded bg-black/90 border border-red-500/70 text-[9px] font-mono font-bold text-red-300 mt-1 whitespace-nowrap">
+                    180° HẦM DE CASTRIES
+                  </span>
                 </div>
 
-                {/* Panel 3: Trận Địa Pháo (300° Tây Bắc) */}
-                <div className="relative w-1/5 h-full flex-shrink-0">
-                  <img
-                    src="/images/exhibits/phao_binh_dien_bien.jpg"
-                    alt="Trận địa pháo 105mm"
-                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
-                    draggable={false}
-                  />
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                {/* 300° Trận Địa Pháo: 12.5% + (300/360)*75% = 75% */}
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none" style={{ left: '75%' }}>
+                  <div className="w-4 h-4 rounded-full border border-emerald-400 bg-emerald-950 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-black/90 border border-emerald-400/70 text-[9px] font-mono font-bold text-emerald-300 mt-1 whitespace-nowrap">
                     300° TRẬN ĐỊA PHÁO
-                  </div>
-                </div>
-
-                {/* Panel 4: Him Lam wrap-around seamless repeat */}
-                <div className="relative w-1/5 h-full flex-shrink-0">
-                  <img
-                    src="/images/exhibits/him_lam_beatrice.jpg"
-                    alt="Trung tâm đề kháng Him Lam"
-                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
-                    draggable={false}
-                  />
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
-                    045° HIM LAM
-                  </div>
+                  </span>
                 </div>
               </div>
 
@@ -892,9 +949,8 @@ export default function DienBienExperience() {
 
               {lockedTarget ? (
                 <g>
-                  <circle cx="100" cy="100" r="14" fill="none" stroke="#DA251D" strokeWidth="1.2" className="animate-ping" style={{ transformOrigin: '100px 100px', animationDuration: '2s' }} />
-                  <circle cx="100" cy="100" r="9" fill="none" stroke="#DA251D" strokeWidth="1.5" />
-                  <circle cx="100" cy="100" r="3" fill="#DA251D" />
+                  <circle cx="100" cy="100" r="12" fill="none" stroke="#DA251D" strokeWidth="1.2" />
+                  <circle cx="100" cy="100" r="4" fill="#DA251D" />
                 </g>
               ) : (
                 <circle cx="100" cy="100" r="5" fill="none" stroke="#FFCD00" strokeWidth="0.8" strokeDasharray="2 2" />
@@ -908,22 +964,32 @@ export default function DienBienExperience() {
               </text>
             </svg>
 
-            {/* Target Annotation Directly in Lens */}
+            {/* Target Reconnaissance Intel Dossier Overlay directly in Lens */}
             {lockedTarget ? (
               <div 
                 onClick={() => setActiveIntelTarget(lockedTarget)}
-                className="absolute bottom-10 sm:bottom-12 z-30 px-4 py-2 rounded-2xl bg-red-950/95 border border-red-500 text-center shadow-2xl cursor-pointer hover:scale-105 transition-transform"
+                className="absolute bottom-6 sm:bottom-8 z-30 flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl bg-[#080b0f]/95 border-2 border-red-500/80 shadow-[0_0_35px_rgba(0,0,0,0.95)] max-w-sm cursor-pointer hover:scale-105 transition-transform"
               >
-                <div className="flex items-center gap-1.5 justify-center text-red-300 text-[10px] font-mono font-bold uppercase tracking-wider mb-0.5">
-                  <Lock className="w-3 h-3 text-red-400 animate-pulse" />
-                  <span>MỤC TIÊU: {lockedTarget.azimuth.split(' ')[0]} · {lockedTarget.distance}</span>
+                {/* Archival Surveillance Photo Thumbnail */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-black shrink-0 border border-white/20">
+                  <img
+                    src={lockedTarget.photo}
+                    alt={lockedTarget.name}
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.2]"
+                  />
                 </div>
-                <h4 className="font-display font-black text-sm sm:text-base text-white">
-                  {lockedTarget.name}
-                </h4>
-                <span className="text-[10px] font-mono text-vn-gold underline mt-0.5 block">
-                  Bấm để xem điện báo tình báo →
-                </span>
+                <div className="text-left space-y-0.5 pr-2">
+                  <div className="flex items-center gap-1.5 text-red-400 text-[9px] font-mono font-bold uppercase tracking-wider">
+                    <Lock className="w-2.5 h-2.5 text-red-400" />
+                    <span>KHÓA TỌA ĐỘ · {lockedTarget.azimuth}</span>
+                  </div>
+                  <h4 className="font-display font-bold text-xs sm:text-sm text-white line-clamp-1">
+                    {lockedTarget.name}
+                  </h4>
+                  <p className="text-[10px] font-mono text-vn-gold/80">
+                    Khoảng cách: {lockedTarget.distance} · [Bấm xem báo cáo]
+                  </p>
+                </div>
               </div>
             ) : (
               <div className="absolute top-6 px-3.5 py-1 rounded-full bg-black/75 border border-white/15 text-[11px] font-mono text-vn-ivory/80 flex items-center gap-2 pointer-events-none z-30 shadow-lg">
