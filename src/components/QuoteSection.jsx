@@ -31,29 +31,33 @@ export default function QuoteSection() {
           <span>Văn Kiện Lịch Sử & Lời Hiệu Triệu Kinh Điển</span>
         </div>
 
-        {/* Quote Card */}
-        <div className="p-8 sm:p-12 rounded-2xl bg-gradient-to-b from-vn-charcoal/90 to-vn-black border border-vn-gold-antique/30 shadow-2xl relative">
+        {/* Quote Card (Stable min-height prevents layout shifting on Next/Prev) */}
+        <div className="min-h-[440px] sm:min-h-[480px] p-8 sm:p-12 rounded-2xl bg-gradient-to-b from-vn-charcoal/90 to-vn-black border border-vn-gold-antique/30 shadow-2xl relative flex flex-col justify-between">
           
-          {/* Quote Body */}
-          <blockquote className="font-heading italic text-xl sm:text-2xl md:text-3xl text-vn-ivory leading-relaxed mb-8">
-            "{current.quote}"
-          </blockquote>
+          <div key={currentIndex} className="flex-1 flex flex-col justify-center animate-in fade-in duration-300">
+            {/* Quote Body (Dedicated stable min-height slot) */}
+            <div className="min-h-[170px] sm:min-h-[190px] flex items-center justify-center px-2">
+              <blockquote className="font-heading italic text-xl sm:text-2xl md:text-3xl text-vn-ivory leading-relaxed text-center">
+                "{current.quote}"
+              </blockquote>
+            </div>
 
-          {/* Author & Source */}
-          <div className="flex flex-col items-center">
-            <cite className="font-display font-bold text-lg sm:text-xl text-vn-gold not-italic">
-              {current.author}
-            </cite>
-            <p className="text-xs sm:text-sm text-vn-ivory/80 mt-1 font-medium">
-              {current.title} · {current.context}
-            </p>
-            <p className="text-[11px] text-vn-ivory/50 mt-1 font-mono">
-              Nguồn trích: {current.source}
-            </p>
+            {/* Author & Source (Dedicated stable min-height slot) */}
+            <div className="min-h-[95px] flex flex-col items-center justify-start mt-4">
+              <cite className="font-display font-bold text-lg sm:text-xl text-vn-gold not-italic">
+                {current.author}
+              </cite>
+              <p className="text-xs sm:text-sm text-vn-ivory/80 mt-1 font-medium">
+                {current.title} · {current.context}
+              </p>
+              <p className="text-[11px] text-vn-ivory/50 mt-1 font-mono">
+                Nguồn trích: {current.source}
+              </p>
+            </div>
           </div>
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-vn-gold-antique/15">
+          {/* Navigation Arrows (Anchored to card bottom) */}
+          <div className="mt-auto pt-6 border-t border-vn-gold-antique/15 flex items-center justify-center gap-4">
             <button
               onClick={prevQuote}
               className="p-2 rounded-full bg-vn-black/60 border border-vn-gold-antique/30 text-vn-gold hover:bg-vn-red hover:text-white transition-all cursor-pointer"

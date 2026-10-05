@@ -38,7 +38,7 @@ export default function InkHero() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.5,
+          scrub: 0.25,
           onUpdate: (self) => {
             if (self.progress > 0.6) {
               setAtmosphereMode('dust');
@@ -159,10 +159,10 @@ export default function InkHero() {
         {/* Main Historical Calligraphy Stage */}
         <div className="hero-stage will-transform relative z-10 w-full max-w-5xl flex flex-col items-center justify-center text-center px-6">
           
-          {/* Living Vermilion Brush Stroke SVG with Motion Path */}
+          {/* Living Vermilion Brush Stroke SVG with Motion Path (Placed behind typography z-0) */}
           <svg 
             viewBox="0 0 1000 360" 
-            className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible"
+            className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
           >
             <defs>
               <linearGradient id="parchmentInkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -171,10 +171,6 @@ export default function InkHero() {
                 <stop offset="70%" stopColor="#DA251D" stopOpacity="1" />
                 <stop offset="100%" stopColor="#C81D17" stopOpacity="0.95" />
               </linearGradient>
-              <filter id="brushRough" x="-10%" y="-10%" width="120%" height="120%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
-              </filter>
             </defs>
 
             {/* Continuous dynamic calligraphic stroke path */}
@@ -184,12 +180,11 @@ export default function InkHero() {
               stroke="url(#parchmentInkGrad)"
               strokeWidth="7"
               strokeLinecap="round"
-              filter="url(#brushRough)"
               className="ink-brush-path opacity-95 drop-shadow-[0_4px_12px_rgba(183,25,24,0.35)]"
             />
           </svg>
 
-          {/* SVG Brush Nib (Quill / Brush Tip with directional orientation) */}
+          {/* SVG Brush Nib (Quill / Brush Tip with directional orientation - glides on top z-30) */}
           <div className="brush-nib will-transform pointer-events-none absolute w-8 h-8 z-30 -translate-x-1/2 -translate-y-1/2">
             <svg viewBox="0 0 40 40" className="w-full h-full filter drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
               {/* Wooden shaft / brass ferrule */}
@@ -203,26 +198,26 @@ export default function InkHero() {
           </div>
 
           {/* Lagging trailing ink droplet */}
-          <div className="ink-droplet will-transform pointer-events-none absolute w-2 h-2 rounded-full bg-[#B71918] blur-[0.3px] shadow-[0_0_8px_#DA251D] z-20" />
+          <div className="ink-droplet will-transform pointer-events-none absolute w-2 h-2 rounded-full bg-[#B71918] blur-[0.3px] shadow-[0_0_8px_#DA251D] z-25" />
 
           {/* Eyebrow Label */}
-          <div className="hero-meta inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#34241C] text-amber-100 text-[11px] font-mono font-bold uppercase tracking-widest mb-4 shadow-md">
+          <div className="hero-meta relative z-20 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#34241C] text-amber-100 text-[11px] font-mono font-bold uppercase tracking-widest mb-4 shadow-md">
             <span className="w-2 h-2 rounded-full bg-vn-red animate-ping" />
             <span>Ký Họa Sử Đảng · Khởi Thủy Nét Mực Độc Lập</span>
           </div>
 
           {/* Title Line 1: KÝ HỌA (Archival Sumi Black Ink) */}
-          <h2 className="title-kyhoa font-display font-light text-4xl sm:text-6xl md:text-7xl uppercase tracking-[0.25em] text-[#17100C] leading-none">
+          <h2 className="title-kyhoa relative z-20 font-display font-light text-4xl sm:text-6xl md:text-7xl uppercase tracking-[0.25em] text-[#17100C] leading-none">
             KÝ HỌA
           </h2>
 
           {/* Title Line 2: SỬ ĐẢNG (Deep Lacquer Vermilion) */}
-          <h1 className="title-sudang font-display font-black text-6xl sm:text-8xl md:text-[135px] uppercase tracking-tight leading-none text-[#B71918] drop-shadow-[0_4px_16px_rgba(183,25,24,0.3)] mt-2">
+          <h1 className="title-sudang relative z-20 font-display font-black text-6xl sm:text-8xl md:text-[135px] uppercase tracking-tight leading-none text-[#B71918] drop-shadow-[0_4px_16px_rgba(183,25,24,0.3)] mt-2">
             SỬ ĐẢNG
           </h1>
 
           {/* Subtitle & Historical Context */}
-          <div className="hero-meta mt-6 max-w-2xl mx-auto space-y-2">
+          <div className="hero-meta relative z-20 mt-6 max-w-2xl mx-auto space-y-2">
             <p className="font-heading italic text-lg sm:text-2xl text-[#3A2A20] font-semibold">
               Bản Hùng Ca Điện Biên Phủ & Kỷ Nguyên Độc Lập Dân Tộc
             </p>

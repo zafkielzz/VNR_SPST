@@ -21,7 +21,8 @@ export default function DocumentDesk1930() {
     () => {
       const q = gsap.utils.selector(root);
       const deskCamera = q('.desk-camera')[0];
-      const stampMark = q('.desk-stamp')[0];
+      const stampTool = q('.desk-stamp-tool')[0];
+      const stampImprint = q('.desk-stamp-imprint')[0];
       const inkBleedLine = q('.desk-ink-bleed')[0];
       const strokeLen = inkBleedLine ? inkBleedLine.getTotalLength() : 900;
 
@@ -29,16 +30,17 @@ export default function DocumentDesk1930() {
         gsap.set(inkBleedLine, { strokeDasharray: strokeLen, strokeDashoffset: strokeLen });
       }
 
-      // Initial camera and stamp
+      // Initial camera and stamps
       gsap.set(deskCamera, { scale: 0.82, y: 30, transformOrigin: '50% 45%' });
-      gsap.set(stampMark, { scale: 3.2, opacity: 0, rotate: -35, y: -80 });
+      gsap.set(stampTool, { y: -140, opacity: 0, scale: 1.15 });
+      gsap.set(stampImprint, { scale: 1.25, opacity: 0, rotate: -8 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.5,
+          scrub: 0.25,
           onUpdate: (self) => {
             if (self.progress > 0.52 && self.progress < 0.60 && !self._stampPlayed) {
               soundSynth.playStampThud();
@@ -69,23 +71,43 @@ export default function DocumentDesk1930() {
         .to(q('.desk-photo-pin'), { rotate: 3, y: -5, duration: 0.4 }, 0.05)
         .to(q('.desk-document-sheet'), { rotate: -1, y: -8, duration: 0.4 }, 0.02)
 
-        // 0.48 -> 0.60: The Red Seal Stamp plunges down with high-impact back.out(2)
+        // 0.46 -> 0.54: Physical Stamp Tool plunges down onto document
         .to(
-          stampMark,
+          stampTool,
           {
-            scale: 1.0,
-            opacity: 1,
-            rotate: -8,
             y: 0,
-            ease: 'back.out(2)',
-            duration: 0.14,
+            opacity: 1,
+            ease: 'power3.in',
+            duration: 0.08,
           },
-          0.50
+          0.46
+        )
+        // 0.54: Impact! Stamp Imprint appears firmly on paper and stays permanently
+        .to(
+          stampImprint,
+          {
+            opacity: 1,
+            scale: 1.0,
+            duration: 0.05,
+            ease: 'power2.out',
+          },
+          0.54
         )
         // Screen & Desk shake reaction on impact
         .to(deskCamera, { y: -16, duration: 0.04, yoyo: true, repeat: 3, ease: 'none' }, 0.54)
+        // 0.55 -> 0.62: Stamp Tool lifts up and withdraws away into shadows
+        .to(
+          stampTool,
+          {
+            y: -70,
+            opacity: 0,
+            duration: 0.07,
+            ease: 'power2.out',
+          },
+          0.55
+        )
 
-        // 0.60 -> 1.0: Living red ink line bleeds out from the stamp across the desk toward bottom
+        // 0.58 -> 1.0: Living red ink line bleeds out from the stamp across the desk toward bottom
         .to(inkBleedLine, { strokeDashoffset: 0, ease: 'none', duration: 0.4 }, 0.58)
         .fromTo(q('.desk-academic-cite'), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.25 }, 0.65);
 
@@ -212,10 +234,10 @@ export default function DocumentDesk1930() {
           </div>
 
           {/* =========================================================================
-              PROP 5: PHYSICAL RED WAX STAMP (IMPACTS DOWN ON SCROLL)
+              PROP 5A: STAMP IMPRINT (RED WAX / INK SEAL PRESSED FIRMLY ONTO MANUSCRIPT)
              ========================================================================= */}
-          <div className="desk-stamp will-transform absolute bottom-12 sm:bottom-14 right-10 sm:right-28 pointer-events-none z-30">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-dashed border-[#DA251D] bg-[#750e0a] flex flex-col items-center justify-center text-center p-2 shadow-[0_0_50px_rgba(218,37,29,0.85)] text-vn-red">
+          <div className="desk-stamp-imprint will-transform absolute bottom-12 sm:bottom-14 right-10 sm:right-28 pointer-events-none z-30">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-4 border-dashed border-[#DA251D] bg-[#800f0b]/90 flex flex-col items-center justify-center text-center p-2 shadow-[0_0_35px_rgba(218,37,29,0.7)] text-vn-red">
               <Stamp className="w-6 h-6 mb-1 text-vn-gold" />
               <span className="text-[10px] font-black uppercase font-mono tracking-widest text-white leading-tight">
                 ĐẢNG CỘNG SẢN<br />VIỆT NAM
@@ -223,6 +245,24 @@ export default function DocumentDesk1930() {
               <span className="text-[9px] font-mono font-bold text-vn-gold mt-0.5">
                 03 · 02 · 1930
               </span>
+            </div>
+          </div>
+
+          {/* =========================================================================
+              PROP 5B: PHYSICAL STAMP TOOL (PLUNGES DOWN THEN LIFTS AWAY)
+             ========================================================================= */}
+          <div className="desk-stamp-tool will-transform absolute bottom-14 sm:bottom-16 right-12 sm:right-30 pointer-events-none z-35 flex flex-col items-center justify-center">
+            <div className="w-16 h-28 sm:w-20 sm:h-32 flex flex-col items-center filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.95)]">
+              {/* Turned Rosewood Handle */}
+              <div className="w-7 h-16 sm:w-8 sm:h-20 rounded-t-full bg-gradient-to-r from-[#2e1d11] via-[#5d3b21] to-[#20140b] border-t border-amber-700/50" />
+              {/* Brass Ferrule */}
+              <div className="w-12 h-3.5 sm:w-14 sm:h-4 bg-gradient-to-r from-[#856932] via-[#e6c875] to-[#695221] rounded-sm shadow-md" />
+              {/* Heavy Seal Head */}
+              <div className="w-28 h-8 sm:w-32 sm:h-9 rounded-b-2xl bg-gradient-to-r from-[#4d3814] via-[#b8954e] to-[#38280d] border-b-2 border-amber-950 flex items-center justify-center shadow-inner">
+                <span className="text-[9px] font-mono font-extrabold text-amber-950 uppercase tracking-widest">
+                  ẤN ĐẢNG 1930
+                </span>
+              </div>
             </div>
           </div>
 

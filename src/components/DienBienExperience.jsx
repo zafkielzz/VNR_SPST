@@ -104,7 +104,7 @@ export default function DienBienExperience() {
     );
   }, [showVerdict]);
   
-  // 2. Periscope interactive state & plateau (Ref-driven to eliminate drag lag)
+  // 2. Periscope interactive state & plateau (Continuous Panorama Strip & Zero-Lag Ref-driven)
   const currentAngleRef = useRef(120);
   const isDraggingRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -114,8 +114,35 @@ export default function DienBienExperience() {
   const [hasInteractedPeriscope, setHasInteractedPeriscope] = useState(false);
   const dragStartRef = useRef({ x: 0, angle: 120 });
   const reticleRef = useRef(null);
-  const periscopeImgRef = useRef(null);
+  const periscopeTrackRef = useRef(null);
   const angleLabelRef = useRef(null);
+
+  // Continuous translation of 5-panel panoramic track across 0° -> 360° (no modulo jump)
+  const updateTrackPosition = (angle, smooth = false) => {
+    if (periscopeTrackRef.current) {
+      if (smooth) {
+        periscopeTrackRef.current.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      } else {
+        periscopeTrackRef.current.style.transition = 'none';
+      }
+      // 5 panels total (each 100% lens width = 20% of track). Travel across 4 spans = 80% total track width.
+      const percent = (angle / 360) * 80;
+      periscopeTrackRef.current.style.transform = `translate3d(-${percent}%, 0, 0)`;
+    }
+
+    if (angleLabelRef.current) {
+      angleLabelRef.current.textContent = `${angle.toString().padStart(3, '0')}° AZIMUTH`;
+    }
+  };
+
+  useEffect(() => {
+    updateTrackPosition(currentAngleRef.current, false);
+    const initialTarget = PERISCOPE_TARGETS.find(t => t.angle === 120);
+    if (initialTarget) {
+      lockedTargetRef.current = initialTarget;
+      setLockedTarget(initialTarget);
+    }
+  }, []);
 
   // Pointer drag logic for Periscope: DOM transforms directly, React only updates on target lock
   const handlePointerDown = (e) => {
@@ -131,24 +158,18 @@ export default function DienBienExperience() {
   const handlePointerMove = (e) => {
     if (!isDraggingRef.current) return;
     const deltaX = e.clientX - dragStartRef.current.x;
-    if (Math.abs(deltaX) > 12 && !hasInteractedPeriscope) {
+    if (Math.abs(deltaX) > 8 && !hasInteractedPeriscope) {
       setHasInteractedPeriscope(true);
     }
-    let newAngle = Math.round(dragStartRef.current.angle + deltaX * 0.4);
+    // Smooth angle update: dragging right rotates clockwise, dragging left rotates counter-clockwise
+    let newAngle = Math.round(dragStartRef.current.angle + deltaX * 0.35);
     newAngle = ((newAngle % 360) + 360) % 360;
     currentAngleRef.current = newAngle;
 
-    // Direct DOM updates bypass React re-renders of the 850-line component during mouse drag!
-    if (periscopeImgRef.current) {
-      const shiftX = -((newAngle % 90) - 45) * 2;
-      periscopeImgRef.current.style.transform = `scale(1.25) translateX(${shiftX}px)`;
-    }
+    // Instant direct DOM transform bypasses React re-render of component during mouse move!
+    updateTrackPosition(newAngle, false);
 
-    if (angleLabelRef.current) {
-      angleLabelRef.current.textContent = `${newAngle.toString().padStart(3, '0')}° AZIMUTH`;
-    }
-
-    // Only update React state when a target lock transitions in or out
+    // Target lock detection within +/- 22 degrees
     let nextLocked = null;
     let minDiff = 999;
     for (const t of PERISCOPE_TARGETS) {
@@ -165,6 +186,9 @@ export default function DienBienExperience() {
     if ((nextLocked?.id || null) !== (lockedTargetRef.current?.id || null)) {
       lockedTargetRef.current = nextLocked;
       setLockedTarget(nextLocked);
+      if (nextLocked) {
+        try { soundSynth.playGong(0.12); } catch (err) {}
+      }
     }
   };
 
@@ -181,13 +205,8 @@ export default function DienBienExperience() {
   const snapToTarget = (targetAngle) => {
     currentAngleRef.current = targetAngle;
     dragStartRef.current.angle = targetAngle;
-    if (periscopeImgRef.current) {
-      const shiftX = -((targetAngle % 90) - 45) * 2;
-      periscopeImgRef.current.style.transform = `scale(1.25) translateX(${shiftX}px)`;
-    }
-    if (angleLabelRef.current) {
-      angleLabelRef.current.textContent = `${targetAngle.toString().padStart(3, '0')}° AZIMUTH`;
-    }
+    updateTrackPosition(targetAngle, true);
+
     let nextLocked = null;
     let minDiff = 999;
     for (const t of PERISCOPE_TARGETS) {
@@ -211,13 +230,16 @@ export default function DienBienExperience() {
   const handleSelectOption = (optId) => {
     setChosenOption(optId);
     try {
+      soundSynth.playGong(0.15);
+    } catch (e) {}
+  };
+
+  const handleProceedToVerdict = () => {
+    setShowVerdict(true);
+    showVerdictRef.current = true;
+    try {
       soundSynth.playGong(0.2);
     } catch (e) {}
-    // 600ms suspense before revealing verdict
-    setTimeout(() => {
-      setShowVerdict(true);
-      showVerdictRef.current = true;
-    }, 600);
   };
 
   const handleSkipDecision = () => {
@@ -227,6 +249,21 @@ export default function DienBienExperience() {
     try {
       soundSynth.playGong(0.2);
     } catch (e) {}
+  };
+
+  const scrollToMap = () => {
+    if (!root.current) return;
+    const rect = root.current.getBoundingClientRect();
+    const rootTop = window.scrollY + rect.top;
+    const scrollDistance = root.current.offsetHeight - window.innerHeight;
+    const targetY = rootTop + scrollDistance * 0.22;
+    if (typeof window !== 'undefined') {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(targetY, { duration: 0.9 });
+      } else {
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+    }
   };
 
   const scrollToVictory = () => {
@@ -239,7 +276,7 @@ export default function DienBienExperience() {
 
     if (typeof window !== 'undefined') {
       if (window.__lenis) {
-        window.__lenis.scrollTo(targetY, { duration: 1.1 });
+        window.__lenis.scrollTo(targetY, { duration: 1.0 });
       } else {
         window.scrollTo({ top: targetY, behavior: 'smooth' });
       }
@@ -279,7 +316,7 @@ export default function DienBienExperience() {
           trigger: root.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.5,
+          scrub: 0.25,
           onUpdate: (self) => {
             const p = self.progress;
 
@@ -522,27 +559,100 @@ export default function DienBienExperience() {
 
             </div>
 
-            {/* Historical Verdict Reveal Banner: Only shown after user click or skip */}
-            {showVerdict ? (
-              <div className="pt-3 animate-in fade-in zoom-in-95 duration-500">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-400 text-emerald-200 text-xs font-mono shadow-xl">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Đại tướng quyết định: Lịch sử đã chọn phương châm ĐÁNH CHẮC, TIẾN CHẮC</span>
+            {/* Branch 1: Option A What-If Simulation */}
+            {chosenOption === 'danh-nhanh-thang-nhanh' && !showVerdict && (
+              <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-red-950/80 border-2 border-red-500/70 text-left space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-2xl">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full bg-red-900 border border-red-400 text-red-100 text-[10px] font-mono font-bold uppercase tracking-wider">
+                    {DECISION_TREE_DATA.options[0].consequence.headline}
+                  </span>
+                  <span className="text-[10px] font-mono text-red-300/70">Mô phỏng giả định</span>
                 </div>
-              </div>
-            ) : (
-              <div className="pt-2">
-                <button
-                  onClick={handleSkipDecision}
-                  className="text-xs font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors"
-                >
-                  Bỏ qua lựa chọn · tiếp tục theo dòng lịch sử →
-                </button>
+                <p className="text-xs sm:text-sm text-red-100/90 leading-relaxed font-sans">
+                  {DECISION_TREE_DATA.options[0].consequence.assessment}
+                </p>
+                <div className="p-3 rounded-xl bg-black/60 border border-red-400/30 text-[11px] sm:text-xs text-vn-ivory/90 font-serif">
+                  <strong className="text-vn-gold not-italic font-mono uppercase text-[10px] block mb-1">
+                    Bài học Lịch sử Đảng & Nghệ thuật Quân sự:
+                  </strong>
+                  "{DECISION_TREE_DATA.options[0].consequence.historicalLesson}"
+                </div>
+                <div className="pt-1 flex items-center justify-end">
+                  <button
+                    onClick={handleProceedToVerdict}
+                    className="px-5 py-2 rounded-full bg-vn-gold text-vn-black font-display font-bold text-xs uppercase tracking-wider hover:bg-white transition-all cursor-pointer shadow-lg flex items-center gap-1.5"
+                  >
+                    <span>Xem Quyết Định Lịch Sử Thực Tế Của Đại Tướng →</span>
+                  </button>
+                </div>
               </div>
             )}
 
+            {/* Branch 2: Option B Historical Alignment */}
+            {chosenOption === 'danh-chac-tien-chac' && !showVerdict && (
+              <div className="max-w-3xl mx-auto p-4 sm:p-5 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400/70 text-left space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-2xl">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-900 border border-emerald-400 text-emerald-100 text-[10px] font-mono font-bold uppercase tracking-wider">
+                    {DECISION_TREE_DATA.options[1].consequence.headline}
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-300/70">Quyết định chuẩn xác</span>
+                </div>
+                <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-sans">
+                  {DECISION_TREE_DATA.options[1].consequence.assessment}
+                </p>
+                <div className="p-3 rounded-xl bg-black/60 border border-emerald-400/30 text-[11px] sm:text-xs text-vn-ivory/90 font-serif">
+                  <strong className="text-vn-gold not-italic font-mono uppercase text-[10px] block mb-1">
+                    Ý nghĩa bước ngoặt chiến lược:
+                  </strong>
+                  "{DECISION_TREE_DATA.options[1].consequence.historicalLesson}"
+                </div>
+                <div className="pt-1 flex items-center justify-end">
+                  <button
+                    onClick={handleProceedToVerdict}
+                    className="px-5 py-2 rounded-full bg-emerald-400 text-black font-display font-bold text-xs uppercase tracking-wider hover:bg-emerald-300 transition-all cursor-pointer shadow-lg flex items-center gap-1.5"
+                  >
+                    <span>Tiếp Tục Hành Trình Tác Chiến →</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Converged Historical Verdict */}
+            {showVerdict ? (
+              <div className="pt-3 animate-in fade-in zoom-in-95 duration-500 space-y-3">
+                <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-emerald-950/90 border border-emerald-400 text-emerald-200 text-xs sm:text-sm font-mono shadow-2xl">
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                  <span>
+                    {chosenOption === 'danh-nhanh-thang-nhanh'
+                      ? 'Lịch sử chuyển hướng: Đại tướng quyết định hoãn nổ súng, ĐÁNH CHẮC TIẾN CHẮC'
+                      : 'Đại tướng quyết định: Lịch sử đã chọn phương châm ĐÁNH CHẮC, TIẾN CHẮC'}
+                  </span>
+                </div>
+                <div>
+                  <button
+                    onClick={scrollToMap}
+                    className="px-6 py-2.5 rounded-full bg-vn-gold text-vn-black font-display font-bold text-xs uppercase tracking-wider hover:scale-105 transition-transform inline-flex items-center gap-2 shadow-[0_0_20px_rgba(255,205,0,0.3)] cursor-pointer"
+                  >
+                    <span>Mở Màn Sa Bàn Tác Chiến ↓</span>
+                    <ArrowDown className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              !chosenOption && (
+                <div className="pt-2">
+                  <button
+                    onClick={handleSkipDecision}
+                    className="text-xs font-mono text-vn-ivory/50 hover:text-vn-gold underline transition-colors cursor-pointer"
+                  >
+                    Bỏ qua lựa chọn · tiếp tục theo dòng lịch sử →
+                  </button>
+                </div>
+              )
+            )}
+
             <p className="text-[11px] font-mono text-vn-ivory/50 pt-1">
-              {showVerdict ? 'Cuộn tiếp để mở màn tiến công trên sa bàn ↓' : 'Chọn 1 phương án tác chiến để tiếp tục hành trình ↓'}
+              {showVerdict ? 'Cuộn tiếp hoặc bấm nút trên để mở màn tiến công trên sa bàn ↓' : 'Chọn 1 phương án tác chiến để kiểm tra giả định lịch sử ↓'}
             </p>
           </div>
 
@@ -685,23 +795,84 @@ export default function DienBienExperience() {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            className="periscope-lens-frame relative w-[90vw] sm:w-[78vh] h-[90vw] sm:h-[78vh] max-w-[680px] max-h-[680px] rounded-full border-[12px] sm:border-[18px] border-[#12161b] bg-black shadow-[0_0_120px_rgba(0,0,0,1)] ring-4 ring-vn-gold/40 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
+            className="periscope-lens-frame relative w-[88vw] sm:w-[74vh] h-[88vw] sm:h-[74vh] max-w-[640px] max-h-[640px] rounded-full border-[12px] sm:border-[18px] border-[#12161b] bg-black shadow-[0_0_120px_rgba(0,0,0,1)] ring-4 ring-vn-gold/40 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none"
           >
-            {/* Drifting Real Archival Landscape Backdrop */}
-            <div className="absolute inset-0 rounded-full overflow-hidden">
-              <img
-                ref={periscopeImgRef}
-                src={lockedTarget ? lockedTarget.photo : "/images/exhibits/exhibit_5_1.jpg"}
-                alt="Quan sát chiến hào"
-                className={`w-full h-full object-cover filter transition-all duration-300 scale-125 ${
-                  lockedTarget ? 'contrast-125 sepia-[0.3]' : 'contrast-90 blur-[1.5px] sepia-[0.5] opacity-60'
-                }`}
-                style={{
-                  transform: `scale(1.25) translateX(${-((currentAngleRef.current % 90) - 45) * 2}px)`
-                }}
-              />
+            {/* Continuous 360° Horizontal Panorama Track (5 Panels seamless continuous scroll, NO modulo jump) */}
+            <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
+              <div 
+                ref={periscopeTrackRef}
+                className="h-full flex will-change-transform"
+                style={{ width: '500%' }}
+              >
+                {/* Panel 0: Him Lam (045° Đông Bắc) */}
+                <div className="relative w-1/5 h-full flex-shrink-0">
+                  <img
+                    src="/images/exhibits/him_lam_beatrice.jpg"
+                    alt="Trung tâm đề kháng Him Lam"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
+                    draggable={false}
+                  />
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                    045° HIM LAM
+                  </div>
+                </div>
+
+                {/* Panel 1: Đồi A1 (120° Đông Nam) */}
+                <div className="relative w-1/5 h-full flex-shrink-0">
+                  <img
+                    src="/images/exhibits/doi_a1_eliane2.jpg"
+                    alt="Cứ điểm Đồi A1"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
+                    draggable={false}
+                  />
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                    120° ĐỒI A1
+                  </div>
+                </div>
+
+                {/* Panel 2: Sở Chỉ Huy De Castries (180° Chính Nam) */}
+                <div className="relative w-1/5 h-full flex-shrink-0">
+                  <img
+                    src="/images/exhibits/ham_de_castries.jpg"
+                    alt="Sở Chỉ Huy De Castries"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
+                    draggable={false}
+                  />
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                    180° DE CASTRIES
+                  </div>
+                </div>
+
+                {/* Panel 3: Trận Địa Pháo (300° Tây Bắc) */}
+                <div className="relative w-1/5 h-full flex-shrink-0">
+                  <img
+                    src="/images/exhibits/phao_binh_dien_bien.jpg"
+                    alt="Trận địa pháo 105mm"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
+                    draggable={false}
+                  />
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                    300° TRẬN ĐỊA PHÁO
+                  </div>
+                </div>
+
+                {/* Panel 4: Him Lam wrap-around seamless repeat */}
+                <div className="relative w-1/5 h-full flex-shrink-0">
+                  <img
+                    src="/images/exhibits/him_lam_beatrice.jpg"
+                    alt="Trung tâm đề kháng Him Lam"
+                    className="w-full h-full object-cover filter contrast-125 sepia-[0.3]"
+                    draggable={false}
+                  />
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded bg-black/80 border border-red-500/60 text-[10px] font-mono text-red-300">
+                    045° HIM LAM
+                  </div>
+                </div>
+              </div>
+
+              {/* Optical Tint and Radial Vignette */}
               <div className="absolute inset-0 bg-emerald-950/20 mix-blend-color pointer-events-none" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.92)_100%)] pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.92)_100%)] pointer-events-none" />
             </div>
 
             {/* Tactical Military Reticle HUD directly inside lens */}
@@ -741,7 +912,7 @@ export default function DienBienExperience() {
             {lockedTarget ? (
               <div 
                 onClick={() => setActiveIntelTarget(lockedTarget)}
-                className="absolute bottom-12 sm:bottom-14 z-30 px-4 py-2 rounded-2xl bg-red-950/95 border border-red-500 text-center shadow-2xl cursor-pointer hover:scale-105 transition-transform"
+                className="absolute bottom-10 sm:bottom-12 z-30 px-4 py-2 rounded-2xl bg-red-950/95 border border-red-500 text-center shadow-2xl cursor-pointer hover:scale-105 transition-transform"
               >
                 <div className="flex items-center gap-1.5 justify-center text-red-300 text-[10px] font-mono font-bold uppercase tracking-wider mb-0.5">
                   <Lock className="w-3 h-3 text-red-400 animate-pulse" />
@@ -755,12 +926,34 @@ export default function DienBienExperience() {
                 </span>
               </div>
             ) : (
-              <div className="absolute top-8 px-3.5 py-1 rounded-full bg-black/75 border border-white/15 text-[11px] font-mono text-vn-ivory/80 flex items-center gap-2 pointer-events-none z-30 shadow-lg">
+              <div className="absolute top-6 px-3.5 py-1 rounded-full bg-black/75 border border-white/15 text-[11px] font-mono text-vn-ivory/80 flex items-center gap-2 pointer-events-none z-30 shadow-lg">
                 <MoveHorizontal className="w-3.5 h-3.5 text-vn-gold" />
                 <span>← KÉO NGANG ĐỂ QUAN SÁT 360° →</span>
               </div>
             )}
 
+          </div>
+
+          {/* Tactical Outpost Quick Snap Selector Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-3 z-40 max-w-xl px-2">
+            {PERISCOPE_TARGETS.map((t) => {
+              const isTargetActive = lockedTarget?.id === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => snapToTarget(t.angle)}
+                  className={`px-3 py-1.5 rounded-full text-[11px] font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                    isTargetActive
+                      ? 'bg-vn-red text-white border border-red-400 shadow-[0_0_15px_rgba(218,37,29,0.7)] scale-105'
+                      : 'bg-[#161a22] text-vn-ivory/70 border border-white/15 hover:border-vn-gold/60 hover:text-vn-gold'
+                  }`}
+                  title={`Xoay kính ngắm tới ${t.name}`}
+                >
+                  <Target className="w-3 h-3 text-vn-gold" />
+                  <span>{t.azimuth.split(' ')[0]} {t.name.split(' (')[0]}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Interaction Plateau Controls: Reward user for interacting */}
