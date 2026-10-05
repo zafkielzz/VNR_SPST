@@ -74,9 +74,12 @@ export default function Navbar({ autoScrollActive, onToggleAutoScroll }) {
               <span className="font-display font-bold text-base sm:text-lg tracking-wide text-vn-gold">
                 VNR · LỊCH SỬ ĐẢNG
               </span>
+              <span className="px-2 py-0.5 rounded-full bg-vn-red-deep border border-vn-gold/50 text-vn-gold text-[10px] font-mono font-bold uppercase tracking-wider animate-pulse">
+                DIRECTOR'S CUT
+              </span>
             </div>
             <p className="text-[11px] text-vn-ivory/70 hidden sm:block">
-              Bản hùng ca Điện Biên Phủ 1954
+              Bản hùng ca Điện Biên Phủ 1954 · 3 Hồi Điện Ảnh
             </p>
           </div>
         </a>
