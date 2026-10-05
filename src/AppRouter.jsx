@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App.jsx';
+import MotionLabPrototype from './lab/MotionLabPrototype.jsx';
 import BackgroundMusic from './components/BackgroundMusic.jsx';
 
 function NotFoundPage() {
@@ -26,6 +27,9 @@ export default function AppRouter() {
         {/* Đường dẫn gốc / hiển thị ngay toàn bộ Web Storytelling Lịch sử Đảng (VNR) */}
         <Route path="/" element={<App />} />
         <Route path="/home" element={<App />} />
+        {/* Phòng thí nghiệm chuyển động 3 Scene (OneElementScroll, 3D Dive, Master Timeline) */}
+        <Route path="/lab" element={<MotionLabPrototype />} />
+        <Route path="/prototype" element={<MotionLabPrototype />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
