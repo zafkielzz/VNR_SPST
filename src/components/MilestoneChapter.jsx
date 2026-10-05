@@ -453,128 +453,122 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
   }
 
   // =========================================================================
-  // SCENE 1941: JOURNEY (Pác Bó - Cội nguồn cách mạng - Nén montage 20-30s)
+  // SCENE 1941: CINEMATIC WIDESCREEN MONTAGE (Pác Bó - Cội nguồn cách mạng)
+  // Single-focus viewport: Pure atmosphere, no 2-column card clutter
   // =========================================================================
   if (sceneType === 'journey') {
     return (
       <section 
         id={m.id} 
         ref={root} 
-        className="relative h-[130vh]" 
-        style={{ background: m.background }}
+        className="relative h-[150vh] bg-[#07130a] text-white overflow-hidden"
       >
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
           
-          <div className="absolute inset-0 pointer-events-none opacity-20">
+          {/* Atmospheric Misty Mountain Backdrop with Parallax */}
+          <div className="absolute inset-0 pointer-events-none">
+            <img
+              src={m.image}
+              alt={m.heading}
+              className="w-full h-full object-cover filter contrast-125 sepia-[0.35] brightness-[0.4] scale-105"
+              loading="lazy"
+            />
+            {/* Deep Green & Mist Vignette */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050e07] via-transparent to-[#050e07]" />
+            <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050e07]/60 to-[#050e07]" />
+          </div>
+
+          {/* Topographic Lines Overlay */}
+          <div className="absolute inset-0 pointer-events-none opacity-25">
             <svg viewBox="0 0 1000 600" className="w-full h-full">
-              <path d="M 0,200 Q 250,120 500,240 T 1000,180" fill="none" stroke="#2a4532" strokeWidth="1.5" />
-              <path d="M 0,350 Q 300,280 600,400 T 1000,320" fill="none" stroke="#2a4532" strokeWidth="1" />
-              <polygon points="280,180 320,120 360,180" fill="none" stroke="#3b6146" strokeWidth="1" />
-              <polygon points="680,240 730,160 780,240" fill="none" stroke="#3b6146" strokeWidth="1" />
+              <path d="M 0,200 Q 250,120 500,240 T 1000,180" fill="none" stroke="#22c55e" strokeWidth="1" />
+              <path d="M 0,350 Q 300,280 600,400 T 1000,320" fill="none" stroke="#22c55e" strokeWidth="0.8" />
             </svg>
           </div>
 
-          <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:gap-12 md:px-12 z-10">
+          {/* Monumental Cinematic Focus: 1 Viewport = 1 Core Thought */}
+          <div className="relative z-10 max-w-4xl mx-auto text-center px-6 space-y-5">
             
-            <div className="order-2 flex-1 text-center md:text-left z-20 md:order-2 space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-600/40 text-emerald-300 text-[11px] font-mono uppercase tracking-widest">
-                <Compass className="w-3.5 h-3.5 text-emerald-400" />
-                <span>HÀNH TRÌNH PÁC BÓ · 30 NĂM BÔN BA TRỞ VỀ</span>
-              </div>
-
-              <h2 className="font-display text-5xl sm:text-7xl md:text-8xl font-black leading-none text-white tracking-tight">
-                {m.year}
-              </h2>
-
-              <h3 className="font-display text-lg sm:text-2xl font-bold uppercase text-emerald-200">
-                {m.heading}
-              </h3>
-
-              <p className="font-heading italic text-base sm:text-xl text-vn-gold">
-                "{m.keyText}"
-              </p>
-
-              <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed font-light max-w-md">
-                Chủ tịch Hồ Chí Minh về nước sau 30 năm bôn ba tìm đường cứu nước, triệu tập Hội nghị Trung ương 8, đặt nhiệm vụ giải phóng dân tộc lên hàng đầu.
-              </p>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-mono uppercase tracking-[0.3em]">
+              <Compass className="w-3.5 h-3.5 text-emerald-400" />
+              <span>PÁC BÓ · CAO BẰNG</span>
             </div>
 
-            <div className="m-frame relative order-1 w-full max-w-sm md:w-[48%] md:max-w-lg z-20 md:order-1">
-              <div className="relative aspect-[4/3] rounded-2xl border-2 border-emerald-600/40 bg-[#08110b] shadow-[0_25px_65px_rgba(0,30,15,0.7)] p-3">
-                <img
-                  src={m.image}
-                  alt={m.heading}
-                  className="w-full h-full object-contain rounded-xl contrast-125 sepia-[0.25]"
-                  loading="lazy"
-                />
-              </div>
-              <p className="mt-2 text-center text-[10px] font-mono uppercase tracking-widest text-emerald-300/60">
-                Cột mốc 108 biên giới Việt - Trung & Lán Khuổi Nặm, Pác Bó
+            <h2 className="font-display text-7xl sm:text-9xl md:text-[140px] font-black leading-none text-white tracking-tighter text-glow-gold drop-shadow-2xl">
+              1941
+            </h2>
+
+            <div className="max-w-2xl mx-auto space-y-4">
+              <p className="font-serif italic font-bold text-2xl sm:text-4xl text-emerald-100 leading-tight drop-shadow-lg">
+                “Bác đã về đây, Tổ quốc ơi!”
+              </p>
+              <p className="font-mono text-xs sm:text-sm text-vn-gold uppercase tracking-[0.25em] font-light">
+                Sau 30 năm bôn ba tìm đường cứu nước · Trực tiếp lãnh đạo cách mạng Việt Nam
               </p>
             </div>
 
           </div>
+
         </div>
       </section>
     );
   }
 
   // =========================================================================
-  // SCENE 1946: BROADCAST (Radio Bridge dẫn thẳng vào bóng tối trước 1954)
+  // SCENE 1946: MIDNIGHT BROADCAST & RADIO BRIDGE (Dẫn thẳng vào bóng tối 1954)
+  // Single-focus viewport: Radio signal pulse, Ho Chi Minh's voice, pitch black
   // =========================================================================
   return (
     <section 
       id={m.id} 
       ref={root} 
-      className="relative h-[140vh]" 
-      style={{ background: m.background }}
+      className="relative h-[160vh] bg-black text-white overflow-hidden" 
     >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        {/* Deep Blackout Vignette that engulfs the screen towards 1954 */}
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-[#070505]">
+        
+        {/* Background Archival Photo in Deep Darkness */}
+        <div className="absolute inset-0 pointer-events-none opacity-25">
+          <img
+            src={m.image}
+            alt={m.heading}
+            className="w-full h-full object-cover filter contrast-150 grayscale"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/80 to-black" />
+        </div>
+
+        {/* Radio Broadcast Wave Pulse Effect */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] rounded-full border border-red-600/30 animate-ping opacity-25" />
+          <div className="w-[200px] sm:w-[350px] h-[200px] sm:h-[350px] rounded-full border border-red-500/20 animate-pulse opacity-40" />
+        </div>
+
+        {/* Deep Blackout Layer that engulfs the screen toward the end */}
         <div className="broadcast-blackout pointer-events-none absolute inset-0 bg-black opacity-0 z-30 transition-opacity" />
 
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:gap-12 md:px-12 z-10">
+        {/* Monumental Radio Manifesto */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center px-6 space-y-6">
           
-          <div className="order-2 flex-1 text-center md:text-left z-20 md:order-2 space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/50 text-red-300 text-[11px] font-mono uppercase tracking-widest animate-pulse">
-              <Radio className="w-3.5 h-3.5 text-red-400" />
-              <span>PHÁT THANH ĐÊM 19/12/1946 · CHIẾN KHU VIỆT BẮC</span>
-            </div>
-
-            <h2 className="font-display text-5xl sm:text-7xl md:text-8xl font-black leading-none text-white tracking-tight">
-              {m.year}
-            </h2>
-
-            <h3 className="font-display text-lg sm:text-2xl font-bold uppercase text-red-400">
-              {m.heading}
-            </h3>
-
-            <div className="p-4 rounded-xl bg-red-950/50 border border-red-500/40 shadow-xl">
-              <p className="font-heading font-black text-base sm:text-xl text-white uppercase tracking-wider text-glow-red">
-                "{m.keyText}"
-              </p>
-            </div>
-
-            <p className="text-xs sm:text-sm text-vn-ivory/80 leading-relaxed font-light max-w-md">
-              Lời kêu gọi vang vọng non sông qua sóng Đài Tiếng nói Việt Nam, hiệu triệu toàn dân tộc bước vào cuộc kháng chiến trường kỳ 9 năm vì độc lập tự do.
-            </p>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/90 border border-red-500/60 text-red-300 text-xs font-mono uppercase tracking-[0.3em] animate-pulse">
+            <Radio className="w-3.5 h-3.5 text-red-400" />
+            <span>PHÁT THANH NỬA ĐÊM · 19 / 12 / 1946</span>
           </div>
 
-          <div className="m-frame relative order-1 w-full max-w-sm md:w-[48%] md:max-w-lg z-20 md:order-1">
-            <div className="relative aspect-[4/3] rounded-2xl border-2 border-red-500/40 bg-[#090b0e] shadow-[0_20px_60px_rgba(218,37,29,0.3)] p-3">
-              <img
-                src={m.image}
-                alt={m.heading}
-                className="w-full h-full object-contain rounded-xl contrast-125 grayscale-[0.3]"
-                loading="lazy"
-              />
-            </div>
-            <p className="mt-2 text-center text-[10px] font-mono uppercase tracking-widest text-vn-ivory/40">
-              Đài Tiếng nói Việt Nam phát đi Lời kêu gọi Toàn quốc kháng chiến
+          <h2 className="font-display text-7xl sm:text-9xl md:text-[140px] font-black leading-none text-white tracking-tighter text-glow-red drop-shadow-2xl">
+            1946
+          </h2>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            <h3 className="font-serif italic font-bold text-xl sm:text-3xl md:text-4xl text-white leading-relaxed text-glow-gold">
+              “Chúng ta thà hy sinh tất cả, chứ nhất định không chịu mất nước, nhất định không chịu làm nô lệ!”
+            </h3>
+            <p className="font-mono text-xs sm:text-sm text-red-400 uppercase tracking-[0.3em]">
+              Lời kêu gọi Toàn quốc kháng chiến · Mở đầu 9 năm trường kỳ kháng chiến
             </p>
           </div>
 
         </div>
+
       </div>
     </section>
   );

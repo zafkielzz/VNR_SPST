@@ -200,29 +200,26 @@ export default function InkHero() {
           {/* Lagging trailing ink droplet */}
           <div className="ink-droplet will-transform pointer-events-none absolute w-2 h-2 rounded-full bg-[#B71918] blur-[0.3px] shadow-[0_0_8px_#DA251D] z-25" />
 
-          {/* Eyebrow Label */}
-          <div className="hero-meta relative z-20 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#34241C] text-amber-100 text-[11px] font-mono font-bold uppercase tracking-widest mb-4 shadow-md">
-            <span className="w-2 h-2 rounded-full bg-vn-red animate-ping" />
-            <span>Ký Họa Sử Đảng · Khởi Thủy Nét Mực Độc Lập</span>
+          {/* Eyebrow Label: Act I Marker */}
+          <div className="hero-meta relative z-20 inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#241711] text-amber-100 text-xs font-mono font-bold uppercase tracking-[0.3em] mb-4 shadow-lg">
+            <span className="w-2 h-2 rounded-full bg-[#DA251D] animate-ping" />
+            <span>HỒI I · KHỞI NGUYÊN NÉT MỰC ĐỘC LẬP</span>
           </div>
 
           {/* Title Line 1: KÝ HỌA (Archival Sumi Black Ink) */}
-          <h2 className="title-kyhoa relative z-20 font-display font-light text-4xl sm:text-6xl md:text-7xl uppercase tracking-[0.25em] text-[#17100C] leading-none">
+          <h2 className="title-kyhoa relative z-20 font-display font-light text-5xl sm:text-7xl md:text-8xl uppercase tracking-[0.3em] text-[#17100C] leading-none">
             KÝ HỌA
           </h2>
 
           {/* Title Line 2: SỬ ĐẢNG (Deep Lacquer Vermilion) */}
-          <h1 className="title-sudang relative z-20 font-display font-black text-6xl sm:text-8xl md:text-[135px] uppercase tracking-tight leading-none text-[#B71918] drop-shadow-[0_4px_16px_rgba(183,25,24,0.3)] mt-2">
+          <h1 className="title-sudang relative z-20 font-display font-black text-6xl sm:text-8xl md:text-[140px] uppercase tracking-tight leading-none text-[#B71918] drop-shadow-[0_4px_24px_rgba(183,25,24,0.35)] mt-3">
             SỬ ĐẢNG
           </h1>
 
-          {/* Subtitle & Historical Context */}
-          <div className="hero-meta relative z-20 mt-6 max-w-2xl mx-auto space-y-2">
+          {/* Subtitle & Single Hook Sentence */}
+          <div className="hero-meta relative z-20 mt-6 max-w-xl mx-auto space-y-2">
             <p className="font-heading italic text-lg sm:text-2xl text-[#3A2A20] font-semibold">
-              Bản Hùng Ca Điện Biên Phủ & Kỷ Nguyên Độc Lập Dân Tộc
-            </p>
-            <p className="font-mono text-xs sm:text-sm text-[#5C4537] uppercase tracking-widest font-normal">
-              Cuộn chuột để ngòi bút lông dẫn dắt bạn qua những mốc son lịch sử chấn động địa cầu
+              Bản Hùng Ca Điện Biên Phủ & Kỷ Nguyên Độc Lập
             </p>
           </div>
 
@@ -230,8 +227,8 @@ export default function InkHero() {
 
         {/* Scroll Hint */}
         <div className="hero-scrollhint pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#5C4537] font-bold">
-            Cuộn để đầu cọ vẽ nét son
+          <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#5C4537] font-bold">
+            Cuộn để bắt đầu câu chuyện
           </span>
           <div className="w-4 h-7 rounded-full border-2 border-[#5C4537]/50 flex items-start justify-center p-1">
             <span className="w-1 h-2 bg-[#B71918] rounded-full animate-bounce" />

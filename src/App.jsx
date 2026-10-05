@@ -143,11 +143,45 @@ function AppContent() {
         {/* 05. Mốc 1946: Lời kêu gọi Toàn quốc Kháng chiến (Chiến khu Việt Bắc) */}
         {m1946 && <MilestoneChapter milestone={m1946} reverse={true} />}
 
+        {/* ================================================================
+            HỒI II: ĐIỆN BIÊN PHỦ (1954) · BƯỚC NGOẶT CHẤN ĐỘNG ĐỊA CẦU
+           ================================================================ */}
+        <section className="relative py-28 bg-black flex flex-col items-center justify-center text-center px-6 overflow-hidden border-y border-red-950/70">
+          <div className="w-16 h-[2px] bg-red-600 mb-6 shadow-[0_0_16px_#DA251D]" />
+          <span className="text-xs font-mono tracking-[0.4em] uppercase text-red-500 font-bold mb-3">
+            HỒI II · BƯỚC NGOẶT LỊCH SỬ
+          </span>
+          <h2 className="font-display font-black text-4xl sm:text-6xl md:text-7xl text-white tracking-tight uppercase">
+            Điện Biên Phủ · 1954
+          </h2>
+          <p className="mt-4 font-serif italic text-base sm:text-xl text-amber-200/80 max-w-xl">
+            “56 ngày đêm khoét núi, ngủ hầm, mưa dầm, cơm vắt — Máu trộn bùn non, gan không núng, chí không mòn!”
+          </p>
+          <div className="w-16 h-[2px] bg-red-600 mt-6 shadow-[0_0_16px_#DA251D]" />
+        </section>
+
         {/* 06. Kinetic Manifesto 2: Khúc tráng ca Điện Biên (Khoét Núi - Ngủ Hầm - Mưa Dầm - Lừng Lẫy) */}
         <KineticManifesto id="cascade-dien-bien" mode="dien-bien" />
 
         {/* 07. ĐẠI CẢNH LIÊN HOÀN ĐIỆN BIÊN PHỦ 1954 (Pinned Master Stage 5 Phases) */}
         <DienBienExperience />
+
+        {/* ================================================================
+            HỒI III: TOÀN THẮNG & ĐỔI MỚI (1975 — 1986)
+           ================================================================ */}
+        <section className="relative py-28 bg-[#06080c] flex flex-col items-center justify-center text-center px-6 overflow-hidden border-y border-vn-gold/30">
+          <div className="w-16 h-[2px] bg-vn-gold mb-6 shadow-[0_0_16px_#FFCD00]" />
+          <span className="text-xs font-mono tracking-[0.4em] uppercase text-vn-gold font-bold mb-3">
+            HỒI III · KHỞI NGUYÊN MỚI
+          </span>
+          <h2 className="font-display font-black text-4xl sm:text-6xl md:text-7xl text-white tracking-tight uppercase">
+            Toàn Thắng & Đổi Mới
+          </h2>
+          <p className="mt-4 font-serif italic text-base sm:text-xl text-vn-ivory/80 max-w-xl">
+            Từ khúc khải hoàn Mùa Xuân 1975 đến bước ngoặt Đổi Mới 1986 — Non sông liền một dải, mở ra kỷ nguyên vươn mình của dân tộc.
+          </p>
+          <div className="w-16 h-[2px] bg-vn-gold mt-6 shadow-[0_0_16px_#FFCD00]" />
+        </section>
 
         {/* 08. Mốc 1975: Đại thắng Mùa Xuân 1975 (Bespoke Horizontal Travel Triumph) */}
         {m1975 && <MilestoneChapter milestone={m1975} reverse={false} />}
