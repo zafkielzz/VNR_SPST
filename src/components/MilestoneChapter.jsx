@@ -134,6 +134,23 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
         );
       }
 
+      // 1946 Broadcast Radio Bridge: Fades into deep darkness leading directly into 1954
+      if (sceneType === 'broadcast') {
+        const blackout = q('.broadcast-blackout')[0];
+        if (blackout) {
+          gsap.to(blackout, {
+            opacity: 0.95,
+            ease: 'power2.in',
+            scrollTrigger: {
+              trigger: root.current,
+              start: '60% top',
+              end: 'bottom bottom',
+              scrub: 0.25,
+            },
+          });
+        }
+      }
+
       // Default subtle parallax for standard photos
       const frame = q('.m-frame');
       if (frame.length > 0) {
@@ -436,19 +453,19 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
   }
 
   // =========================================================================
-  // SCENE 1941: JOURNEY (Pác Bó - Cội nguồn cách mạng)
+  // SCENE 1941: JOURNEY (Pác Bó - Cội nguồn cách mạng - Nén montage 20-30s)
   // =========================================================================
   if (sceneType === 'journey') {
     return (
       <section 
         id={m.id} 
         ref={root} 
-        className="relative h-[160vh]" 
+        className="relative h-[130vh]" 
         style={{ background: m.background }}
       >
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           
-          <div className="absolute inset-0 pointer-events-none opacity-25">
+          <div className="absolute inset-0 pointer-events-none opacity-20">
             <svg viewBox="0 0 1000 600" className="w-full h-full">
               <path d="M 0,200 Q 250,120 500,240 T 1000,180" fill="none" stroke="#2a4532" strokeWidth="1.5" />
               <path d="M 0,350 Q 300,280 600,400 T 1000,320" fill="none" stroke="#2a4532" strokeWidth="1" />
@@ -457,31 +474,29 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
             </svg>
           </div>
 
-          <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-8 px-6 md:flex-row md:gap-14 md:px-12 z-10">
+          <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:gap-12 md:px-12 z-10">
             
-            <div className="order-2 flex-1 text-center md:text-left z-20 md:order-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-600/40 text-emerald-300 text-[11px] font-mono uppercase tracking-widest mb-3">
+            <div className="order-2 flex-1 text-center md:text-left z-20 md:order-2 space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-600/40 text-emerald-300 text-[11px] font-mono uppercase tracking-widest">
                 <Compass className="w-3.5 h-3.5 text-emerald-400" />
                 <span>HÀNH TRÌNH PÁC BÓ · 30 NĂM BÔN BA TRỞ VỀ</span>
               </div>
 
-              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-black leading-none text-white tracking-tight">
+              <h2 className="font-display text-5xl sm:text-7xl md:text-8xl font-black leading-none text-white tracking-tight">
                 {m.year}
               </h2>
 
-              <h3 className="mt-2 font-display text-xl sm:text-3xl font-bold uppercase text-emerald-200">
+              <h3 className="font-display text-lg sm:text-2xl font-bold uppercase text-emerald-200">
                 {m.heading}
               </h3>
 
-              <p className="mt-4 font-mono text-sm sm:text-base text-vn-gold font-bold uppercase tracking-wide">
-                {m.keyText}
+              <p className="font-heading italic text-base sm:text-xl text-vn-gold">
+                "{m.keyText}"
               </p>
 
-              <div className="mt-5 p-5 rounded-2xl bg-emerald-950/75 border border-emerald-700/30 shadow-lg">
-                <p className="font-sans text-sm sm:text-base italic leading-relaxed text-emerald-100/90 font-light">
-                  "{m.caption}"
-                </p>
-              </div>
+              <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed font-light max-w-md">
+                Chủ tịch Hồ Chí Minh về nước sau 30 năm bôn ba tìm đường cứu nước, triệu tập Hội nghị Trung ương 8, đặt nhiệm vụ giải phóng dân tộc lên hàng đầu.
+              </p>
             </div>
 
             <div className="m-frame relative order-1 w-full max-w-sm md:w-[48%] md:max-w-lg z-20 md:order-1">
@@ -505,40 +520,43 @@ export default function MilestoneChapter({ milestone: m, reverse = false }) {
   }
 
   // =========================================================================
-  // SCENE 1946: BROADCAST (Toàn quốc Kháng chiến - Smoke Mode)
+  // SCENE 1946: BROADCAST (Radio Bridge dẫn thẳng vào bóng tối trước 1954)
   // =========================================================================
   return (
     <section 
       id={m.id} 
       ref={root} 
-      className="relative h-[150vh]" 
+      className="relative h-[140vh]" 
       style={{ background: m.background }}
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-8 px-6 md:flex-row md:gap-14 md:px-12 z-10">
+        {/* Deep Blackout Vignette that engulfs the screen towards 1954 */}
+        <div className="broadcast-blackout pointer-events-none absolute inset-0 bg-black opacity-0 z-30 transition-opacity" />
+
+        <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-6 px-6 md:flex-row md:gap-12 md:px-12 z-10">
           
-          <div className="order-2 flex-1 text-center md:text-left z-20 md:order-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/50 text-red-300 text-[11px] font-mono uppercase tracking-widest mb-3 animate-pulse">
+          <div className="order-2 flex-1 text-center md:text-left z-20 md:order-2 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/50 text-red-300 text-[11px] font-mono uppercase tracking-widest animate-pulse">
               <Radio className="w-3.5 h-3.5 text-red-400" />
               <span>PHÁT THANH ĐÊM 19/12/1946 · CHIẾN KHU VIỆT BẮC</span>
             </div>
 
-            <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-black leading-none text-white tracking-tight">
+            <h2 className="font-display text-5xl sm:text-7xl md:text-8xl font-black leading-none text-white tracking-tight">
               {m.year}
             </h2>
 
-            <h3 className="mt-2 font-display text-xl sm:text-3xl font-bold uppercase text-red-400">
+            <h3 className="font-display text-lg sm:text-2xl font-bold uppercase text-red-400">
               {m.heading}
             </h3>
 
-            <div className="mt-4 p-4 rounded-xl bg-red-950/40 border border-red-500/30">
-              <p className="font-heading font-black text-lg sm:text-xl text-white uppercase tracking-wider text-glow-red">
+            <div className="p-4 rounded-xl bg-red-950/50 border border-red-500/40 shadow-xl">
+              <p className="font-heading font-black text-base sm:text-xl text-white uppercase tracking-wider text-glow-red">
                 "{m.keyText}"
               </p>
             </div>
 
-            <p className="mt-4 text-xs sm:text-sm text-vn-ivory/80 leading-relaxed font-light">
-              {m.caption}
+            <p className="text-xs sm:text-sm text-vn-ivory/80 leading-relaxed font-light max-w-md">
+              Lời kêu gọi vang vọng non sông qua sóng Đài Tiếng nói Việt Nam, hiệu triệu toàn dân tộc bước vào cuộc kháng chiến trường kỳ 9 năm vì độc lập tự do.
             </p>
           </div>
 
